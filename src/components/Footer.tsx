@@ -1,9 +1,18 @@
 import { Phone, Mail, MapPin, Facebook, Instagram, Youtube, Linkedin } from "lucide-react";
+import { Link } from "react-router-dom";
 import isvirImg from "@/assets/isvir-member.jpg";
 
 const treatments = [
   "Enlarged Prostate", "Knee Pain", "Thyroid Nodule", "Varicocele",
   "Fallopian Tube Block", "Uterine Fibroids", "Varicose Veins",
+];
+
+const quickLinks = [
+  { label: "About Us", to: "/about" },
+  { label: "Blogs", to: "/blogs" },
+  { label: "Contact Us", to: "/contact" },
+  { label: "Partner With Us", to: "/contact" },
+  { label: "Become an Investor", to: "/contact" },
 ];
 
 const Footer = () => {
@@ -13,9 +22,9 @@ const Footer = () => {
         <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-8 mb-8">
           {/* Brand */}
           <div className="space-y-4">
-            <h3 className="text-xl font-bold text-foreground">
+            <Link to="/" className="text-xl font-bold text-foreground">
               <span className="text-primary">M</span>EDAGG
-            </h3>
+            </Link>
             <p className="text-sm text-muted-foreground">
               Non-surgical healthcare solutions through Interventional Radiology. No Surgery. No Scars. Just Results.
             </p>
@@ -35,7 +44,7 @@ const Footer = () => {
             <ul className="space-y-2">
               {treatments.map((t) => (
                 <li key={t}>
-                  <a href="#treatments" className="text-sm text-muted-foreground hover:text-primary transition-colors">{t}</a>
+                  <Link to="/#treatments" className="text-sm text-muted-foreground hover:text-primary transition-colors">{t}</Link>
                 </li>
               ))}
             </ul>
@@ -45,9 +54,9 @@ const Footer = () => {
           <div>
             <h4 className="text-sm font-semibold text-foreground mb-4">Quick Links</h4>
             <ul className="space-y-2">
-              {["About Us", "Blogs", "Contact Us", "Partner With Us", "Become an Investor"].map((l) => (
-                <li key={l}>
-                  <a href="#" className="text-sm text-muted-foreground hover:text-primary transition-colors">{l}</a>
+              {quickLinks.map((l) => (
+                <li key={l.label}>
+                  <Link to={l.to} className="text-sm text-muted-foreground hover:text-primary transition-colors">{l.label}</Link>
                 </li>
               ))}
             </ul>
