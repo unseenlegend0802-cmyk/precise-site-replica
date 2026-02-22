@@ -13,6 +13,7 @@ import TestimonialsSection from "@/components/TestimonialsSection";
 import ContactSection from "@/components/ContactSection";
 import FAQSection from "@/components/FAQSection";
 import Footer from "@/components/Footer";
+import AnimatedSection from "@/components/AnimatedSection";
 
 const Index = () => {
   return (
@@ -20,17 +21,39 @@ const Index = () => {
       <Header />
       <TreatmentBar />
       <HeroSection />
-      <LocationsMarquee />
-      <TreatmentsSection />
-      <ServicesSection />
-      <IraBotSection />
-      <PatientJourneySection />
-      <BookAppointmentBanner />
-      <WhyMedaggSection />
-      <DoctorsSection />
-      <TestimonialsSection />
-      <ContactSection />
-      <FAQSection />
+      <AnimatedSection>
+        <LocationsMarquee />
+      </AnimatedSection>
+      <AnimatedSection>
+        <TreatmentsSection />
+      </AnimatedSection>
+      <AnimatedSection>
+        <ServicesSection />
+      </AnimatedSection>
+      <AnimatedSection direction="left">
+        <IraBotSection />
+      </AnimatedSection>
+      <AnimatedSection>
+        <PatientJourneySection />
+      </AnimatedSection>
+      <AnimatedSection>
+        <BookAppointmentBanner />
+      </AnimatedSection>
+      <AnimatedSection>
+        <WhyMedaggSection />
+      </AnimatedSection>
+      <AnimatedSection>
+        <DoctorsSection />
+      </AnimatedSection>
+      <AnimatedSection direction="right">
+        <TestimonialsSection />
+      </AnimatedSection>
+      <AnimatedSection>
+        <ContactSection />
+      </AnimatedSection>
+      <AnimatedSection>
+        <FAQSection />
+      </AnimatedSection>
       <Footer />
     </div>
   );
