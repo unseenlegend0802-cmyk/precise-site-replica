@@ -1,12 +1,37 @@
-// Update this page (the content is just a fallback if you fail to update the page)
+import Header from "@/components/Header";
+import TreatmentBar from "@/components/TreatmentBar";
+import HeroSection from "@/components/HeroSection";
+import LocationsMarquee from "@/components/LocationsMarquee";
+import TreatmentsSection from "@/components/TreatmentsSection";
+import ServicesSection from "@/components/ServicesSection";
+import IraBotSection from "@/components/IraBotSection";
+import PatientJourneySection from "@/components/PatientJourneySection";
+import BookAppointmentBanner from "@/components/BookAppointmentBanner";
+import WhyMedaggSection from "@/components/WhyMedaggSection";
+import DoctorsSection from "@/components/DoctorsSection";
+import TestimonialsSection from "@/components/TestimonialsSection";
+import ContactSection from "@/components/ContactSection";
+import FAQSection from "@/components/FAQSection";
+import Footer from "@/components/Footer";
 
 const Index = () => {
   return (
-    <div className="flex min-h-screen items-center justify-center bg-background">
-      <div className="text-center">
-        <h1 className="mb-4 text-4xl font-bold">Welcome to Your Blank App</h1>
-        <p className="text-xl text-muted-foreground">Start building your amazing project here!</p>
-      </div>
+    <div className="min-h-screen bg-background">
+      <Header />
+      <TreatmentBar />
+      <HeroSection />
+      <LocationsMarquee />
+      <TreatmentsSection />
+      <ServicesSection />
+      <IraBotSection />
+      <PatientJourneySection />
+      <BookAppointmentBanner />
+      <WhyMedaggSection />
+      <DoctorsSection />
+      <TestimonialsSection />
+      <ContactSection />
+      <FAQSection />
+      <Footer />
     </div>
   );
 };
