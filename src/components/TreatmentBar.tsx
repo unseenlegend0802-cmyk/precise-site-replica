@@ -50,32 +50,35 @@ const TreatmentBar = () => {
                 onMouseLeave={handleMouseLeave}
               >
                 <button
+                  onClick={() => setOpenIndex(openIndex === i ? null : i)}
                   className="flex items-center gap-1.5 text-sm font-medium px-3.5 py-2 rounded-md bg-accent text-accent-foreground transition-all duration-200 hover:opacity-90 whitespace-nowrap"
                 >
                   {t.label}
-                  <ChevronDown className="w-3 h-3" />
+                  <ChevronDown className={`w-3 h-3 transition-transform duration-300 ${openIndex === i ? "rotate-180" : ""}`} />
                 </button>
 
-                {/* Dropdown */}
-                {openIndex === i && (
-                  <div
-                    className="absolute top-full left-0 mt-1 bg-background rounded-lg shadow-lg border border-border min-w-[240px] z-50 animate-fade-in"
-                    onMouseEnter={() => handleMouseEnter(i)}
-                    onMouseLeave={handleMouseLeave}
-                  >
-                    <div className="py-1.5">
-                      {t.options.map((opt, j) => (
-                        <a
-                          key={j}
-                          href="#treatments"
-                          className="block px-4 py-2.5 text-sm text-foreground hover:bg-muted/80 hover:text-primary transition-colors"
-                        >
-                          {opt}
-                        </a>
-                      ))}
-                    </div>
+                {/* Dropdown with smooth height animation */}
+                <div
+                  className={`absolute top-full left-0 mt-1 bg-background rounded-lg shadow-lg border border-border min-w-[240px] z-50 transition-all duration-300 origin-top ${
+                    openIndex === i
+                      ? "opacity-100 scale-y-100 translate-y-0 pointer-events-auto"
+                      : "opacity-0 scale-y-75 -translate-y-1 pointer-events-none"
+                  }`}
+                  onMouseEnter={() => handleMouseEnter(i)}
+                  onMouseLeave={handleMouseLeave}
+                >
+                  <div className="py-1.5">
+                    {t.options.map((opt, j) => (
+                      <a
+                        key={j}
+                        href="#treatments"
+                        className="block px-4 py-2.5 text-sm text-foreground hover:bg-muted/80 hover:text-primary transition-colors"
+                      >
+                        {opt}
+                      </a>
+                    ))}
                   </div>
-                )}
+                </div>
               </div>
             ))}
           </div>
