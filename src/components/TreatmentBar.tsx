@@ -1,18 +1,23 @@
 import { useState, useRef, useEffect } from "react";
 import { ChevronDown, Menu, X } from "lucide-react";
+import { Link } from "react-router-dom";
 
 const treatments = [
-  { label: "Enlarged Prostate", options: ["Prostate Artery Embolization"] },
-  { label: "Knee Pain", options: ["Genicular Artery Embolization"] },
-  { label: "Thyroid Nodule", options: ["Thyroid Nodule Ablation"] },
-  { label: "Varicocele", options: ["Varicocele Embolization"] },
-  { label: "Fallopian Tube Block", options: ["Fallopian Tube Recanalization"] },
-  { label: "Uterine Fibroids", options: ["Uterine Artery Embolization"] },
-  { label: "Breast Nodules", options: ["Breast Nodule VAE", "Breast Nodule Cryoablation", "Breast Nodule Radiofrequency Ablation"] },
-  { label: "Plantar Fasciitis", options: ["Plantar Fasciitis Embolization"] },
-  { label: "Varicose Veins", options: ["Endovenous Ablation"] },
-  { label: "Diabetic Foot", options: ["Endovascular Recanalization & Stenting"] },
-  { label: "Frozen Shoulder", options: ["Adhesive Capsulitis Embolization"] },
+  { label: "Enlarged Prostate", options: [{ name: "Prostate Artery Embolization", slug: "prostate-artery-embolization" }] },
+  { label: "Knee Pain", options: [{ name: "Genicular Artery Embolization", slug: "genicular-artery-embolization" }] },
+  { label: "Thyroid Nodule", options: [{ name: "Thyroid Nodule Ablation", slug: "thyroid-nodule-ablation" }] },
+  { label: "Varicocele", options: [{ name: "Varicocele Embolization", slug: "varicocele-embolization" }] },
+  { label: "Fallopian Tube Block", options: [{ name: "Fallopian Tube Recanalization", slug: "fallopian-tube-recanalization" }] },
+  { label: "Uterine Fibroids", options: [{ name: "Uterine Artery Embolization", slug: "uterine-artery-embolization" }] },
+  { label: "Breast Nodules", options: [
+    { name: "Breast Nodule VAE", slug: "breast-nodule-vae" },
+    { name: "Breast Nodule Cryoablation", slug: "breast-nodule-cryoablation" },
+    { name: "Breast Nodule Radiofrequency Ablation", slug: "breast-nodule-radiofrequency-ablation" },
+  ]},
+  { label: "Plantar Fasciitis", options: [{ name: "Plantar Fasciitis Embolization", slug: "plantar-fasciitis-embolization" }] },
+  { label: "Varicose Veins", options: [{ name: "Endovenous Ablation", slug: "endovenous-ablation" }] },
+  { label: "Diabetic Foot", options: [{ name: "Endovascular Recanalization & Stenting", slug: "endovascular-recanalization-stenting" }] },
+  { label: "Frozen Shoulder", options: [{ name: "Adhesive Capsulitis Embolization", slug: "adhesive-capsulitis-embolization" }] },
 ];
 
 const TreatmentBar = () => {
@@ -57,7 +62,7 @@ const TreatmentBar = () => {
                   <ChevronDown className={`w-3 h-3 transition-transform duration-300 ${openIndex === i ? "rotate-180" : ""}`} />
                 </button>
 
-                {/* Dropdown with smooth height animation */}
+                {/* Dropdown with smooth animation */}
                 <div
                   className={`absolute top-full left-0 mt-1 bg-background rounded-lg shadow-lg border border-border min-w-[240px] z-50 transition-all duration-300 origin-top ${
                     openIndex === i
@@ -69,13 +74,14 @@ const TreatmentBar = () => {
                 >
                   <div className="py-1.5">
                     {t.options.map((opt, j) => (
-                      <a
+                      <Link
                         key={j}
-                        href="#treatments"
+                        to={`/treatment/${opt.slug}`}
                         className="block px-4 py-2.5 text-sm text-foreground hover:bg-muted/80 hover:text-primary transition-colors"
+                        onClick={() => setOpenIndex(null)}
                       >
-                        {opt}
-                      </a>
+                        {opt.name}
+                      </Link>
                     ))}
                   </div>
                 </div>
@@ -107,9 +113,14 @@ const TreatmentBar = () => {
                 {openIndex === i && (
                   <div className="ml-3 mt-1 mb-1 border-l-2 border-primary/30 pl-3">
                     {t.options.map((opt, j) => (
-                      <a key={j} href="#treatments" className="block text-sm py-2 text-muted-foreground hover:text-primary transition-colors">
-                        {opt}
-                      </a>
+                      <Link
+                        key={j}
+                        to={`/treatment/${opt.slug}`}
+                        className="block text-sm py-2 text-muted-foreground hover:text-primary transition-colors"
+                        onClick={() => { setOpenIndex(null); setMobileOpen(false); }}
+                      >
+                        {opt.name}
+                      </Link>
                     ))}
                   </div>
                 )}
