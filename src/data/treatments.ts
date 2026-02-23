@@ -1,0 +1,146 @@
+export interface TreatmentDetail {
+  slug: string;
+  name: string;
+  condition: string;
+  description: string;
+  benefits: string[];
+  howItWorks: string;
+  recoveryTime: string;
+  successRate: string;
+}
+
+export const treatmentDetails: TreatmentDetail[] = [
+  {
+    slug: "prostate-artery-embolization",
+    name: "Prostate Artery Embolization",
+    condition: "Enlarged Prostate",
+    description: "Prostate Artery Embolization (PAE) is a minimally invasive procedure that shrinks the prostate by blocking blood flow to it, relieving urinary symptoms without surgery.",
+    benefits: ["No surgical incision", "Preserves sexual function", "Quick recovery", "Outpatient procedure"],
+    howItWorks: "A tiny catheter is guided through the blood vessels to the prostate arteries. Small particles are injected to block blood flow, causing the prostate to shrink over time.",
+    recoveryTime: "1–2 days",
+    successRate: "85–90%",
+  },
+  {
+    slug: "genicular-artery-embolization",
+    name: "Genicular Artery Embolization",
+    condition: "Knee Pain",
+    description: "Genicular Artery Embolization (GAE) is a cutting-edge, non-surgical treatment for chronic knee pain caused by osteoarthritis, reducing inflammation and pain.",
+    benefits: ["No surgery required", "Minimal downtime", "Long-lasting pain relief", "Outpatient procedure"],
+    howItWorks: "Tiny particles are delivered through a catheter to block abnormal blood vessels around the knee that contribute to inflammation and pain.",
+    recoveryTime: "1–2 days",
+    successRate: "80–85%",
+  },
+  {
+    slug: "thyroid-nodule-ablation",
+    name: "Thyroid Nodule Ablation",
+    condition: "Thyroid Nodule",
+    description: "Thyroid Nodule Ablation is a minimally invasive procedure that uses heat energy to shrink thyroid nodules without the need for surgery.",
+    benefits: ["No surgical scar", "Preserves thyroid function", "Quick recovery", "Local anesthesia only"],
+    howItWorks: "A thin needle is inserted into the thyroid nodule under ultrasound guidance. Radiofrequency or laser energy is applied to destroy the nodule tissue.",
+    recoveryTime: "Same day",
+    successRate: "90–95%",
+  },
+  {
+    slug: "varicocele-embolization",
+    name: "Varicocele Embolization",
+    condition: "Varicocele",
+    description: "Varicocele Embolization is a non-surgical treatment that blocks abnormal veins in the scrotum, improving fertility and relieving discomfort.",
+    benefits: ["No surgical incision", "Faster recovery than surgery", "High success rate", "Preserves fertility"],
+    howItWorks: "A catheter is guided to the affected veins, and small coils or a sclerosing agent are used to block blood flow in the enlarged veins.",
+    recoveryTime: "1–2 days",
+    successRate: "90–95%",
+  },
+  {
+    slug: "fallopian-tube-recanalization",
+    name: "Fallopian Tube Recanalization",
+    condition: "Fallopian Tube Block",
+    description: "Fallopian Tube Recanalization (FTR) is a non-surgical procedure to open blocked fallopian tubes, helping women achieve natural conception.",
+    benefits: ["Non-surgical", "No general anesthesia", "High success for proximal blockages", "Quick procedure"],
+    howItWorks: "A thin catheter and guidewire are passed through the cervix and uterus to the blocked fallopian tube to gently open the blockage.",
+    recoveryTime: "Same day",
+    successRate: "70–85%",
+  },
+  {
+    slug: "uterine-artery-embolization",
+    name: "Uterine Artery Embolization",
+    condition: "Uterine Fibroids",
+    description: "Uterine Artery Embolization (UAE) is a minimally invasive alternative to hysterectomy that shrinks fibroids by cutting off their blood supply.",
+    benefits: ["Uterus is preserved", "No major surgery", "Treats all fibroids at once", "Shorter recovery"],
+    howItWorks: "Tiny particles are injected through a catheter into the uterine arteries, blocking blood flow to the fibroids and causing them to shrink.",
+    recoveryTime: "1–2 weeks",
+    successRate: "85–90%",
+  },
+  {
+    slug: "breast-nodule-vae",
+    name: "Breast Nodule VAE",
+    condition: "Breast Nodules",
+    description: "Vacuum-Assisted Excision (VAE) is a minimally invasive technique to remove breast nodules through a tiny incision with precision.",
+    benefits: ["Minimal scarring", "Local anesthesia", "Complete nodule removal", "Quick procedure"],
+    howItWorks: "A small probe is inserted through a tiny skin incision. Vacuum suction and a rotating blade remove the nodule tissue in a controlled manner.",
+    recoveryTime: "1–2 days",
+    successRate: "95%+",
+  },
+  {
+    slug: "breast-nodule-cryoablation",
+    name: "Breast Nodule Cryoablation",
+    condition: "Breast Nodules",
+    description: "Cryoablation freezes and destroys breast nodules using extreme cold, offering a non-surgical alternative for small benign lumps.",
+    benefits: ["No incision needed", "Minimal pain", "No scarring", "Office-based procedure"],
+    howItWorks: "A cryoprobe is inserted into the nodule under imaging guidance. The tissue is frozen, causing the cells to die and the nodule to be gradually absorbed.",
+    recoveryTime: "Same day",
+    successRate: "90–95%",
+  },
+  {
+    slug: "breast-nodule-radiofrequency-ablation",
+    name: "Breast Nodule Radiofrequency Ablation",
+    condition: "Breast Nodules",
+    description: "Radiofrequency Ablation (RFA) uses heat energy to destroy breast nodules without surgery, suitable for benign nodules.",
+    benefits: ["Minimally invasive", "No general anesthesia", "Preserves breast shape", "Short procedure"],
+    howItWorks: "A thin electrode is inserted into the nodule. Radiofrequency energy heats and destroys the abnormal tissue while preserving surrounding breast tissue.",
+    recoveryTime: "Same day",
+    successRate: "90–95%",
+  },
+  {
+    slug: "plantar-fasciitis-embolization",
+    name: "Plantar Fasciitis Embolization",
+    condition: "Plantar Fasciitis",
+    description: "Plantar Fasciitis Embolization targets abnormal blood vessels causing chronic heel pain, providing long-lasting relief without surgery.",
+    benefits: ["Non-surgical", "Targets root cause", "Quick recovery", "Outpatient procedure"],
+    howItWorks: "A catheter is used to deliver tiny particles that block the abnormal blood vessels feeding the inflamed plantar fascia tissue.",
+    recoveryTime: "1–2 days",
+    successRate: "80–85%",
+  },
+  {
+    slug: "endovenous-ablation",
+    name: "Endovenous Ablation",
+    condition: "Varicose Veins",
+    description: "Endovenous Ablation uses laser or radiofrequency energy to close off varicose veins, rerouting blood to healthier veins.",
+    benefits: ["No stripping surgery", "Minimal scarring", "Walk-in walk-out", "Immediate symptom relief"],
+    howItWorks: "A thin fiber or catheter is inserted into the affected vein. Heat energy seals the vein shut, and blood naturally reroutes through healthy veins.",
+    recoveryTime: "Same day",
+    successRate: "95–98%",
+  },
+  {
+    slug: "endovascular-recanalization-stenting",
+    name: "Endovascular Recanalization & Stenting",
+    condition: "Diabetic Foot",
+    description: "This procedure restores blood flow to the legs and feet by opening blocked arteries, preventing amputation in diabetic patients.",
+    benefits: ["Limb salvage", "Minimally invasive", "Restores blood flow", "Alternative to amputation"],
+    howItWorks: "A catheter with a balloon is used to open blocked leg arteries. A stent may be placed to keep the artery open and maintain blood flow.",
+    recoveryTime: "2–3 days",
+    successRate: "80–90%",
+  },
+  {
+    slug: "adhesive-capsulitis-embolization",
+    name: "Adhesive Capsulitis Embolization",
+    condition: "Frozen Shoulder",
+    description: "This embolization procedure targets abnormal blood vessels in the shoulder capsule to reduce inflammation and restore mobility.",
+    benefits: ["Non-surgical", "Reduces inflammation", "Restores range of motion", "Outpatient procedure"],
+    howItWorks: "Tiny particles are delivered through a catheter to block the abnormal blood vessels causing inflammation in the shoulder joint capsule.",
+    recoveryTime: "1–2 days",
+    successRate: "80–85%",
+  },
+];
+
+export const getTreatmentBySlug = (slug: string) =>
+  treatmentDetails.find((t) => t.slug === slug);
