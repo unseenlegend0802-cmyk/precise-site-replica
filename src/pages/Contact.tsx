@@ -2,7 +2,8 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import AnimatedSection from "@/components/AnimatedSection";
 import ContactSection from "@/components/ContactSection";
-import { Phone, Mail, MapPin, Clock } from "lucide-react";
+import { Phone, Mail, MapPin, Clock, FileSearch } from "lucide-react";
+import { Link } from "react-router-dom";
 
 const contactInfo = [
   { icon: Phone, label: "Phone", value: "+91 93636 56010", href: "tel:+919363656010" },
@@ -30,7 +31,7 @@ const Contact = () => {
         </div>
       </section>
 
-      {/* Contact Cards */}
+      {/* Contact Cards + Scan Report */}
       <section className="py-16 bg-secondary">
         <div className="container mx-auto px-4">
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -49,6 +50,24 @@ const Contact = () => {
               </AnimatedSection>
             ))}
           </div>
+
+          {/* Scan Report CTA */}
+          <AnimatedSection delay={0.4}>
+            <Link
+              to="/scan-report"
+              className="mt-8 flex items-center gap-4 bg-card-gradient rounded-xl border border-primary/30 p-6 hover:border-primary/60 transition-all duration-300 group"
+            >
+              <div className="w-14 h-14 shrink-0 rounded-full bg-primary/10 flex items-center justify-center group-hover:bg-primary/20 transition-colors">
+                <FileSearch className="w-6 h-6 text-primary" />
+              </div>
+              <div>
+                <h3 className="text-base font-semibold text-foreground mb-1">Upload & Scan Medical Report</h3>
+                <p className="text-sm text-muted-foreground">
+                  Upload your lab report (PDF, JPG, PNG) and get AI-powered analysis with flagged biomarkers and treatment suggestions.
+                </p>
+              </div>
+            </Link>
+          </AnimatedSection>
         </div>
       </section>
 
