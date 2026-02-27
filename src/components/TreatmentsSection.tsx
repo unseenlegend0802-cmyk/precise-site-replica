@@ -6,16 +6,17 @@ import thyroidImg from "@/assets/treatments/thyroid.jpg";
 import uterineImg from "@/assets/treatments/uterine.jpg";
 import varicoseImg from "@/assets/treatments/varicose.jpg";
 import tavrImg from "@/assets/treatments/tavr.jpg";
+import {Link} from "react-router-dom";
 
 const treatments = [
-  { name: "Geniculate Artery Embolization", desc: "A non-surgical solution to relieve chronic knee pain safely.", img: geniculateImg },
-  { name: "Prostate Artery Embolization", desc: "Minimally invasive relief for Prostate without surgery.", img: prostateImg },
-  { name: "Fallopian Tube Recanalization", desc: "Non-surgical treatment to unblock fallopian tubes.", img: fallopianImg },
-  { name: "Varicocele Embolization", desc: "Minimally invasive relief for varicocele without surgery.", img: varicoceleImg },
-  { name: "Thyroid Nodule Ablation", desc: "Minimally invasive treatment for thyroid nodules.", img: thyroidImg },
-  { name: "Uterine Fibroid Embolization", desc: "A non-surgical procedure to shrink fibroids and relieve symptoms.", img: uterineImg },
-  { name: "Varicose Veins", desc: "Non-surgical treatment for varicose veins.", img: varicoseImg },
-  { name: "Transcatheter Aortic Valve Replacement", desc: "Non-surgical aortic valve replacement for better heart function.", img: tavrImg },
+  { name: "Geniculate Artery Embolization", slug: "genicular-artery-embolization", desc: "A non-surgical solution to relieve chronic knee pain safely.", img: geniculateImg },
+  { name: "Prostate Artery Embolization", slug: "prostate-artery-embolization", desc: "Minimally invasive relief for Prostate without surgery.", img: prostateImg },
+  { name: "Fallopian Tube Recanalization", slug: "fallopian-tube-recanalization", desc: "Non-surgical treatment to unblock fallopian tubes.", img: fallopianImg },
+  { name: "Varicocele Embolization", slug: "varicocele-embolization", desc: "Minimally invasive relief for varicocele without surgery.", img: varicoceleImg },
+  { name: "Thyroid Nodule Ablation", slug: "thyroid-nodule-ablation", desc: "Minimally invasive treatment for thyroid nodules.", img: thyroidImg },
+  { name: "Uterine Fibroid Embolization", slug: "uterine-fibroid-embolization", desc: "A non-surgical procedure to shrink fibroids and relieve symptoms.", img: uterineImg },
+  { name: "Varicose Veins", slug: "varicose-veins", desc: "Non-surgical treatment for varicose veins.", img: varicoseImg },
+  { name: "Transcatheter Aortic Valve Replacement", slug: "transcatheter-aortic-valve-replacement", desc: "Non-surgical aortic valve replacement for better heart function.", img: tavrImg },
 ];
 
 const TreatmentsSection = () => {
@@ -33,11 +34,12 @@ const TreatmentsSection = () => {
 
         <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {treatments.map((t, i) => (
-            <div
+            <Link
               key={i}
-              className="group bg-card-gradient rounded-xl border border-border overflow-hidden hover:border-primary/50 transition-all duration-300 hover:-translate-y-1"
+              to={`/treatment/${t.slug}`}
+              className="group bg-card-gradient rounded-xl border border-border overflow-visible hover:border-primary/50 transition-all duration-300 hover:-translate-y-1 block"
             >
-              <div className="aspect-square overflow-hidden">
+              <div className="aspect-square overflow-visible">
                 <img
                   src={t.img}
                   alt={t.name}
@@ -48,7 +50,7 @@ const TreatmentsSection = () => {
                 <h3 className="text-sm font-semibold text-foreground mb-1">{t.name}</h3>
                 <p className="text-xs text-muted-foreground">{t.desc}</p>
               </div>
-            </div>
+            </Link>
           ))}
         </div>
       </div>
