@@ -79,7 +79,7 @@ const TreatmentBar = () => {
                           <Link
                             key={j}
                             to={`/treatment/${opt.slug}`}
-                            className="hide px-4 py-2.5 text-sm text-foreground hover:bg-white/80 hover:text-primary transition-colors"
+                            className="block px-4 py-2.5 text-sm text-foreground hover:bg-muted/80 hover:text-primary transition-colors"
                             onClick={() => setOpenIndex(null)}
                           >
                             {opt.name}
