@@ -39,55 +39,58 @@ const TreatmentBar = () => {
   }, []);
 
   return (
-    <>
-      {/* Purple strip */}
-      <div className="h-1.5 bg-primary w-full" />
-
+    <> 
       {/* Desktop navbar */}
       <div className="hidden lg:block bg-muted/60 border-b border-border">
-        <div className="container mx-auto px-4">
-          <div className="flex items-center gap-1 overflow-x-auto scrollbar-hide py-2">
-            {treatments.map((t, i) => (
-              <div
-                key={i}
-                className="relative shrink-0"
-                onMouseEnter={() => handleMouseEnter(i)}
-                onMouseLeave={handleMouseLeave}
-              >
-                <button
-                  onClick={() => setOpenIndex(openIndex === i ? null : i)}
-                  className="flex items-center gap-1.5 text-sm font-medium px-3.5 py-2 rounded-md bg-accent text-accent-foreground transition-all duration-200 hover:opacity-90 whitespace-nowrap"
-                >
-                  {t.label}
-                  <ChevronDown className={`w-3 h-3 transition-transform duration-300 ${openIndex === i ? "rotate-180" : ""}`} />
-                </button>
+        <div className="container mx-auto px-1 relative">
+          
+            {/* Scroll Wrapper */}
+            <div className="relative">
+              {/* Scrollable Row */}
+              <div className="flex items-center gap-1 py-2 overflow-x-auto scrollbar-hide">
+                
+                {treatments.map((t, i) => (
+                  <div
+                    key={i}
+                    className="relative"
+                    onMouseEnter={() => handleMouseEnter(i)}
+                    onMouseLeave={handleMouseLeave}
+                  >
+                    <button
+                      onClick={() => setOpenIndex(openIndex === i ? null : i)}
+                      className="flex items-center gap-1.5 px-4 py-2 text-sm font-medium text-foreground hover:text-primary bg-transparent transition-all duration-200 whitespace-nowrap"
+                    >
+                      {t.label}
+                      <ChevronDown className={`w-3 h-3 transition-transform duration-300 ${openIndex === i ? "rotate-180" : ""}`} />
+                    </button>
 
-                {/* Dropdown with smooth animation */}
-                <div
-                  className={`absolute top-full left-0 mt-1 bg-background rounded-lg shadow-lg border border-border min-w-[240px] z-50 transition-all duration-300 origin-top ${
-                    openIndex === i
-                      ? "opacity-100 scale-y-100 translate-y-0 pointer-events-auto"
-                      : "opacity-0 scale-y-75 -translate-y-1 pointer-events-none"
-                  }`}
-                  onMouseEnter={() => handleMouseEnter(i)}
-                  onMouseLeave={handleMouseLeave}
-                >
-                  <div className="py-1.5">
-                    {t.options.map((opt, j) => (
-                      <Link
-                        key={j}
-                        to={`/treatment/${opt.slug}`}
-                        className="block px-4 py-2.5 text-sm text-foreground hover:bg-muted/80 hover:text-primary transition-colors"
-                        onClick={() => setOpenIndex(null)}
-                      >
-                        {opt.name}
-                      </Link>
-                    ))}
+                    {/* Dropdown with smooth animation */}
+                    <div
+                      className={`absolute left-0 top-full w-full bg-background shadow-lg z-40 border-t transform transition-all duration-300 ${
+                        openIndex === i
+                          ? "opacity-100 translate-y-0 pointer-events-auto"
+                          : "opacity-0 translate-y-1 pointer-events-none"
+                      }`}
+                      onMouseEnter={() => handleMouseEnter(i)}
+                      onMouseLeave={handleMouseLeave}
+                    >
+                      <div className="py-1.5">
+                        {t.options.map((opt, j) => (
+                          <Link
+                            key={j}
+                            to={`/treatment/${opt.slug}`}
+                            className="block px-4 py-2.5 text-sm text-foreground hover:bg-muted/80 hover:text-primary transition-colors"
+                            onClick={() => setOpenIndex(null)}
+                          >
+                            {opt.name}
+                          </Link>
+                        ))}
+                      </div>
+                    </div>
                   </div>
-                </div>
+                ))}
               </div>
-            ))}
-          </div>
+            </div>
         </div>
       </div>
 
