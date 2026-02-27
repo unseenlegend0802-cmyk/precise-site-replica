@@ -8,9 +8,11 @@ import { Link } from "react-router-dom";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { motion, AnimatePresence } from "framer-motion";
+import { supabase } from "@/integrations/supabase/client";
+import { useToast } from "@/hooks/use-toast";
 
 const ACCEPTED_TYPES = ["application/pdf", "image/jpeg", "image/png"];
-const MAX_FILE_SIZE = 10 * 1024 * 1024; // 10MB
+const MAX_FILE_SIZE = 10 * 1024 * 1024;
 
 interface BiomarkerResult {
   testName: string;
@@ -29,33 +31,25 @@ interface ScanResult {
   summary: string;
 }
 
-// Mock data simulating OCR + AI analysis
-const MOCK_RESULTS: ScanResult = {
-  patientName: "Patient Report",
-  testDate: "2026-02-15",
-  labName: "Diagnostic Lab",
-  detectedConditions: ["Varicocele", "Thyroid Nodule"],
-  biomarkers: [
-    { testName: "TSH", value: "6.8", unit: "mIU/L", referenceRange: "0.4 - 4.0", status: "high" },
-    { testName: "Free T4", value: "0.7", unit: "ng/dL", referenceRange: "0.8 - 1.8", status: "low" },
-    { testName: "Free T3", value: "2.9", unit: "pg/mL", referenceRange: "2.3 - 4.2", status: "normal" },
-    { testName: "Hemoglobin", value: "14.2", unit: "g/dL", referenceRange: "13.0 - 17.0", status: "normal" },
-    { testName: "WBC Count", value: "11500", unit: "/µL", referenceRange: "4000 - 11000", status: "high" },
-    { testName: "Platelet Count", value: "245000", unit: "/µL", referenceRange: "150000 - 400000", status: "normal" },
-    { testName: "Testosterone", value: "180", unit: "ng/dL", referenceRange: "300 - 1000", status: "critical" },
-    { testName: "FSH", value: "15.2", unit: "mIU/mL", referenceRange: "1.5 - 12.4", status: "high" },
-    { testName: "LH", value: "9.1", unit: "mIU/mL", referenceRange: "1.7 - 8.6", status: "high" },
-    { testName: "Prolactin", value: "12.3", unit: "ng/mL", referenceRange: "4.0 - 15.2", status: "normal" },
-  ],
-  summary:
-    "The report indicates elevated TSH levels with low Free T4, suggesting possible hypothyroidism consistent with thyroid nodule findings. Testosterone levels are critically low, and elevated FSH/LH may indicate primary hypogonadism, which is commonly associated with varicocele. Recommended: Thyroid ultrasound and consultation with an interventional radiologist for evaluation of Thyroid Nodule Ablation and Varicocele Embolization.",
-};
-
 const statusConfig = {
   normal: { label: "Normal", color: "bg-emerald-500/20 text-emerald-400 border-emerald-500/30", icon: CheckCircle },
   high: { label: "High", color: "bg-amber-500/20 text-amber-400 border-amber-500/30", icon: AlertTriangle },
   low: { label: "Low", color: "bg-blue-500/20 text-blue-400 border-blue-500/30", icon: AlertTriangle },
   critical: { label: "Critical", color: "bg-red-500/20 text-red-400 border-red-500/30", icon: XCircle },
+};
+
+const fileToBase64 = (file: File): Promise<string> => {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = () => {
+      const result = reader.result as string;
+      // Remove data URL prefix to get raw base64
+      const base64 = result.split(",")[1];
+      resolve(base64);
+    };
+    reader.onerror = reject;
+    reader.readAsDataURL(file);
+  });
 };
 
 const ScanReport = () => {
@@ -66,6 +60,7 @@ const ScanReport = () => {
   const [progressLabel, setProgressLabel] = useState("");
   const [result, setResult] = useState<ScanResult | null>(null);
   const [dragOver, setDragOver] = useState(false);
+  const { toast } = useToast();
 
   const validateFile = (f: File): string | null => {
     if (!ACCEPTED_TYPES.includes(f.type)) return "Unsupported format. Please upload PDF, JPG, or PNG.";
@@ -95,24 +90,47 @@ const ScanReport = () => {
     setScanning(true);
     setProgress(0);
     setResult(null);
+    setError("");
 
-    const steps = [
-      { pct: 20, label: "Uploading document..." },
-      { pct: 45, label: "Running OCR extraction..." },
-      { pct: 70, label: "Parsing biomarker data..." },
-      { pct: 90, label: "AI analysis in progress..." },
-      { pct: 100, label: "Complete!" },
-    ];
+    try {
+      // Step 1: Convert file to base64
+      setProgress(15);
+      setProgressLabel("Preparing document...");
+      const imageBase64 = await fileToBase64(file);
 
-    for (const step of steps) {
-      await new Promise((r) => setTimeout(r, 800));
-      setProgress(step.pct);
-      setProgressLabel(step.label);
+      // Step 2: Send to edge function
+      setProgress(35);
+      setProgressLabel("Uploading to AI for analysis...");
+
+      const { data, error: fnError } = await supabase.functions.invoke("scan-report", {
+        body: { imageBase64, mimeType: file.type },
+      });
+
+      if (fnError) {
+        throw new Error(fnError.message || "Analysis failed");
+      }
+
+      if (data?.error) {
+        throw new Error(data.error);
+      }
+
+      setProgress(90);
+      setProgressLabel("Rendering results...");
+      await new Promise((r) => setTimeout(r, 300));
+
+      setProgress(100);
+      setProgressLabel("Complete!");
+      await new Promise((r) => setTimeout(r, 200));
+
+      setResult(data as ScanResult);
+    } catch (e: any) {
+      console.error("Scan error:", e);
+      const msg = e?.message || "An error occurred during analysis.";
+      setError(msg);
+      toast({ title: "Scan Failed", description: msg, variant: "destructive" });
+    } finally {
+      setScanning(false);
     }
-
-    await new Promise((r) => setTimeout(r, 400));
-    setResult(MOCK_RESULTS);
-    setScanning(false);
   };
 
   const resetAll = () => {
@@ -128,9 +146,8 @@ const ScanReport = () => {
       <Header />
       <main className="pt-28 pb-20 px-4">
         <div className="max-w-4xl mx-auto">
-          {/* Back link */}
-          <Link to="/" className="inline-flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors mb-8 text-sm">
-            <ArrowLeft className="w-4 h-4" /> Back to Home
+          <Link to="/contact" className="inline-flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors mb-8 text-sm">
+            <ArrowLeft className="w-4 h-4" /> Back to Contact
           </Link>
 
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}>
@@ -190,7 +207,6 @@ const ScanReport = () => {
                     )}
                   </div>
 
-                  {/* Scan button + progress */}
                   {file && !scanning && !result && (
                     <div className="mt-6 flex justify-center">
                       <Button size="lg" onClick={handleScan} className="px-8">
@@ -222,7 +238,6 @@ const ScanReport = () => {
                 transition={{ duration: 0.5 }}
                 className="space-y-6"
               >
-                {/* Summary Card */}
                 <Card>
                   <CardHeader>
                     <CardTitle className="text-xl flex items-center gap-2">
@@ -241,7 +256,6 @@ const ScanReport = () => {
                   </CardContent>
                 </Card>
 
-                {/* Meta */}
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                   {[
                     { label: "Report Date", value: result.testDate },
@@ -257,7 +271,6 @@ const ScanReport = () => {
                   ))}
                 </div>
 
-                {/* Biomarker Table */}
                 <Card>
                   <CardHeader>
                     <CardTitle className="text-xl">Biomarker Results</CardTitle>
@@ -304,7 +317,6 @@ const ScanReport = () => {
                   </CardContent>
                 </Card>
 
-                {/* Actions */}
                 <div className="flex flex-wrap gap-3">
                   <Button onClick={resetAll} variant="outline">
                     Scan Another Report
