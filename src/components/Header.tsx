@@ -5,6 +5,7 @@ import {useEffect} from "react";
 
 const navLinks = [
   { label: "About", to: "/about" },
+  { label: "Scan Report", to: "/scan-report" },
   { label: "Blogs", to: "/blogs" },
   { label: "Contact Us", to: "/contact" },
 ];
