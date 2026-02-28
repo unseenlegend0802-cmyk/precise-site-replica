@@ -8,6 +8,7 @@ export interface Hospital {
   address: string;
   phone: string;
   mapQuery: string;
+  doctorImage?: string;
 }
 
 export const hospitals: Hospital[] = [
@@ -32,6 +33,7 @@ export const hospitals: Hospital[] = [
     address: "Road No 2, Banjara Hills, Hyderabad, Telangana",
     phone: "+91 9177770777",
     mapQuery: "Maven+Medical+Center+Banjara+Hills+Hyderabad",
+    doctorImage: "/src/assets/doctors/balaji.png",
   },
   {
     name: "Nikhil Hospital (Dilsukhnagar)",
@@ -65,6 +67,7 @@ export const hospitals: Hospital[] = [
     address: "Enikepadu, Vijayawada, Andhra Pradesh",
     phone: "+91 8662436789",
     mapQuery: "Anu+Neuro+Cardiac+Sciences+Vijayawada",
+    doctorImage: "/src/assets/doctors/bhavani.png",
   },
   {
     name: "Capital Hospital",
