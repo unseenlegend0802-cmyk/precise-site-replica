@@ -322,7 +322,7 @@ const ScanReport = () => {
                     Scan Another Report
                   </Button>
                   <Button asChild>
-                    <Link to="/contact">Book Consultation</Link>
+                    <Link to="/contact">Find a Hospital</Link>
                   </Button>
                 </div>
               </motion.div>
