@@ -3,7 +3,7 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import AnimatedSection from "@/components/AnimatedSection";
 import { hospitals, cities } from "@/data/hospitals";
-import { MapPin, Stethoscope, GraduationCap, Clock, Search, CalendarCheck } from "lucide-react";
+import { MapPin, Stethoscope, GraduationCap, Clock, Search, CalendarCheck, IndianRupee } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
@@ -134,6 +134,25 @@ const FindHospital = () => {
                             <MapPin className="w-3.5 h-3.5 shrink-0" />
                             {h.address}
                           </div>
+                        </div>
+
+                        {/* Available Time & Fee */}
+                        <div className="flex flex-wrap items-center gap-3 text-sm">
+                          {h.availableTime && (
+                            <span className="inline-flex items-center gap-1.5 bg-secondary text-foreground px-2.5 py-1 rounded-md">
+                              <Clock className="w-3.5 h-3.5 text-primary" />
+                              {h.availableTime}
+                            </span>
+                          )}
+                          {h.consultationFee && (
+                            <span className="inline-flex items-center gap-1.5 bg-secondary text-foreground px-2.5 py-1 rounded-md">
+                              <IndianRupee className="w-3.5 h-3.5 text-primary" />
+                              {h.consultationFee}
+                            </span>
+                          )}
+                          {!h.availableTime && !h.consultationFee && (
+                            <span className="text-xs text-muted-foreground italic">Contact for availability & fees</span>
+                          )}
                         </div>
 
                         <div className="flex items-center gap-3 pt-1">
