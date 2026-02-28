@@ -3,9 +3,11 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import AnimatedSection from "@/components/AnimatedSection";
 import { hospitals, cities } from "@/data/hospitals";
-import { MapPin, Phone, Stethoscope, GraduationCap, Clock, Search } from "lucide-react";
+import { MapPin, Stethoscope, GraduationCap, Clock, Search, CalendarCheck } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
+import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
+import { Link } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 
 const FindHospital = () => {
@@ -98,6 +100,16 @@ const FindHospital = () => {
                     }`}
                   >
                     <div className="flex flex-col sm:flex-row sm:items-start gap-4">
+                      {/* Doctor Avatar */}
+                      <Avatar className="w-16 h-16 shrink-0 border-2 border-primary/20">
+                        {h.doctorImage ? (
+                          <AvatarImage src={h.doctorImage} alt={h.doctor} />
+                        ) : null}
+                        <AvatarFallback className="bg-primary/10 text-primary font-bold text-lg">
+                          {h.doctor.split(" ").filter(w => w.length > 2).map(w => w[0]).join("").slice(0, 2).toUpperCase()}
+                        </AvatarFallback>
+                      </Avatar>
+
                       <div className="flex-1 space-y-2">
                         <div className="flex items-start justify-between gap-2">
                           <h3 className="font-bold text-foreground text-lg">{h.name}</h3>
@@ -125,13 +137,13 @@ const FindHospital = () => {
                         </div>
 
                         <div className="flex items-center gap-3 pt-1">
-                          <a
-                            href={`tel:${h.phone.replace(/\s/g, "")}`}
+                          <Link
+                            to="/contact"
                             className="inline-flex items-center gap-1.5 text-xs bg-primary text-primary-foreground px-3 py-1.5 rounded-md font-medium hover:opacity-90"
                           >
-                            <Phone className="w-3 h-3" />
-                            {h.phone}
-                          </a>
+                            <CalendarCheck className="w-3 h-3" />
+                            Book Appointment
+                          </Link>
                           <a
                             href={`https://www.google.com/maps/search/${h.mapQuery}`}
                             target="_blank"
