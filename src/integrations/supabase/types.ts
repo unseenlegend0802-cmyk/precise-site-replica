@@ -14,7 +14,99 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      profiles: {
+        Row: {
+          age: number | null
+          allergies: string | null
+          blood_group: string | null
+          created_at: string
+          current_medications: string | null
+          emergency_contact_name: string | null
+          emergency_contact_phone: string | null
+          full_name: string | null
+          gender: string | null
+          id: string
+          medical_history: string | null
+          preferred_language: string | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          age?: number | null
+          allergies?: string | null
+          blood_group?: string | null
+          created_at?: string
+          current_medications?: string | null
+          emergency_contact_name?: string | null
+          emergency_contact_phone?: string | null
+          full_name?: string | null
+          gender?: string | null
+          id?: string
+          medical_history?: string | null
+          preferred_language?: string | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          age?: number | null
+          allergies?: string | null
+          blood_group?: string | null
+          created_at?: string
+          current_medications?: string | null
+          emergency_contact_name?: string | null
+          emergency_contact_phone?: string | null
+          full_name?: string | null
+          gender?: string | null
+          id?: string
+          medical_history?: string | null
+          preferred_language?: string | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      scan_reports: {
+        Row: {
+          analysis_result: Json
+          created_at: string
+          detected_conditions: string[]
+          file_mime_type: string | null
+          file_name: string | null
+          file_size_bytes: number | null
+          id: string
+          scan_status: string
+          summary: string | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          analysis_result: Json
+          created_at?: string
+          detected_conditions?: string[]
+          file_mime_type?: string | null
+          file_name?: string | null
+          file_size_bytes?: number | null
+          id?: string
+          scan_status?: string
+          summary?: string | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          analysis_result?: Json
+          created_at?: string
+          detected_conditions?: string[]
+          file_mime_type?: string | null
+          file_name?: string | null
+          file_size_bytes?: number | null
+          id?: string
+          scan_status?: string
+          summary?: string | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never

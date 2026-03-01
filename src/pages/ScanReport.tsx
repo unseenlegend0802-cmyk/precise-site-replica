@@ -1,5 +1,5 @@
 import React, { useState, useCallback } from "react";
-import { Upload, FileText, AlertTriangle, CheckCircle, XCircle, Loader2, ArrowLeft, Trash2 } from "lucide-react";
+import { Upload, FileText, AlertTriangle, CheckCircle, XCircle, Loader2, ArrowLeft, Trash2, LogIn } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -10,6 +10,8 @@ import Footer from "@/components/Footer";
 import { motion, AnimatePresence } from "framer-motion";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
+import { useAuth } from "@/contexts/AuthContext";
+import { Link as RouterLink } from "react-router-dom";
 
 const ACCEPTED_TYPES = ["application/pdf", "image/jpeg", "image/png"];
 const MAX_FILE_SIZE = 10 * 1024 * 1024;
@@ -61,6 +63,7 @@ const ScanReport = () => {
   const [result, setResult] = useState<ScanResult | null>(null);
   const [dragOver, setDragOver] = useState(false);
   const { toast } = useToast();
+  const { user } = useAuth();
 
   const validateFile = (f: File): string | null => {
     if (!ACCEPTED_TYPES.includes(f.type)) return "Unsupported format. Please upload PDF, JPG, or PNG.";
@@ -122,7 +125,25 @@ const ScanReport = () => {
       setProgressLabel("Complete!");
       await new Promise((r) => setTimeout(r, 200));
 
-      setResult(data as ScanResult);
+      const scanResult = data as ScanResult;
+      setResult(scanResult);
+
+      // Save to database if user is logged in
+      if (user) {
+        try {
+          await supabase.from("scan_reports").insert({
+            user_id: user.id,
+            file_name: file.name,
+            file_mime_type: file.type,
+            file_size_bytes: file.size,
+            analysis_result: scanResult as any,
+            summary: scanResult.summary,
+            detected_conditions: scanResult.detectedConditions,
+          });
+        } catch (saveErr) {
+          console.error("Failed to save report:", saveErr);
+        }
+      }
     } catch (e: any) {
       console.error("Scan error:", e);
       const msg = e?.message || "An error occurred during analysis.";
@@ -316,6 +337,21 @@ const ScanReport = () => {
                     </div>
                   </CardContent>
                 </Card>
+
+                {!user && (
+                  <Card className="border-primary/30 bg-primary/5">
+                    <CardContent className="p-4 flex items-center gap-3">
+                      <LogIn className="w-5 h-5 text-primary shrink-0" />
+                      <div className="flex-1">
+                        <p className="text-sm font-medium text-foreground">Sign in to save this report</p>
+                        <p className="text-xs text-muted-foreground">Create an account to keep your scan history and medical profile.</p>
+                      </div>
+                      <Button asChild size="sm">
+                        <RouterLink to="/auth">Sign In</RouterLink>
+                      </Button>
+                    </CardContent>
+                  </Card>
+                )}
 
                 <div className="flex flex-wrap gap-3">
                   <Button onClick={resetAll} variant="outline">
