@@ -122,12 +122,12 @@ const FindHospital = () => {
                         </div>
 
                         {/* specialization */}
-                        <div className= "flex items-center gap-2 text-sm text-muted-foreground">
-                          <stethoscope className="w-4 h-4 text-primary" />
-                          <span className="front-medium text-foreground">
+                        <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                          <Stethoscope className="w-4 h-4 text-primary" />
+                          <span className="font-medium text-foreground">
                             {h.specialization}
                           </span>
-                          </div>
+                        </div>
 
                         <div className="grid sm:grid-cols-2 gap-1.5 text-sm text-muted-foreground">
                           <div className="flex items-center gap-1.5">

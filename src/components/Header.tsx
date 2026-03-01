@@ -1,7 +1,7 @@
 import { useState } from "react";
-import { Phone, Menu, X } from "lucide-react";
+import { Phone, Menu, X, User, LogOut } from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
-import {useEffect} from "react";
+import { useAuth } from "@/contexts/AuthContext";
 
 const navLinks = [
   { label: "About", to: "/about" },
@@ -19,6 +19,7 @@ const ctaLinks = [
 const Header = () => {
   const [mobileOpen, setMobileOpen] = useState(false);
   const location = useLocation();
+  const { user } = useAuth();
 
   return (
     <header className="sticky top-0 z-50 relative bg-background/95 shadow-md border-b border-border">
@@ -65,6 +66,13 @@ const Header = () => {
               {link.label}
             </Link>
           ))}
+          <Link
+            to={user ? "/dashboard" : "/auth"}
+            className="flex items-center gap-1.5 text-xs px-3 py-2 rounded-md border border-muted-foreground/30 text-foreground hover:border-primary transition-colors font-medium"
+          >
+            <User className="w-3.5 h-3.5" />
+            {user ? "Dashboard" : "Sign In"}
+          </Link>
         </div>
 
         {/* Mobile toggle */}
@@ -98,6 +106,13 @@ const Header = () => {
             className="block w-full text-center bg-primary text-primary-foreground py-2 rounded-md text-sm font-medium"
           >
             Book Appointment
+          </Link>
+          <Link
+            to={user ? "/dashboard" : "/auth"}
+            onClick={() => setMobileOpen(false)}
+            className="block text-sm py-2 text-foreground"
+          >
+            {user ? "Dashboard" : "Sign In"}
           </Link>
         </div>
       )}
