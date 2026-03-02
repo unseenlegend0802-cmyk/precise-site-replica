@@ -3,12 +3,10 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import AnimatedSection from "@/components/AnimatedSection";
 import { hospitals, cities } from "@/data/hospitals";
-import { MapPin, Stethoscope, GraduationCap, Clock, Search, CalendarCheck, IndianRupee } from "lucide-react";
+import { Search } from "lucide-react";
 import { Input } from "@/components/ui/input";
-import { Badge } from "@/components/ui/badge";
-import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
-import { Link } from "react-router-dom";
-import { motion, AnimatePresence } from "framer-motion";
+import HospitalCard from "@/components/HospitalCard";
+import { AnimatePresence, motion } from "framer-motion";
 
 const FindHospital = () => {
   const [selectedCity, setSelectedCity] = useState<string>("All");
@@ -79,7 +77,6 @@ const FindHospital = () => {
       <section className="py-12 bg-background">
         <div className="container mx-auto px-4">
           <div className="grid lg:grid-cols-5 gap-6">
-            {/* Hospital cards */}
             <div className="lg:col-span-3 space-y-4 max-h-[700px] overflow-y-auto pr-2">
               <AnimatePresence mode="popLayout">
                 {filtered.length === 0 && (
@@ -92,96 +89,12 @@ const FindHospital = () => {
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: -10 }}
                     transition={{ delay: i * 0.05 }}
-                    onClick={() => setSelectedHospital(h)}
-                    className={`cursor-pointer rounded-xl border p-5 transition-all duration-200 ${
-                      selectedHospital === h
-                        ? "border-primary bg-primary/5 shadow-md"
-                        : "border-border bg-card hover:border-primary/40"
-                    }`}
                   >
-                    <div className="flex flex-col sm:flex-row sm:items-start gap-4">
-                      {/* Doctor Avatar */}
-                      <Avatar className="w-16 h-16 shrink-0 border-2 border-primary/20">
-                        {h.doctorImage ? (
-                          <AvatarImage src={h.doctorImage} alt={h.doctor} />
-                        ) : null}
-                        <AvatarFallback className="bg-primary/10 text-primary font-bold text-lg">
-                          {h.doctor.split(" ").filter(w => w.length > 2).map(w => w[0]).join("").slice(0, 2).toUpperCase()}
-                        </AvatarFallback>
-                      </Avatar>
-
-                      <div className="flex-1 space-y-2">
-                        <div className="flex items-start justify-between gap-2">
-                          <h3 className="font-bold text-foreground text-lg">{h.name}</h3>
-                          <Badge variant="secondary" className="shrink-0">{h.city}</Badge>
-                        </div>
-
-                        <div className="flex items-center gap-2 text-primary font-medium">
-                          <Stethoscope className="w-4 h-4" />
-                          {h.doctor}
-                        </div>
-
-                        {/* specialization */}
-                        <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                          <Stethoscope className="w-4 h-4 text-primary" />
-                          <span className="font-medium text-foreground">
-                            {h.specialization}
-                          </span>
-                        </div>
-
-                        <div className="grid sm:grid-cols-2 gap-1.5 text-sm text-muted-foreground">
-                          <div className="flex items-center gap-1.5">
-                            <GraduationCap className="w-3.5 h-3.5 shrink-0" />
-                            <span className="truncate">{h.qualification}</span>
-                          </div>
-                          <div className="flex items-center gap-1.5">
-                            <Clock className="w-3.5 h-3.5 shrink-0" />
-                            {h.experience} experience
-                          </div>
-                          <div className="flex items-center gap-1.5 sm:col-span-2">
-                            <MapPin className="w-3.5 h-3.5 shrink-0" />
-                            {h.address}
-                          </div>
-                        </div>
-
-                        {/* Available Time & Fee */}
-                        <div className="flex flex-wrap items-center gap-3 text-sm">
-                          {h.availableTime && (
-                            <span className="inline-flex items-center gap-1.5 bg-secondary text-foreground px-2.5 py-1 rounded-md">
-                              <Clock className="w-3.5 h-3.5 text-primary" />
-                              {h.availableTime}
-                            </span>
-                          )}
-                          {h.consultationFee && (
-                            <span className="inline-flex items-center gap-1.5 bg-secondary text-foreground px-2.5 py-1 rounded-md">
-                              <IndianRupee className="w-3.5 h-3.5 text-primary" />
-                              {h.consultationFee}
-                            </span>
-                          )}
-                          {!h.availableTime && !h.consultationFee && (
-                            <span className="text-xs text-muted-foreground italic">Contact for availability & fees</span>
-                          )}
-                        </div>
-
-                        <div className="flex items-center gap-3 pt-1">
-                          <Link
-                            to="/contact"
-                            className="inline-flex items-center gap-1.5 text-xs bg-primary text-primary-foreground px-3 py-1.5 rounded-md font-medium hover:opacity-90"
-                          >
-                            <CalendarCheck className="w-3 h-3" />
-                            Book Appointment
-                          </Link>
-                          <a
-                            href={`https://www.google.com/maps/search/${h.mapQuery}`}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="text-xs text-primary hover:underline"
-                          >
-                            Get Directions →
-                          </a>
-                        </div>
-                      </div>
-                    </div>
+                    <HospitalCard
+                      hospital={h}
+                      isSelected={selectedHospital === h}
+                      onClick={() => setSelectedHospital(h)}
+                    />
                   </motion.div>
                 ))}
               </AnimatePresence>
