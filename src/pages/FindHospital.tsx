@@ -7,11 +7,25 @@ import { Search } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import HospitalCard from "@/components/HospitalCard";
 import { AnimatePresence, motion } from "framer-motion";
+import { useNavigate } from "react-router-dom";
 
 const FindHospital = () => {
   const [selectedCity, setSelectedCity] = useState<string>("All");
   const [search, setSearch] = useState("");
   const [selectedHospital, setSelectedHospital] = useState(hospitals[0]);
+  const navigate = useNavigate();
+
+  <Button
+    on click={() =>
+      navigate("/find-hospital", {
+        state: {
+          scanData: extractedReportData
+        }
+      })
+    }
+  >
+  Find a Hospital 
+  </Button>
 
   const filtered = hospitals.filter((h) => {
     const matchCity = selectedCity === "All" || h.city === selectedCity;
