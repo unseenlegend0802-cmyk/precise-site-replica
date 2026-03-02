@@ -8,12 +8,16 @@ import { Input } from "@/components/ui/input";
 import HospitalCard from "@/components/HospitalCard";
 import { AnimatePresence, motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
+import { useLocation } from "react-router-dom"; 
 
 const FindHospital = () => {
   const [selectedCity, setSelectedCity] = useState<string>("All");
   const [search, setSearch] = useState("");
   const [selectedHospital, setSelectedHospital] = useState(hospitals[0]);
   const navigate = useNavigate();
+  const location = useLocation();
+  const scanData = location.state?.scanData;
+  const detectedIssue = scanData?.medicalIssue || "";
 
   <Button
     on click={() =>
@@ -34,7 +38,15 @@ const FindHospital = () => {
       h.name.toLowerCase().includes(search.toLowerCase()) ||
       h.doctor.toLowerCase().includes(search.toLowerCase()) ||
       h.specialization.toLowerCase().includes(search.toLowerCase());
-    return matchCity && matchSearch;
+
+    // ⭐ AUTO FILTER FROM SCANNED REPORT
+    const matchReport =
+      !detectedIssue ||
+      h.specialization
+        .toLowerCase()
+        .includes(detectedIssue.toLowerCase());
+    
+    return matchCity && matchSearch && matchReport;
   });
 
   return (
