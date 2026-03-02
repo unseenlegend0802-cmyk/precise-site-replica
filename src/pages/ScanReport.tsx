@@ -1,16 +1,20 @@
 import React, { useState, useCallback } from "react";
-import { Upload, FileText, AlertTriangle, CheckCircle, XCircle, Loader2, ArrowLeft, Trash2, LogIn } from "lucide-react";
+import { Upload, FileText, AlertTriangle, CheckCircle, XCircle, Loader2, ArrowLeft, Trash2, LogIn, Stethoscope } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import HospitalCard from "@/components/HospitalCard";
 import { motion, AnimatePresence } from "framer-motion";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 import { useAuth } from "@/contexts/AuthContext";
+import { useBooking } from "@/contexts/BookingContext";
+import { matchDoctors } from "@/utils/matchDoctors";
+import { Hospital } from "@/data/hospitals";
 import { Link as RouterLink } from "react-router-dom";
 
 const ACCEPTED_TYPES = ["application/pdf", "image/jpeg", "image/png"];
@@ -45,7 +49,6 @@ const fileToBase64 = (file: File): Promise<string> => {
     const reader = new FileReader();
     reader.onload = () => {
       const result = reader.result as string;
-      // Remove data URL prefix to get raw base64
       const base64 = result.split(",")[1];
       resolve(base64);
     };
@@ -64,6 +67,10 @@ const ScanReport = () => {
   const [dragOver, setDragOver] = useState(false);
   const { toast } = useToast();
   const { user } = useAuth();
+  const navigate = useNavigate();
+  const { setSelectedHospital, setPatientInfo } = useBooking();
+
+  const matchedDoctors = result ? matchDoctors(result.detectedConditions) : [];
 
   const validateFile = (f: File): string | null => {
     if (!ACCEPTED_TYPES.includes(f.type)) return "Unsupported format. Please upload PDF, JPG, or PNG.";
@@ -96,12 +103,10 @@ const ScanReport = () => {
     setError("");
 
     try {
-      // Step 1: Convert file to base64
       setProgress(15);
       setProgressLabel("Preparing document...");
       const imageBase64 = await fileToBase64(file);
 
-      // Step 2: Send to edge function
       setProgress(35);
       setProgressLabel("Uploading to AI for analysis...");
 
@@ -109,13 +114,8 @@ const ScanReport = () => {
         body: { imageBase64, mimeType: file.type },
       });
 
-      if (fnError) {
-        throw new Error(fnError.message || "Analysis failed");
-      }
-
-      if (data?.error) {
-        throw new Error(data.error);
-      }
+      if (fnError) throw new Error(fnError.message || "Analysis failed");
+      if (data?.error) throw new Error(data.error);
 
       setProgress(90);
       setProgressLabel("Rendering results...");
@@ -128,7 +128,9 @@ const ScanReport = () => {
       const scanResult = data as ScanResult;
       setResult(scanResult);
 
-      // Save to database if user is logged in
+      // Store patient info in booking context for potential booking
+      setPatientInfo(scanResult.patientName, scanResult.detectedConditions);
+
       if (user) {
         try {
           await supabase.from("scan_reports").insert({
@@ -152,6 +154,11 @@ const ScanReport = () => {
     } finally {
       setScanning(false);
     }
+  };
+
+  const handleBookDoctor = (hospital: Hospital) => {
+    setSelectedHospital(hospital);
+    navigate("/book-appointment");
   };
 
   const resetAll = () => {
@@ -337,6 +344,31 @@ const ScanReport = () => {
                     </div>
                   </CardContent>
                 </Card>
+
+                {/* Recommended Doctors */}
+                {matchedDoctors.length > 0 && (
+                  <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }}>
+                    <Card>
+                      <CardHeader>
+                        <CardTitle className="text-xl flex items-center gap-2">
+                          <Stethoscope className="w-5 h-5 text-primary" /> Recommended Doctors
+                        </CardTitle>
+                        <p className="text-sm text-muted-foreground">
+                          Based on your report, we found {matchedDoctors.length} specialist{matchedDoctors.length > 1 ? "s" : ""} who can help.
+                        </p>
+                      </CardHeader>
+                      <CardContent className="space-y-4 max-h-[600px] overflow-y-auto">
+                        {matchedDoctors.map((h) => (
+                          <HospitalCard
+                            key={h.name + h.doctor}
+                            hospital={h}
+                            onBook={handleBookDoctor}
+                          />
+                        ))}
+                      </CardContent>
+                    </Card>
+                  </motion.div>
+                )}
 
                 {!user && (
                   <Card className="border-primary/30 bg-primary/5">
