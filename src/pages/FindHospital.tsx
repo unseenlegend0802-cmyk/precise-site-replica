@@ -33,14 +33,7 @@ const FindHospital = () => {
       h.doctor.toLowerCase().includes(search.toLowerCase()) ||
       h.specialization.toLowerCase().includes(search.toLowerCase());
 
-    // Auto filter from scanned report conditions
-    const matchReport =
-      detectedConditions.length === 0 ||
-      detectedConditions.some((cond) =>
-        h.specialization.toLowerCase().includes(cond.toLowerCase())
-      );
-
-    return matchCity && matchSearch && matchReport;
+    return matchCity && matchSearch;
   });
 
   const handleBookAppointment = (hospital: Hospital) => {
