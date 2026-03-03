@@ -41,7 +41,7 @@ const BookAppointment = () => {
 
   useEffect(() => {
     if (!loading && !hasPendingBooking) {
-      navigate("/scan-report", { replace: true });
+      navigate("/find-hospital", { replace: true });
     }
   }, [loading, hasPendingBooking, navigate]);
 
