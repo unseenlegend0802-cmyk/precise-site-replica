@@ -7,8 +7,10 @@ import { Search } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import HospitalCard from "@/components/HospitalCard";
 import { AnimatePresence, motion } from "framer-motion";
-import { useNavigate } from "react-router-dom";
-import { useLocation } from "react-router-dom"; 
+import { useNavigate, useLocation } from "react-router-dom";
+import { useAuth } from "@/contexts/AuthContext";
+import { useBooking } from "@/contexts/BookingContext";
+import { Hospital } from "@/data/hospitals";
 
 const FindHospital = () => {
   const [selectedCity, setSelectedCity] = useState<string>("All");
@@ -16,20 +18,12 @@ const FindHospital = () => {
   const [selectedHospital, setSelectedHospital] = useState(hospitals[0]);
   const navigate = useNavigate();
   const location = useLocation();
-  const scanData = location.state?.scanData;
-  const detectedIssue = scanData?.medicalIssue || "";
+  const { user } = useAuth();
+  const { setSelectedHospital: setBookingHospital, patientName, medicalIssue } = useBooking();
 
-  <Button
-    on click={() =>
-      navigate("/find-hospital", {
-        state: {
-          scanData: extractedReportData
-        }
-      })
-    }
-  >
-  Find a Hospital 
-  </Button>
+  // Auto-filter from scan report data passed via location state
+  const scanData = location.state?.scanData;
+  const detectedConditions: string[] = scanData?.detectedConditions || [];
 
   const filtered = hospitals.filter((h) => {
     const matchCity = selectedCity === "All" || h.city === selectedCity;
@@ -39,15 +33,24 @@ const FindHospital = () => {
       h.doctor.toLowerCase().includes(search.toLowerCase()) ||
       h.specialization.toLowerCase().includes(search.toLowerCase());
 
-    // ⭐ AUTO FILTER FROM SCANNED REPORT
+    // Auto filter from scanned report conditions
     const matchReport =
-      !detectedIssue ||
-      h.specialization
-        .toLowerCase()
-        .includes(detectedIssue.toLowerCase());
-    
+      detectedConditions.length === 0 ||
+      detectedConditions.some((cond) =>
+        h.specialization.toLowerCase().includes(cond.toLowerCase())
+      );
+
     return matchCity && matchSearch && matchReport;
   });
+
+  const handleBookAppointment = (hospital: Hospital) => {
+    setBookingHospital(hospital);
+    if (!user) {
+      navigate("/auth");
+    } else {
+      navigate("/book-appointment");
+    }
+  };
 
   return (
     <div className="min-h-screen bg-background">
@@ -66,6 +69,18 @@ const FindHospital = () => {
           </AnimatedSection>
         </div>
       </section>
+
+      {/* Scan data banner */}
+      {detectedConditions.length > 0 && (
+        <section className="py-4 bg-primary/5 border-b border-primary/20">
+          <div className="container mx-auto px-4 text-center">
+            <p className="text-sm text-muted-foreground">
+              Showing hospitals matching your scan results:{" "}
+              <span className="text-primary font-medium">{detectedConditions.join(", ")}</span>
+            </p>
+          </div>
+        </section>
+      )}
 
       {/* Filters */}
       <section className="py-8 bg-secondary border-b border-border">
@@ -120,6 +135,7 @@ const FindHospital = () => {
                       hospital={h}
                       isSelected={selectedHospital === h}
                       onClick={() => setSelectedHospital(h)}
+                      onBook={handleBookAppointment}
                     />
                   </motion.div>
                 ))}
