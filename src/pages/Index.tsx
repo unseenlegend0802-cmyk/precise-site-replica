@@ -4,7 +4,7 @@ import HeroSection from "@/components/HeroSection";
 import LocationsMarquee from "@/components/LocationsMarquee";
 import TreatmentsSection from "@/components/TreatmentsSection";
 import ServicesSection from "@/components/ServicesSection";
-import IraBotSection from "@/components/IraBotSection";
+
 import PatientJourneySection from "@/components/PatientJourneySection";
 import BookAppointmentBanner from "@/components/BookAppointmentBanner";
 import WhyMedaggSection from "@/components/WhyMedaggSection";
@@ -34,9 +34,8 @@ const Index = () => {
       <AnimatedSection>
         <ServicesSection />
       </AnimatedSection>
-      <AnimatedSection direction="left">
-        <IraBotSection />
-      </AnimatedSection>
+
+
       <AnimatedSection>
         <PatientJourneySection />
       </AnimatedSection>
