@@ -14,6 +14,7 @@ import ContactSection from "@/components/ContactSection";
 import FAQSection from "@/components/FAQSection";
 import Footer from "@/components/Footer";
 import AnimatedSection from "@/components/AnimatedSection";
+import DiagnosisCtaSection from "@/components/DiagnosisCtaSection";
 
 const Index = () => {
   return (
@@ -21,6 +22,9 @@ const Index = () => {
       <Header />
       <TreatmentBar />
       <HeroSection />
+      <AnimatedSection>
+        <DiagnosisCtaSection />
+      </AnimatedSection>
       <AnimatedSection>
         <LocationsMarquee />
       </AnimatedSection>
