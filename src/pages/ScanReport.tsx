@@ -13,6 +13,7 @@ import { useToast } from "@/hooks/use-toast";
 import { useAuth } from "@/contexts/AuthContext";
 import { useBooking } from "@/contexts/BookingContext";
 import { Link as RouterLink } from "react-router-dom";
+import { findTreatmentForConditions } from "@/utils/conditionToTreatment";
 
 const ACCEPTED_TYPES = ["application/pdf", "image/jpeg", "image/png"];
 const MAX_FILE_SIZE = 10 * 1024 * 1024;
@@ -368,6 +369,16 @@ const ScanReport = () => {
                       Find a Hospital
                     </Link>
                   </Button>
+                  {(() => {
+                    const matched = findTreatmentForConditions(result.detectedConditions);
+                    return matched ? (
+                      <Button asChild variant="secondary">
+                        <Link to={`/treatment/${matched.slug}`}>
+                          Know About {matched.name}
+                        </Link>
+                      </Button>
+                    ) : null;
+                  })()}
                 </div>
               </motion.div>
             )}
