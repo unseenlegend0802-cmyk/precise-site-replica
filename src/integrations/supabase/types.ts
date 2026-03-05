@@ -14,6 +14,57 @@ export type Database = {
   }
   public: {
     Tables: {
+      appointments: {
+        Row: {
+          appointment_date: string
+          created_at: string
+          doctor_name: string
+          hospital_name: string
+          id: string
+          medical_issue: string | null
+          patient_age: number | null
+          patient_gender: string | null
+          patient_name: string | null
+          patient_phone: string | null
+          status: string
+          time_slot: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          appointment_date: string
+          created_at?: string
+          doctor_name: string
+          hospital_name: string
+          id?: string
+          medical_issue?: string | null
+          patient_age?: number | null
+          patient_gender?: string | null
+          patient_name?: string | null
+          patient_phone?: string | null
+          status?: string
+          time_slot: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          appointment_date?: string
+          created_at?: string
+          doctor_name?: string
+          hospital_name?: string
+          id?: string
+          medical_issue?: string | null
+          patient_age?: number | null
+          patient_gender?: string | null
+          patient_name?: string | null
+          patient_phone?: string | null
+          status?: string
+          time_slot?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       profiles: {
         Row: {
           age: number | null
