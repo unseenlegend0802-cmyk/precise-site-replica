@@ -374,7 +374,7 @@ const ScanReport = () => {
                     return matched ? (
                       <Button asChild variant="secondary">
                         <Link to={`/treatment/${matched.slug}`}>
-                          Know About {matched.name}
+                          Know About Procedure
                         </Link>
                       </Button>
                     ) : null;
