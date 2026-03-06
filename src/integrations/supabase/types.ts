@@ -65,6 +65,95 @@ export type Database = {
         }
         Relationships: []
       }
+      doctor_procedures: {
+        Row: {
+          created_at: string
+          doctor_id: string
+          id: string
+          procedure_count: number | null
+          procedure_name: string
+          procedure_slug: string | null
+          success_rate: number | null
+        }
+        Insert: {
+          created_at?: string
+          doctor_id: string
+          id?: string
+          procedure_count?: number | null
+          procedure_name: string
+          procedure_slug?: string | null
+          success_rate?: number | null
+        }
+        Update: {
+          created_at?: string
+          doctor_id?: string
+          id?: string
+          procedure_count?: number | null
+          procedure_name?: string
+          procedure_slug?: string | null
+          success_rate?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "doctor_procedures_doctor_id_fkey"
+            columns: ["doctor_id"]
+            isOneToOne: false
+            referencedRelation: "doctors"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      doctors: {
+        Row: {
+          avg_recovery_time: string | null
+          bio: string | null
+          complication_rate: number | null
+          created_at: string
+          experience: string | null
+          id: string
+          image_url: string | null
+          languages: string[] | null
+          name: string
+          overall_success_rate: number | null
+          qualification: string | null
+          slug: string
+          specialization: string | null
+          updated_at: string
+        }
+        Insert: {
+          avg_recovery_time?: string | null
+          bio?: string | null
+          complication_rate?: number | null
+          created_at?: string
+          experience?: string | null
+          id?: string
+          image_url?: string | null
+          languages?: string[] | null
+          name: string
+          overall_success_rate?: number | null
+          qualification?: string | null
+          slug: string
+          specialization?: string | null
+          updated_at?: string
+        }
+        Update: {
+          avg_recovery_time?: string | null
+          bio?: string | null
+          complication_rate?: number | null
+          created_at?: string
+          experience?: string | null
+          id?: string
+          image_url?: string | null
+          languages?: string[] | null
+          name?: string
+          overall_success_rate?: number | null
+          qualification?: string | null
+          slug?: string
+          specialization?: string | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
       profiles: {
         Row: {
           age: number | null
