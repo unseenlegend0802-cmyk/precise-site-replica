@@ -7,6 +7,9 @@ export interface TreatmentDetail {
   howItWorks: string;
   recoveryTime: string;
   successRate: string;
+  costRange?: string;
+  hospitalStay?: string;
+  insuranceEligible?: boolean;
 }
 
 export const treatmentDetails: TreatmentDetail[] = [
@@ -19,6 +22,9 @@ export const treatmentDetails: TreatmentDetail[] = [
     howItWorks: "A tiny catheter is guided through the blood vessels to the prostate arteries. Small particles are injected to block blood flow, causing the prostate to shrink over time.",
     recoveryTime: "1–2 days",
     successRate: "85–90%",
+    costRange: "₹1.5L – ₹3L",
+    hospitalStay: "1 day",
+    insuranceEligible: true,
   },
   {
     slug: "genicular-artery-embolization",
@@ -29,6 +35,9 @@ export const treatmentDetails: TreatmentDetail[] = [
     howItWorks: "Tiny particles are delivered through a catheter to block abnormal blood vessels around the knee that contribute to inflammation and pain.",
     recoveryTime: "1–2 days",
     successRate: "80–85%",
+    costRange: "₹1L – ₹2.5L",
+    hospitalStay: "Day care",
+    insuranceEligible: true,
   },
   {
     slug: "thyroid-nodule-ablation",
@@ -39,6 +48,9 @@ export const treatmentDetails: TreatmentDetail[] = [
     howItWorks: "A thin needle is inserted into the thyroid nodule under ultrasound guidance. Radiofrequency or laser energy is applied to destroy the nodule tissue.",
     recoveryTime: "Same day",
     successRate: "90–95%",
+    costRange: "₹80K – ₹1.5L",
+    hospitalStay: "Day care",
+    insuranceEligible: true,
   },
   {
     slug: "varicocele-embolization",
@@ -49,6 +61,9 @@ export const treatmentDetails: TreatmentDetail[] = [
     howItWorks: "A catheter is guided to the affected veins, and small coils or a sclerosing agent are used to block blood flow in the enlarged veins.",
     recoveryTime: "1–2 days",
     successRate: "90–95%",
+    costRange: "₹80K – ₹1.5L",
+    hospitalStay: "Day care",
+    insuranceEligible: true,
   },
   {
     slug: "fallopian-tube-recanalization",
@@ -59,6 +74,9 @@ export const treatmentDetails: TreatmentDetail[] = [
     howItWorks: "A thin catheter and guidewire are passed through the cervix and uterus to the blocked fallopian tube to gently open the blockage.",
     recoveryTime: "Same day",
     successRate: "70–85%",
+    costRange: "₹50K – ₹1L",
+    hospitalStay: "Day care",
+    insuranceEligible: true,
   },
   {
     slug: "uterine-artery-embolization",
@@ -69,6 +87,9 @@ export const treatmentDetails: TreatmentDetail[] = [
     howItWorks: "Tiny particles are injected through a catheter into the uterine arteries, blocking blood flow to the fibroids and causing them to shrink.",
     recoveryTime: "1–2 weeks",
     successRate: "85–90%",
+    costRange: "₹1.5L – ₹3L",
+    hospitalStay: "1–2 days",
+    insuranceEligible: true,
   },
   {
     slug: "breast-nodule-vae",
@@ -79,6 +100,9 @@ export const treatmentDetails: TreatmentDetail[] = [
     howItWorks: "A small probe is inserted through a tiny skin incision. Vacuum suction and a rotating blade remove the nodule tissue in a controlled manner.",
     recoveryTime: "1–2 days",
     successRate: "95%+",
+    costRange: "₹60K – ₹1.2L",
+    hospitalStay: "Day care",
+    insuranceEligible: true,
   },
   {
     slug: "breast-nodule-cryoablation",
@@ -89,6 +113,9 @@ export const treatmentDetails: TreatmentDetail[] = [
     howItWorks: "A cryoprobe is inserted into the nodule under imaging guidance. The tissue is frozen, causing the cells to die and the nodule to be gradually absorbed.",
     recoveryTime: "Same day",
     successRate: "90–95%",
+    costRange: "₹70K – ₹1.5L",
+    hospitalStay: "Day care",
+    insuranceEligible: false,
   },
   {
     slug: "breast-nodule-radiofrequency-ablation",
@@ -99,6 +126,9 @@ export const treatmentDetails: TreatmentDetail[] = [
     howItWorks: "A thin electrode is inserted into the nodule. Radiofrequency energy heats and destroys the abnormal tissue while preserving surrounding breast tissue.",
     recoveryTime: "Same day",
     successRate: "90–95%",
+    costRange: "₹60K – ₹1.2L",
+    hospitalStay: "Day care",
+    insuranceEligible: true,
   },
   {
     slug: "plantar-fasciitis-embolization",
@@ -109,6 +139,9 @@ export const treatmentDetails: TreatmentDetail[] = [
     howItWorks: "A catheter is used to deliver tiny particles that block the abnormal blood vessels feeding the inflamed plantar fascia tissue.",
     recoveryTime: "1–2 days",
     successRate: "80–85%",
+    costRange: "₹80K – ₹1.5L",
+    hospitalStay: "Day care",
+    insuranceEligible: true,
   },
   {
     slug: "endovenous-ablation",
@@ -119,6 +152,9 @@ export const treatmentDetails: TreatmentDetail[] = [
     howItWorks: "A thin fiber or catheter is inserted into the affected vein. Heat energy seals the vein shut, and blood naturally reroutes through healthy veins.",
     recoveryTime: "Same day",
     successRate: "95–98%",
+    costRange: "₹60K – ₹1.5L",
+    hospitalStay: "Day care",
+    insuranceEligible: true,
   },
   {
     slug: "endovascular-recanalization-stenting",
@@ -129,6 +165,9 @@ export const treatmentDetails: TreatmentDetail[] = [
     howItWorks: "A catheter with a balloon is used to open blocked leg arteries. A stent may be placed to keep the artery open and maintain blood flow.",
     recoveryTime: "2–3 days",
     successRate: "80–90%",
+    costRange: "₹2L – ₹5L",
+    hospitalStay: "2–3 days",
+    insuranceEligible: true,
   },
   {
     slug: "adhesive-capsulitis-embolization",
@@ -139,6 +178,9 @@ export const treatmentDetails: TreatmentDetail[] = [
     howItWorks: "Tiny particles are delivered through a catheter to block the abnormal blood vessels causing inflammation in the shoulder joint capsule.",
     recoveryTime: "1–2 days",
     successRate: "80–85%",
+    costRange: "₹1L – ₹2L",
+    hospitalStay: "Day care",
+    insuranceEligible: true,
   },
 ];
 

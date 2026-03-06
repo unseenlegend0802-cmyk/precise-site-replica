@@ -1,14 +1,15 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
 import vinayagamaniImg from "@/assets/doctors/vinayagamani.png";
 import balajiImg from "@/assets/doctors/balaji.png";
 import saileshImg from "@/assets/doctors/sailesh.png";
 import bhavaniImg from "@/assets/doctors/bhavani.png";
 
 const allDoctors = [
-  { name: "Dr. Vinayagamani", qual: "MBBS, DMRD, DNB", spec: "Interventional Radiology", city: "Madurai", img: vinayagamaniImg },
-  { name: "Dr. Balaji Patel Kola", qual: "MBBS, DMRD, DNB", spec: "Interventional Radiology", city: "Hyderabad", img: balajiImg },
-  { name: "Dr. Sailesh Kumar Garge", qual: "MBBS, DMRD, DNB", spec: "Interventional Radiology", city: "Hyderabad", img: saileshImg },
-  { name: "Dr. Bhavani Shankar", qual: "MBBS, DMRD, DNB", spec: "Interventional Radiology", city: "Vijayawada", img: bhavaniImg },
+  { name: "Dr. Vinayagamani", slug: "dr-vinayagamani", qual: "MBBS, DMRD, DNB", spec: "Interventional Radiology", city: "Madurai", img: vinayagamaniImg },
+  { name: "Dr. Balaji Patel Kola", slug: "dr-balaji-patel-kola", qual: "MBBS, DMRD, DNB", spec: "Interventional Radiology", city: "Hyderabad", img: balajiImg },
+  { name: "Dr. Sailesh Kumar Garge", slug: "dr-sailesh-kumar-garge", qual: "MBBS, DMRD, DNB", spec: "Interventional Radiology", city: "Hyderabad", img: saileshImg },
+  { name: "Dr. Bhavani Shankar", slug: "dr-bhavani-shankar-manam", qual: "MBBS, DMRD, DNB", spec: "Interventional Radiology", city: "Vijayawada", img: bhavaniImg },
 ];
 
 const DoctorsSection = () => {
@@ -27,9 +28,10 @@ const DoctorsSection = () => {
 
         <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {visible.map((d, i) => (
-            <div
+            <Link
               key={i}
-              className="bg-card-gradient rounded-xl border border-border overflow-hidden group hover:border-primary/50 transition-all duration-300"
+              to={`/doctor/${d.slug}`}
+              className="bg-card-gradient rounded-xl border border-border overflow-hidden group hover:border-primary/50 transition-all duration-300 block"
             >
               <div className="aspect-[3/4] overflow-hidden bg-muted">
                 <img
@@ -43,14 +45,11 @@ const DoctorsSection = () => {
                 <p className="text-xs text-muted-foreground">{d.qual}</p>
                 <p className="text-xs text-primary">{d.spec}</p>
                 <p className="text-xs text-muted-foreground">{d.city}</p>
-                <a
-                  href="#contact"
-                  className="inline-block mt-2 text-xs bg-primary text-primary-foreground px-4 py-1.5 rounded-md font-medium hover:opacity-90"
-                >
-                  Book Appointment →
-                </a>
+                <span className="inline-block mt-2 text-xs bg-primary text-primary-foreground px-4 py-1.5 rounded-md font-medium hover:opacity-90">
+                  View Profile →
+                </span>
               </div>
-            </div>
+            </Link>
           ))}
         </div>
 
