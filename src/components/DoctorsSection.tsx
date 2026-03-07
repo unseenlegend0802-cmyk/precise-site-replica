@@ -4,12 +4,14 @@ import vinayagamaniImg from "@/assets/doctors/vinayagamani.png";
 import balajiImg from "@/assets/doctors/balaji.png";
 import saileshImg from "@/assets/doctors/sailesh.png";
 import bhavaniImg from "@/assets/doctors/bhavani.png";
+import AbhishekbansalImg from "@/assets/doctors/Abhishekbansal.png"
 
 const allDoctors = [
   { name: "Dr. Vinayagamani", slug: "dr-vinayagamani", qual: "MBBS, DMRD, DNB", spec: "Interventional Radiology", city: "Madurai", img: vinayagamaniImg },
   { name: "Dr. Balaji Patel Kola", slug: "dr-balaji-patel-kola", qual: "MBBS, DMRD, DNB", spec: "Interventional Radiology", city: "Hyderabad", img: balajiImg },
   { name: "Dr. Sailesh Kumar Garge", slug: "dr-sailesh-kumar-garge", qual: "MBBS, DMRD, DNB", spec: "Interventional Radiology", city: "Hyderabad", img: saileshImg },
   { name: "Dr. Bhavani Shankar", slug: "dr-bhavani-shankar-manam", qual: "MBBS, DMRD, DNB", spec: "Interventional Radiology", city: "Vijayawada", img: bhavaniImg },
+  { name: "Dr. Abhishek Bansal", slug: "dr-Abhishek-Bansal", qual: "MBBS, DMRD, DNB", spec: "Interventional Radiology", city: "Delhi", img: AbhishekbansalImg}
 ];
 
 const DoctorsSection = () => {
