@@ -37,10 +37,14 @@ const HospitalCard = ({ hospital: h, isSelected, onClick, onBook, className = ""
             <Badge variant="secondary" className="shrink-0">{h.city}</Badge>
           </div>
 
-          <div className="flex items-center gap-2 text-primary font-medium">
+          <Link
+            to={`/doctor/${h.doctor.toLowerCase().replace(/\.\s*/g, "").replace(/\s+/g, "-")}`}
+            onClick={(e) => e.stopPropagation()}
+            className="flex items-center gap-2 text-primary font-medium hover:underline"
+          >
             <Stethoscope className="w-4 h-4" />
             {h.doctor}
-          </div>
+          </Link>
 
           <div className="flex items-center gap-2 text-sm text-muted-foreground">
             <Stethoscope className="w-4 h-4 text-primary" />
