@@ -38,7 +38,7 @@ const HospitalCard = ({ hospital: h, isSelected, onClick, onBook, className = ""
           </div>
 
           <Link
-            to={`/doctor/${h.doctor.toLowerCase().replace(/\.\s*/g, "").replace(/\s+/g, "-")}`}
+            to={`/doctor/${h.doctor.toLowerCase().replace(/\./g, "").replace(/\s+/g, "-")}`}
             onClick={(e) => e.stopPropagation()}
             className="flex items-center gap-2 text-primary font-medium hover:underline"
           >
