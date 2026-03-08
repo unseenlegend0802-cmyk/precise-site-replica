@@ -79,7 +79,7 @@ const FindHospital = () => {
       <section className="py-8 bg-secondary border-b border-border">
         <div className="container mx-auto px-4">
           <div className="flex flex-col sm:flex-row gap-4 items-center">
-            <div className="relative flex-1 max-w-md">
+            <div className="relative flex-1 max-w-2xl">
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
               <Input
                 placeholder="Search hospital, doctor, or specialization..."
