@@ -57,6 +57,11 @@ const DoctorRegister = () => {
 
       // If user is already logged in (came from invite email), skip password step
       if (user) {
+        // Upgrade role to doctor immediately for logged-in users
+        await supabase
+          .from("user_roles")
+          .update({ role: "doctor" as any })
+          .eq("user_id", user.id);
         setStep("profile");
       } else {
         setStep("set_password");
