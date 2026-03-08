@@ -7,7 +7,6 @@ import TreatmentBar from "@/components/TreatmentBar";
 import Footer from "@/components/Footer";
 import ProcedurePathway from "@/components/ProcedurePathway";
 import { ArrowLeft, MapPin, Clock, Award, ShieldCheck, Heart, TrendingUp, Star, Globe } from "lucide-react";
-import { resolveDoctorImage } from "@/utils/doctorImages";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
@@ -113,8 +112,8 @@ const DoctorProfile = () => {
             <div className="flex flex-col md:flex-row gap-6 p-6">
               {/* Photo */}
               <div className="w-40 h-40 md:w-48 md:h-48 rounded-xl overflow-hidden bg-muted shrink-0 mx-auto md:mx-0">
-                {resolveDoctorImage(doctor.image_url) ? (
-                  <img src={resolveDoctorImage(doctor.image_url)!} alt={doctor.name} className="w-full h-full object-cover" />
+                {doctor.image_url ? (
+                  <img src={doctor.image_url} alt={doctor.name} className="w-full h-full object-cover" />
                 ) : (
                   <div className="w-full h-full flex items-center justify-center text-4xl font-bold text-primary">
                     {doctor.name.split(" ").map(n => n[0]).join("").slice(0, 2)}
