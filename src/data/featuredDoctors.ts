@@ -14,6 +14,7 @@ import abhishekBansalImg from "@/assets/doctors/Abhishekbansal.png";
 import AmolNagvekarImg from "@/assets/doctors/AmolNagvekar.png";
 import AnildevaraImg from "@/assets/doctors/Anildevara.png";
 import ArulArokiaImg from "@/assets/doctors/ArulArokia.png";
+import BhaskarMVImg from "@/assets/doctors/BhaskarMV.png";
 
 export interface FeaturedDoctor {
   name: string;
@@ -88,5 +89,13 @@ export const featuredDoctors: FeaturedDoctor[] = [
     specialization: "Interventional Radiologist",
     city: "Chennai",
     image: ArulArokiaImg,
+  },
+   {
+    name: "Dr. Bhaskar M V",
+    slug: "dr-bhaskar-m-v",
+    qualification: "MBBS, MD Radio Diagnosis, DNB Radio Diagnosis, DM Neuroimaging and Interventional Radiology, FRCR",
+    specialization: "Interventional Radiologist, Neuroradiologist, Radiologist",
+    city: "Bangalore",
+    image: BhaskarMVImg,
   },
 ];
