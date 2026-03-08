@@ -71,10 +71,27 @@ const timeline = [
 ];
 
 const stats = [
-  { value: "5000+", label: "Patients Helped" },
-  { value: "8000+", label: "Consultations Booked" },
-  { value: "₹25,000", label: "Average Patient Savings" },
+  { icon: Heart, value: 2500, prefix: "", suffix: "+", label: "Patients Helped" },
+  { icon: CalendarDays, value: 5000, prefix: "", suffix: "+", label: "Consultations Booked" },
+  { icon: IndianRupee, value: 50000, prefix: "₹", suffix: "", label: "Average Patient Savings" },
 ];
+
+const useCountUp = (target: number, duration = 2000, start = false) => {
+  const [count, setCount] = useState(0);
+  useEffect(() => {
+    if (!start) return;
+    let startTime: number | null = null;
+    const step = (timestamp: number) => {
+      if (!startTime) startTime = timestamp;
+      const progress = Math.min((timestamp - startTime) / duration, 1);
+      const eased = 1 - Math.pow(1 - progress, 3); // ease-out cubic
+      setCount(Math.floor(eased * target));
+      if (progress < 1) requestAnimationFrame(step);
+    };
+    requestAnimationFrame(step);
+  }, [target, duration, start]);
+  return count;
+};
 
 const About = () => {
   const [videoPlaying, setVideoPlaying] = useState(false);
