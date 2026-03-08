@@ -2,6 +2,7 @@ import { useParams, Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { hospitals } from "@/data/hospitals";
+import { featuredDoctors } from "@/data/featuredDoctors";
 import Header from "@/components/Header";
 import TreatmentBar from "@/components/TreatmentBar";
 import Footer from "@/components/Footer";
@@ -43,6 +44,7 @@ const DoctorProfile = () => {
   useEffect(() => {
     if (!slug) return;
     const load = async () => {
+      // Try database first
       const { data: doc } = await supabase
         .from("doctors")
         .select("*")
@@ -56,6 +58,25 @@ const DoctorProfile = () => {
           .select("*")
           .eq("doctor_id", doc.id);
         setProcedures((procs as DoctorProcedure[]) || []);
+      } else {
+        // Fallback: build a basic profile from featuredDoctors data
+        const featured = featuredDoctors.find((d) => d.slug === slug);
+        if (featured) {
+          setDoctor({
+            id: "",
+            slug: featured.slug,
+            name: featured.name,
+            qualification: featured.qualification,
+            specialization: featured.specialization,
+            experience: "",
+            bio: "",
+            image_url: featured.image,
+            overall_success_rate: 0,
+            complication_rate: 0,
+            avg_recovery_time: "",
+            languages: [],
+          });
+        }
       }
       setLoading(false);
     };
