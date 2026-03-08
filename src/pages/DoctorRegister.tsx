@@ -88,7 +88,6 @@ const DoctorRegister = () => {
       const { error } = await supabase.auth.updateUser({ password });
       if (error) throw error;
 
-      // Assign doctor role
       const { data: { user: currentUser } } = await supabase.auth.getUser();
       if (currentUser) {
         // Update user_roles from patient to doctor
@@ -96,6 +95,7 @@ const DoctorRegister = () => {
           .from("user_roles")
           .update({ role: "doctor" as any })
           .eq("user_id", currentUser.id);
+        await refreshRole();
       }
 
       setStep("profile");
