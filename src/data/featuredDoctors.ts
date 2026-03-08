@@ -165,7 +165,7 @@ export const featuredDoctors: FeaturedDoctor[] = [
   },
   {
     name: "Dr. Karthikeyan M A",
-    slug: "dr-Karthikeyan-m-a",
+    slug: "dr-karthikeyan-m-a",
     qualification: "MBBS.,MD.,DrNB(EVIR).,EBIR",
     specialization: "Interventional Radiologist",
     city: "Salem",
