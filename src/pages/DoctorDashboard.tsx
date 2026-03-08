@@ -23,6 +23,7 @@ const DoctorDashboard = () => {
   const [loadingData, setLoadingData] = useState(true);
   const [appointments, setAppointments] = useState<any[]>([]);
   const [doctorRecord, setDoctorRecord] = useState<any>(null);
+  const [activeTab, setActiveTab] = useState("appointments");
 
   useEffect(() => {
     if (!authLoading && !user) navigate("/auth", { replace: true });
