@@ -43,6 +43,7 @@ import VivekMavaniImg from "@/assets/doctors/VivekMavani.png";
 import ankitaroraImg from "@/assets/doctors/ankitarora.png";
 import RajeshhelavarImg from "@/assets/doctors/Rajeshhelavar.png";
 import uthappaImg from "@/assets/doctors/uthappa.png";
+import kaurabhizadeImg from "@/assets/doctors/kaurabhizade.png";
 
 export interface FeaturedDoctor {
   name: string;
@@ -349,5 +350,13 @@ export const featuredDoctors: FeaturedDoctor[] = [
     specialization: "Interventional Radiologist",
     city: "Bangaluru",
     image: RajeshhelavarImg,
+  },
+  {
+    name: "Dr. Kaurabhi Zade",
+    slug: "dr-kaurabhi-zade",
+    qualification: "MBBS, DIP(Radio Diagnosis), DNB, EDSI, EBIR",
+    specialization: "Interventional Radiologist",
+    city: "Pune",
+    image: kaurabhizadeImg,
   },
 ];
