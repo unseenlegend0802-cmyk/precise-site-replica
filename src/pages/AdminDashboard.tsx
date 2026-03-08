@@ -83,6 +83,7 @@ const AdminDashboard = () => {
       totalDoctors: docs.length,
     });
     setDoctors(docs);
+    setInvites(invitesRes.data || []);
     if (docs.length > 0 && !selectedDoctor) setSelectedDoctor(docs[0]);
     setLoadingData(false);
   };
