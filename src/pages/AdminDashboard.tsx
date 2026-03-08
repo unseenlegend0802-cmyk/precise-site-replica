@@ -67,11 +67,12 @@ const AdminDashboard = () => {
     const now = new Date();
     const startOfMonth = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}-01`;
 
-    const [allAppts, monthlyAppts, profilesRes, doctorsRes] = await Promise.all([
+    const [allAppts, monthlyAppts, profilesRes, doctorsRes, invitesRes] = await Promise.all([
       supabase.from("appointments").select("id", { count: "exact", head: true }),
       supabase.from("appointments").select("id", { count: "exact", head: true }).gte("appointment_date", startOfMonth),
       supabase.from("profiles").select("id", { count: "exact", head: true }),
       supabase.from("doctors").select("id, name, slug, specialization, qualification, image_url, hospital_name, consultation_fee, experience, bio, email, languages").order("created_at", { ascending: false }),
+      supabase.from("doctor_invites").select("*").order("created_at", { ascending: false }),
     ]);
 
     const docs = (doctorsRes.data as DoctorRow[]) || [];
