@@ -1,9 +1,13 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { supabase } from "@/integrations/supabase/client";
 import { useBooking } from "@/contexts/BookingContext";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Separator } from "@/components/ui/separator";
 import { useToast } from "@/hooks/use-toast";
-import { Loader2 } from "lucide-react";
+import { Loader2, Mail } from "lucide-react";
 import { lovable } from "@/integrations/lovable/index";
 
 const UserLoginTab = () => {
@@ -11,6 +15,14 @@ const UserLoginTab = () => {
   const { toast } = useToast();
   const { hasPendingBooking } = useBooking();
   const [loading, setLoading] = useState(false);
+
+  // Email OTP state
+  const [showEmailForm, setShowEmailForm] = useState(false);
+  const [email, setEmail] = useState("");
+  const [otp, setOtp] = useState("");
+  const [otpSent, setOtpSent] = useState(false);
+
+  const redirectAfterAuth = hasPendingBooking ? "/book-appointment" : "/dashboard";
 
   const handleGoogleSignIn = async () => {
     setLoading(true);
@@ -23,12 +35,42 @@ const UserLoginTab = () => {
     }
   };
 
+  const handleSendOtp = async () => {
+    if (!email) return;
+    setLoading(true);
+    try {
+      const { error } = await supabase.auth.signInWithOtp({ email });
+      if (error) throw error;
+      setOtpSent(true);
+      toast({ title: "OTP Sent", description: "Check your email for the 6-digit code." });
+    } catch (err: any) {
+      toast({ title: "Error", description: err.message, variant: "destructive" });
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleVerifyOtp = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setLoading(true);
+    try {
+      const { error } = await supabase.auth.verifyOtp({ email, token: otp, type: "email" });
+      if (error) throw error;
+      navigate(redirectAfterAuth);
+    } catch (err: any) {
+      toast({ title: "Error", description: err.message, variant: "destructive" });
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <div className="space-y-5">
       <p className="text-sm text-muted-foreground text-center">
         For patients & doctors
       </p>
 
+      {/* Google Sign-In */}
       <Button
         variant="outline"
         className="w-full flex items-center gap-3 h-11"
@@ -47,6 +89,66 @@ const UserLoginTab = () => {
         )}
         Continue with Google
       </Button>
+
+      <div className="flex items-center gap-3">
+        <Separator className="flex-1" />
+        <span className="text-xs text-muted-foreground">OR</span>
+        <Separator className="flex-1" />
+      </div>
+
+      {/* Email OTP */}
+      {!showEmailForm ? (
+        <Button
+          variant="outline"
+          className="w-full flex items-center gap-3 h-11"
+          onClick={() => setShowEmailForm(true)}
+          disabled={loading}
+        >
+          <Mail className="w-5 h-5" />
+          Continue with Email OTP
+        </Button>
+      ) : !otpSent ? (
+        <div className="space-y-4">
+          <div className="space-y-2">
+            <Label htmlFor="user-email">Email Address</Label>
+            <Input
+              id="user-email"
+              type="email"
+              placeholder="you@example.com"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+            />
+          </div>
+          <Button className="w-full" onClick={handleSendOtp} disabled={loading || !email}>
+            {loading && <Loader2 className="w-4 h-4 mr-2 animate-spin" />} Send OTP
+          </Button>
+          <Button variant="ghost" className="w-full text-xs" onClick={() => setShowEmailForm(false)}>
+            Back
+          </Button>
+        </div>
+      ) : (
+        <form onSubmit={handleVerifyOtp} className="space-y-4">
+          <p className="text-sm text-muted-foreground text-center">
+            OTP sent to <span className="font-medium text-foreground">{email}</span>
+          </p>
+          <div className="space-y-2">
+            <Label htmlFor="user-otp">Enter OTP</Label>
+            <Input
+              id="user-otp"
+              value={otp}
+              onChange={(e) => setOtp(e.target.value)}
+              maxLength={6}
+              placeholder="6-digit code"
+            />
+          </div>
+          <Button type="submit" className="w-full" disabled={loading}>
+            {loading && <Loader2 className="w-4 h-4 mr-2 animate-spin" />} Verify & Sign In
+          </Button>
+          <Button type="button" variant="ghost" className="w-full text-xs" onClick={() => { setOtpSent(false); setOtp(""); }}>
+            Resend OTP
+          </Button>
+        </form>
+      )}
     </div>
   );
 };
