@@ -134,7 +134,7 @@ const PatientDashboard = () => {
           </motion.div>
 
           {/* Quick Stats */}
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-6">
+          <div className="grid grid-cols-2 gap-4 mb-6">
             <Card>
               <CardContent className="p-4 flex items-center gap-3">
                 <Calendar className="w-8 h-8 text-primary" />
