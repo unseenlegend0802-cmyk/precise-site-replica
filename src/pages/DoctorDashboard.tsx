@@ -17,7 +17,7 @@ import ConsultationNotesTab from "@/components/dashboard/doctor/ConsultationNote
 import AvailabilityTab from "@/components/dashboard/doctor/AvailabilityTab";
 
 const DoctorDashboard = () => {
-  const { user, loading: authLoading, signOut, roleLoading } = useAuth();
+  const { user, loading: authLoading, signOut, roleLoading, role } = useAuth();
   const navigate = useNavigate();
   const { toast } = useToast();
   const [loadingData, setLoadingData] = useState(true);
@@ -110,6 +110,11 @@ const DoctorDashboard = () => {
               </p>
             </div>
             <div className="flex items-center gap-3">
+              {role === "admin" && (
+                <Button variant="outline" onClick={() => navigate("/admin-dashboard")} className="gap-2">
+                  <Users className="w-4 h-4" /> Admin Dashboard
+                </Button>
+              )}
               <Button variant={activeTab === "profile" ? "default" : "outline"} onClick={() => setActiveTab("profile")} className="gap-2">
                 <User className="w-4 h-4" /> Profile
               </Button>
