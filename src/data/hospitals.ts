@@ -353,7 +353,7 @@ export const hospitals: Hospital[] = [
   {
     name: "Sahyadri Hospital (Hadapsar)",
     doctor: "Dr. Kaurabhi Zade",
-    qualification: "MBBS, MD (Radiology)",
+    qualification: "MBBS, DIP(Radio Diagnosis), DNB, EDSI, EBIR",
     specialization: "Interventional Radiology",
     experience: "10+ years",
     city: "Pune",
@@ -365,7 +365,7 @@ export const hospitals: Hospital[] = [
   {
     name: "Sahyadri Hospital (Deccan Gymkhana)",
     doctor: "Dr. Kaurabhi Zade",
-    qualification: "MBBS, MD (Radiology)",
+    qualification: "MBBS, DIP(Radio Diagnosis), DNB, EDSI, EBIR",
     specialization: "Interventional Radiology",
     experience: "10+ years",
     city: "Pune",
