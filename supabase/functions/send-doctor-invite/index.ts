@@ -82,19 +82,48 @@ Deno.serve(async (req) => {
       throw insertError;
     }
 
-    // Send invitation email via Supabase Auth invite
-    // This creates a user account and sends a confirmation email
+    const redirectTo = `https://medagg-1.lovable.app/doctor-register?token=${invite.invite_token}`;
+
+    // Try inviting the user (works for new users)
     const { error: inviteError } = await adminClient.auth.admin.inviteUserByEmail(doctorEmail, {
       data: {
         full_name: doctorName,
         invite_token: invite.invite_token,
         role: "doctor",
       },
-      redirectTo: `https://medagg-1.lovable.app/doctor-register?token=${invite.invite_token}`,
+      redirectTo,
     });
 
     if (inviteError) {
-      // Clean up the invite if email fails
+      // If user already exists (e.g. resend), generate a magic link instead
+      if (inviteError.message?.includes("already been registered") || 
+          inviteError.message?.includes("already exists") ||
+          inviteError.status === 422) {
+        const { error: magicError } = await adminClient.auth.admin.generateLink({
+          type: "magiclink",
+          email: doctorEmail,
+          options: {
+            redirectTo,
+            data: {
+              full_name: doctorName,
+              invite_token: invite.invite_token,
+              role: "doctor",
+            },
+          },
+        });
+
+        if (magicError) {
+          await adminClient.from("doctor_invites").delete().eq("invite_token", invite.invite_token);
+          throw magicError;
+        }
+
+        return new Response(
+          JSON.stringify({ success: true, token: invite.invite_token, resent: true }),
+          { status: 200, headers: { ...corsHeaders, "Content-Type": "application/json" } }
+        );
+      }
+
+      // Other errors — clean up and throw
       await adminClient.from("doctor_invites").delete().eq("invite_token", invite.invite_token);
       throw inviteError;
     }
