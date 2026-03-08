@@ -18,6 +18,7 @@ import Dashboard from "./pages/Dashboard";
 import ResetPassword from "./pages/ResetPassword";
 import BookAppointment from "./pages/BookAppointment";
 import DoctorProfile from "./pages/DoctorProfile";
+import BlogPost from "./pages/BlogPost";
 
 const queryClient = new QueryClient();
 
