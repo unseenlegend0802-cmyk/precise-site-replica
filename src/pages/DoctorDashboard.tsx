@@ -23,6 +23,7 @@ const DoctorDashboard = () => {
   const [loadingData, setLoadingData] = useState(true);
   const [appointments, setAppointments] = useState<any[]>([]);
   const [doctorRecord, setDoctorRecord] = useState<any>(null);
+  const [activeTab, setActiveTab] = useState("appointments");
 
   useEffect(() => {
     if (!authLoading && !user) navigate("/auth", { replace: true });
@@ -108,18 +109,20 @@ const DoctorDashboard = () => {
                 {doctorRecord?.specialization || user?.email}
               </p>
             </div>
-            <Button variant="outline" onClick={async () => { await signOut(); navigate("/"); }} className="gap-2">
-              <LogOut className="w-4 h-4" /> Sign Out
-            </Button>
+            <div className="flex items-center gap-3">
+              <Button variant={activeTab === "profile" ? "default" : "outline"} onClick={() => setActiveTab("profile")} className="gap-2">
+                <User className="w-4 h-4" /> Profile
+              </Button>
+              <Button variant="outline" onClick={async () => { await signOut(); navigate("/"); }} className="gap-2">
+                <LogOut className="w-4 h-4" /> Sign Out
+              </Button>
+            </div>
           </motion.div>
 
-          <Tabs defaultValue="appointments" className="mt-2">
+          <Tabs value={activeTab} onValueChange={setActiveTab} className="mt-2">
             <TabsList className="mb-6 flex-wrap h-auto gap-1">
               <TabsTrigger value="appointments" className="gap-2">
                 <Calendar className="w-4 h-4" /> Appointments ({upcomingCount})
-              </TabsTrigger>
-              <TabsTrigger value="profile" className="gap-2">
-                <User className="w-4 h-4" /> Profile
               </TabsTrigger>
               <TabsTrigger value="reports" className="gap-2">
                 <FileText className="w-4 h-4" /> Patient Reports
