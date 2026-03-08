@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from "react";
-import { ChevronDown, Menu, X } from "lucide-react";
+import { ChevronDown, ChevronLeft, ChevronRight, Menu, X } from "lucide-react";
 import { Link } from "react-router-dom";
 
 const treatments = [
@@ -24,6 +24,9 @@ const TreatmentBar = () => {
   const [openIndex, setOpenIndex] = useState<number | null>(null);
   const [mobileOpen, setMobileOpen] = useState(false);
   const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const scrollRef = useRef<HTMLDivElement>(null);
+  const [canScrollLeft, setCanScrollLeft] = useState(false);
+  const [canScrollRight, setCanScrollRight] = useState(false);
 
   const handleMouseEnter = (i: number) => {
     if (timeoutRef.current) clearTimeout(timeoutRef.current);
@@ -34,63 +37,111 @@ const TreatmentBar = () => {
     timeoutRef.current = setTimeout(() => setOpenIndex(null), 150);
   };
 
+  const checkScroll = () => {
+    const el = scrollRef.current;
+    if (!el) return;
+    setCanScrollLeft(el.scrollLeft > 0);
+    setCanScrollRight(el.scrollLeft < el.scrollWidth - el.clientWidth - 1);
+  };
+
+  const scroll = (dir: "left" | "right") => {
+    const el = scrollRef.current;
+    if (!el) return;
+    el.scrollBy({ left: dir === "left" ? -200 : 200, behavior: "smooth" });
+  };
+
   useEffect(() => {
-    return () => { if (timeoutRef.current) clearTimeout(timeoutRef.current); };
+    checkScroll();
+    const el = scrollRef.current;
+    if (el) el.addEventListener("scroll", checkScroll);
+    window.addEventListener("resize", checkScroll);
+    return () => {
+      if (timeoutRef.current) clearTimeout(timeoutRef.current);
+      if (el) el.removeEventListener("scroll", checkScroll);
+      window.removeEventListener("resize", checkScroll);
+    };
   }, []);
 
   return (
-    <> 
-      {/* Desktop navbar */}
-      <div className="hidden lg:block bg-muted/90 backdrop-blur-md border-b border-border sticky top-16 md:top-20 z-40">
-        <div className="container mx-auto px-1 relative">
-          
-            {/* Scroll Wrapper */}
-            <div className="relative">
-              {/* Scrollable Row */}
-              <div className="flex items-center gap-1 py-2 overflow-x-auto scrollbar-hide">
-                
-                {treatments.map((t, i) => (
-                  <div
-                    key={i}
-                    className="relative"
-                    onMouseEnter={() => handleMouseEnter(i)}
-                    onMouseLeave={handleMouseLeave}
-                  >
-                    <button
-                      onClick={() => setOpenIndex(openIndex === i ? null : i)}
-                      className="flex items-center gap-1.5 px-4 py-2 text-sm font-medium text-foreground hover:text-primary bg-transparent transition-all duration-200 whitespace-nowrap"
-                    >
-                      {t.label}
-                      <ChevronDown className={`w-3 h-3 transition-transform duration-300 ${openIndex === i ? "rotate-180" : ""}`} />
-                    </button>
+    <>
+      {/* Desktop navbar — floats over hero */}
+      <div className="hidden lg:block absolute left-0 right-0 z-40" style={{ top: 0 }}>
+        <div className="max-w-6xl mx-auto px-2 relative">
+          {/* Scroll arrows */}
+          {canScrollLeft && (
+            <button
+              onClick={() => scroll("left")}
+              className="absolute left-0 top-1/2 -translate-y-1/2 z-50 bg-secondary/80 hover:bg-secondary text-foreground rounded-full p-1 shadow-md"
+            >
+              <ChevronLeft className="w-4 h-4" />
+            </button>
+          )}
+          {canScrollRight && (
+            <button
+              onClick={() => scroll("right")}
+              className="absolute right-0 top-1/2 -translate-y-1/2 z-50 bg-secondary/80 hover:bg-secondary text-foreground rounded-full p-1 shadow-md"
+            >
+              <ChevronRight className="w-4 h-4" />
+            </button>
+          )}
 
-                    {/* Dropdown with smooth animation */}
-                    <div
-                      className={`absolute left-0 top-full w-full bg-background shadow-lg z-40 border-t transform transition-all duration-300 ${
-                        openIndex === i
-                          ? "opacity-100 translate-y-0 pointer-events-auto"
-                          : "opacity-0 translate-y-1 pointer-events-none"
-                      }`}
-                      onMouseEnter={() => handleMouseEnter(i)}
-                      onMouseLeave={handleMouseLeave}
-                    >
-                      <div className="py-1.5">
-                        {t.options.map((opt, j) => (
-                          <Link
-                            key={j}
-                            to={`/treatment/${opt.slug}`}
-                            className="block px-4 py-2.5 text-sm text-foreground hover:bg-muted/80 hover:text-primary transition-colors"
-                            onClick={() => setOpenIndex(null)}
-                          >
-                            {opt.name}
-                          </Link>
-                        ))}
-                      </div>
-                    </div>
+          {/* Scrollable Row */}
+          <div
+            ref={scrollRef}
+            className="flex items-center py-2.5 overflow-x-auto scrollbar-hide"
+          >
+            {treatments.map((t, i) => (
+              <div
+                key={i}
+                className="relative flex items-center"
+                onMouseEnter={() => handleMouseEnter(i)}
+                onMouseLeave={handleMouseLeave}
+              >
+                <button
+                  onClick={() => setOpenIndex(openIndex === i ? null : i)}
+                  className={`flex items-center gap-1.5 px-4 py-2 text-sm font-medium rounded-md transition-all duration-200 whitespace-nowrap ${
+                    openIndex === i
+                      ? "bg-primary text-primary-foreground"
+                      : "text-foreground/90 hover:text-foreground"
+                  }`}
+                >
+                  {t.label}
+                  <ChevronDown
+                    className={`w-3 h-3 transition-transform duration-300 ${openIndex === i ? "rotate-180" : ""}`}
+                  />
+                </button>
+
+                {/* Separator */}
+                {i < treatments.length - 1 && (
+                  <div className="w-px h-4 bg-foreground/20 mx-0.5 shrink-0" />
+                )}
+
+                {/* Dropdown */}
+                <div
+                  className={`absolute left-0 top-full mt-1 min-w-[240px] bg-foreground rounded-lg shadow-xl z-50 transform transition-all duration-300 ${
+                    openIndex === i
+                      ? "opacity-100 translate-y-0 pointer-events-auto"
+                      : "opacity-0 translate-y-2 pointer-events-none"
+                  }`}
+                  onMouseEnter={() => handleMouseEnter(i)}
+                  onMouseLeave={handleMouseLeave}
+                >
+                  <div className="py-2">
+                    {t.options.map((opt, j) => (
+                      <Link
+                        key={j}
+                        to={`/treatment/${opt.slug}`}
+                        className="block px-5 py-2.5 text-sm text-background hover:bg-muted-foreground/20 transition-colors"
+                        onClick={() => setOpenIndex(null)}
+                      >
+                        {opt.name}
+                      </Link>
+                    ))}
                   </div>
-                ))}
+                </div>
               </div>
-            </div>
+            ))}
+          </div>
         </div>
       </div>
 
