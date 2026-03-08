@@ -1,0 +1,1 @@
+UPDATE public.doctors SET slug = 'dr-amol-nagvekar' WHERE slug = 'dr-Amol-Nagvekar';
