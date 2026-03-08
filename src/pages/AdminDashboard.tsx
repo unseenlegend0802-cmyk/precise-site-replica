@@ -154,9 +154,14 @@ const AdminDashboard = () => {
               </div>
               <p className="text-muted-foreground text-sm mt-1">{user?.email}</p>
             </div>
-            <Button variant="outline" onClick={async () => { await signOut(); navigate("/"); }} className="gap-2">
-              <LogOut className="w-4 h-4" /> Sign Out
-            </Button>
+            <div className="flex items-center gap-3">
+              <Button variant="outline" onClick={() => navigate("/doctor-dashboard")} className="gap-2">
+                <Stethoscope className="w-4 h-4" /> Doctor Dashboard
+              </Button>
+              <Button variant="outline" onClick={async () => { await signOut(); navigate("/"); }} className="gap-2">
+                <LogOut className="w-4 h-4" /> Sign Out
+              </Button>
+            </div>
           </motion.div>
 
           {/* Stats */}
