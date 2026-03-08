@@ -13,6 +13,7 @@ import bhavaniImg from "@/assets/doctors/bhavani.png";
 import abhishekBansalImg from "@/assets/doctors/Abhishekbansal.png";
 import AmolNagvekarImg from "@/assets/doctors/AmolNagvekar.png";
 import AnildevaraImg from "@/assets/doctors/Anildevara.png";
+import ArulArokiaImg from "@/assets/doctors/ArulArokia.png";
 
 export interface FeaturedDoctor {
   name: string;
@@ -79,5 +80,13 @@ export const featuredDoctors: FeaturedDoctor[] = [
     specialization: "Interventional Radiologist",
     city: "Vizag",
     image: AnildevaraImg,
+  },
+  {
+    name: "Dr. Arul Arokia Sensan Babu",
+    slug: "dr-arul-arokia",
+    qualification: "MBBS MD(Radiodiagnosis), DNB(Radiodiagnosis), FRCR, FNVIR",
+    specialization: "Interventional Radiologist",
+    city: "Chennai",
+    image: ArulArokiaImg,
   },
 ];
