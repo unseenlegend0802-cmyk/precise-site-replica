@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { hospitals } from "@/data/hospitals";
 import { featuredDoctors } from "@/data/featuredDoctors";
+import { getDoctorImage } from "@/utils/doctorImages";
 import Header from "@/components/Header";
 import TreatmentBar from "@/components/TreatmentBar";
 import Footer from "@/components/Footer";
@@ -52,7 +53,10 @@ const DoctorProfile = () => {
         .maybeSingle();
 
       if (doc) {
-        setDoctor(doc as Doctor);
+        // Resolve image: prefer local asset via slug, then DB image_url
+        const resolvedImage = getDoctorImage(slug) || doc.image_url;
+        setDoctor({ ...(doc as Doctor), image_url: resolvedImage });
+
         const { data: procs } = await supabase
           .from("doctor_procedures")
           .select("*")
@@ -82,8 +86,13 @@ const DoctorProfile = () => {
     load();
   }, [slug]);
 
+  // Match hospitals by doctor name — use flexible matching
   const doctorHospitals = doctor
-    ? hospitals.filter((h) => h.doctor === doctor.name)
+    ? hospitals.filter((h) => {
+        const hName = h.doctor.toLowerCase().trim();
+        const dName = doctor.name.toLowerCase().trim();
+        return hName === dName || hName.includes(dName) || dName.includes(hName);
+      })
     : [];
 
   const totalProcedures = procedures.reduce((sum, p) => sum + p.procedure_count, 0);
@@ -130,14 +139,18 @@ const DoctorProfile = () => {
           hasHospitals={doctorHospitals.length > 0}
         />
 
-        <DoctorStatsRow
-          successRate={doctor.overall_success_rate}
-          complicationRate={doctor.complication_rate}
-          avgRecoveryTime={doctor.avg_recovery_time}
-          totalProcedures={totalProcedures}
-        />
+        {(doctor.overall_success_rate > 0 || totalProcedures > 0) && (
+          <DoctorStatsRow
+            successRate={doctor.overall_success_rate}
+            complicationRate={doctor.complication_rate}
+            avgRecoveryTime={doctor.avg_recovery_time}
+            totalProcedures={totalProcedures}
+          />
+        )}
 
-        <ProcedurePortfolio procedures={procedures} />
+        {procedures.length > 0 && (
+          <ProcedurePortfolio procedures={procedures} />
+        )}
 
         <PracticingLocations hospitals={doctorHospitals} doctorName={doctor.name} />
 
