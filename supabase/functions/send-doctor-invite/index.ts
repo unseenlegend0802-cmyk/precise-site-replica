@@ -60,6 +60,9 @@ Deno.serve(async (req) => {
       });
     }
 
+    // Remove any existing pending invite for this email so we can create a fresh one
+    await adminClient.from("doctor_invites").delete().eq("doctor_email", doctorEmail).eq("status", "pending");
+
     // Create the invite record
     const { data: invite, error: insertError } = await adminClient
       .from("doctor_invites")
@@ -72,13 +75,6 @@ Deno.serve(async (req) => {
       .single();
 
     if (insertError) {
-      // Check for duplicate
-      if (insertError.code === "23505") {
-        return new Response(
-          JSON.stringify({ error: "This email has already been invited" }),
-          { status: 409, headers: { ...corsHeaders, "Content-Type": "application/json" } }
-        );
-      }
       throw insertError;
     }
 
