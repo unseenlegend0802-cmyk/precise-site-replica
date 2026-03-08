@@ -249,61 +249,59 @@ const About = () => {
             </div>
           </AnimatedSection>
 
-          {/* Video */}
-          <AnimatedSection className="max-w-3xl mx-auto mb-16">
-            <div className="relative rounded-2xl overflow-hidden shadow-2xl aspect-video bg-muted">
-              {!videoPlaying ? (
-                <>
-                  <img
-                    src="https://img.youtube.com/vi/0j7HJsPdSnw/maxresdefault.jpg"
-                    alt="Medagg Healthcare Video"
-                    className="w-full h-full object-cover"
-                  />
-                  <div className="absolute inset-0 bg-background/40 flex items-center justify-center">
-                    <button
-                      onClick={() => setVideoPlaying(true)}
-                      className="w-20 h-20 rounded-full bg-primary flex items-center justify-center hover:scale-110 transition-transform shadow-lg"
-                    >
-                      <Play className="w-8 h-8 text-primary-foreground ml-1" />
-                    </button>
+          {/* Side-by-side: Timeline left, Video right */}
+          <div className="grid lg:grid-cols-2 gap-10 items-start">
+            {/* Timeline — left */}
+            <div className="relative">
+              <div className="absolute left-6 top-0 bottom-0 w-px bg-border" />
+              {timeline.map((item, i) => (
+                <AnimatedSection
+                  key={i}
+                  direction="left"
+                  delay={i * 0.1}
+                >
+                  <div className="relative flex items-start mb-10 pl-14">
+                    <div className="absolute left-6 w-3 h-3 rounded-full bg-primary border-2 border-background -translate-x-1.5 mt-2 z-10" />
+                    <div>
+                      <span className="text-2xl font-bold text-primary">{item.year}</span>
+                      <h3 className="text-lg font-semibold text-foreground mt-1 mb-2">{item.title}</h3>
+                      <p className="text-sm text-muted-foreground leading-relaxed">{item.desc}</p>
+                    </div>
                   </div>
-                </>
-              ) : (
-                <iframe
-                  src="https://www.youtube.com/embed/0j7HJsPdSnw?autoplay=1"
-                  title="Medagg Healthcare Video"
-                  className="w-full h-full"
-                  allow="autoplay; encrypted-media"
-                  allowFullScreen
-                />
-              )}
+                </AnimatedSection>
+              ))}
             </div>
-          </AnimatedSection>
 
-          {/* Timeline */}
-          <div className="max-w-4xl mx-auto relative">
-            {/* Vertical line */}
-            <div className="absolute left-6 md:left-1/2 top-0 bottom-0 w-px bg-border md:-translate-x-px" />
-
-            {timeline.map((item, i) => (
-              <AnimatedSection
-                key={i}
-                direction={i % 2 === 0 ? "left" : "right"}
-                delay={i * 0.1}
-              >
-                <div className={`relative flex items-start mb-12 ${i % 2 === 0 ? "md:flex-row" : "md:flex-row-reverse"}`}>
-                  {/* Dot */}
-                  <div className="absolute left-6 md:left-1/2 w-3 h-3 rounded-full bg-primary border-2 border-background -translate-x-1.5 mt-2 z-10" />
-
-                  {/* Content */}
-                  <div className={`ml-14 md:ml-0 md:w-[45%] ${i % 2 === 0 ? "md:pr-12 md:text-right" : "md:pl-12 md:ml-auto"}`}>
-                    <span className="text-2xl font-bold text-primary">{item.year}</span>
-                    <h3 className="text-lg font-semibold text-foreground mt-1 mb-2">{item.title}</h3>
-                    <p className="text-sm text-muted-foreground leading-relaxed">{item.desc}</p>
-                  </div>
-                </div>
-              </AnimatedSection>
-            ))}
+            {/* Video — right, sticky */}
+            <AnimatedSection direction="right" className="lg:sticky lg:top-28">
+              <div className="relative rounded-2xl overflow-hidden shadow-2xl aspect-video bg-muted">
+                {!videoPlaying ? (
+                  <>
+                    <img
+                      src="https://img.youtube.com/vi/0j7HJsPdSnw/maxresdefault.jpg"
+                      alt="Medagg Healthcare Video"
+                      className="w-full h-full object-cover"
+                    />
+                    <div className="absolute inset-0 bg-background/40 flex items-center justify-center">
+                      <button
+                        onClick={() => setVideoPlaying(true)}
+                        className="w-20 h-20 rounded-full bg-primary flex items-center justify-center hover:scale-110 transition-transform shadow-lg"
+                      >
+                        <Play className="w-8 h-8 text-primary-foreground ml-1" />
+                      </button>
+                    </div>
+                  </>
+                ) : (
+                  <iframe
+                    src="https://www.youtube.com/embed/0j7HJsPdSnw?autoplay=1"
+                    title="Medagg Healthcare Video"
+                    className="w-full h-full"
+                    allow="autoplay; encrypted-media"
+                    allowFullScreen
+                  />
+                )}
+              </div>
+            </AnimatedSection>
           </div>
         </div>
       </section>
