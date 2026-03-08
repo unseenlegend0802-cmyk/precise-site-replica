@@ -62,6 +62,7 @@ const DoctorRegister = () => {
           .from("user_roles")
           .update({ role: "doctor" as any })
           .eq("user_id", user.id);
+        await refreshRole();
         setStep("profile");
       } else {
         setStep("set_password");
