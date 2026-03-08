@@ -112,6 +112,36 @@ export type Database = {
           },
         ]
       }
+      doctor_invites: {
+        Row: {
+          created_at: string
+          doctor_email: string
+          doctor_name: string
+          id: string
+          invite_token: string
+          invited_by: string
+          status: string
+        }
+        Insert: {
+          created_at?: string
+          doctor_email: string
+          doctor_name: string
+          id?: string
+          invite_token?: string
+          invited_by: string
+          status?: string
+        }
+        Update: {
+          created_at?: string
+          doctor_email?: string
+          doctor_name?: string
+          id?: string
+          invite_token?: string
+          invited_by?: string
+          status?: string
+        }
+        Relationships: []
+      }
       doctor_procedures: {
         Row: {
           created_at: string
