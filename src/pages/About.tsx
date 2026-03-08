@@ -337,19 +337,7 @@ const About = () => {
               </p>
             </div>
           </AnimatedSection>
-          <div className="grid grid-cols-3 gap-6 max-w-3xl mx-auto">
-            {stats.map((s, i) => (
-              <AnimatedSection key={i} delay={i * 0.15}>
-                <motion.div
-                  className="text-center py-8 rounded-2xl bg-card-gradient border border-border hover:border-primary/50 transition-colors"
-                  whileHover={{ scale: 1.05 }}
-                >
-                  <p className="text-3xl md:text-4xl font-bold text-primary mb-2">{s.value}</p>
-                  <p className="text-sm text-muted-foreground">{s.label}</p>
-                </motion.div>
-              </AnimatedSection>
-            ))}
-          </div>
+          <StatsGrid />
         </div>
       </section>
 
