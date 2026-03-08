@@ -1,9 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useMemo } from "react";
 import { Link } from "react-router-dom";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Calendar, X, RefreshCw, Loader2, MapPin } from "lucide-react";
+import { hospitals } from "@/data/hospitals";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -84,6 +85,12 @@ const AppointmentsTab: React.FC<AppointmentsTabProps> = ({ appointments, onRefre
     );
   }
 
+  const getMapUrl = (hospitalName: string) => {
+    const match = hospitals.find((h) => h.name === hospitalName);
+    const query = match?.mapQuery || encodeURIComponent(hospitalName);
+    return `https://www.google.com/maps/search/?api=1&query=${query}`;
+  };
+
   const renderAppointmentCard = (a: Appointment, showActions: boolean) => (
     <Card key={a.id} className="hover:border-primary/30 transition-colors">
       <CardContent className="p-4">
@@ -93,7 +100,7 @@ const AppointmentsTab: React.FC<AppointmentsTabProps> = ({ appointments, onRefre
             <div className="flex items-center gap-2">
               <p className="text-sm text-muted-foreground">{a.hospital_name}</p>
               <a
-                href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(a.hospital_name)}`}
+                href={getMapUrl(a.hospital_name)}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-1 text-xs text-primary hover:underline"
