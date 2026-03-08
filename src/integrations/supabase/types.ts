@@ -108,8 +108,11 @@ export type Database = {
           avg_recovery_time: string | null
           bio: string | null
           complication_rate: number | null
+          consultation_fee: string | null
           created_at: string
+          email: string | null
           experience: string | null
+          hospital_name: string | null
           id: string
           image_url: string | null
           languages: string[] | null
@@ -124,8 +127,11 @@ export type Database = {
           avg_recovery_time?: string | null
           bio?: string | null
           complication_rate?: number | null
+          consultation_fee?: string | null
           created_at?: string
+          email?: string | null
           experience?: string | null
+          hospital_name?: string | null
           id?: string
           image_url?: string | null
           languages?: string[] | null
@@ -140,8 +146,11 @@ export type Database = {
           avg_recovery_time?: string | null
           bio?: string | null
           complication_rate?: number | null
+          consultation_fee?: string | null
           created_at?: string
+          email?: string | null
           experience?: string | null
+          hospital_name?: string | null
           id?: string
           image_url?: string | null
           languages?: string[] | null
