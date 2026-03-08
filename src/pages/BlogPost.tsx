@@ -118,7 +118,7 @@ const BlogPost = () => {
                   <p className="text-lg text-foreground/90 leading-relaxed mb-8">
                     {post.excerpt}
                   </p>
-                  <BlogContentRenderer content={post.content} />
+                  <BlogContentRenderer content={post.content} date={post.date} />
                 </div>
               </AnimatedSection>
 
