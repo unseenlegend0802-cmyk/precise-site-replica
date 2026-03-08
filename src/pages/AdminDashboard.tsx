@@ -54,6 +54,7 @@ const AdminDashboard = () => {
   const [search, setSearch] = useState("");
   const [filterCity, setFilterCity] = useState("All");
   const [selectedDoctor, setSelectedDoctor] = useState<DoctorRow | null>(null);
+  const [invites, setInvites] = useState<any[]>([]);
 
   useEffect(() => {
     if (!authLoading && !user) navigate("/auth", { replace: true });
