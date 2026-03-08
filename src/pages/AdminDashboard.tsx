@@ -246,8 +246,8 @@ const AdminDashboard = () => {
                             >
                               <CardContent className="p-3 flex items-center gap-3">
                                 <div className="w-14 h-14 rounded-lg overflow-hidden bg-muted shrink-0">
-                                  {doc.image_url ? (
-                                    <img src={doc.image_url} alt={doc.name} className="w-full h-full object-cover" />
+                                  {getResolvedImage(doc) ? (
+                                    <img src={getResolvedImage(doc)!} alt={doc.name} className="w-full h-full object-cover" />
                                   ) : (
                                     <div className="w-full h-full flex items-center justify-center">
                                       <span className="text-sm font-bold text-primary/50">
