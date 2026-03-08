@@ -65,7 +65,7 @@ export const featuredDoctors: FeaturedDoctor[] = [
   },
   {
     name: "Dr. Amol Nagvekar",
-    slug: "dr-Amol-Nagvekar",
+    slug: "dr-amol-nagvekar",
     qualification: "MBBS, DNB, FVIR",
     specialization: "Vascular & Interventional Radiology",
     city: "Jaipur",

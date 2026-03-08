@@ -2,6 +2,7 @@ import { useParams, Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { hospitals } from "@/data/hospitals";
+import { featuredDoctors } from "@/data/featuredDoctors";
 import Header from "@/components/Header";
 import TreatmentBar from "@/components/TreatmentBar";
 import Footer from "@/components/Footer";
@@ -43,6 +44,7 @@ const DoctorProfile = () => {
   useEffect(() => {
     if (!slug) return;
     const load = async () => {
+      // Try database first
       const { data: doc } = await supabase
         .from("doctors")
         .select("*")
@@ -56,6 +58,25 @@ const DoctorProfile = () => {
           .select("*")
           .eq("doctor_id", doc.id);
         setProcedures((procs as DoctorProcedure[]) || []);
+      } else {
+        // Fallback: build a basic profile from featuredDoctors data
+        const featured = featuredDoctors.find((d) => d.slug === slug);
+        if (featured) {
+          setDoctor({
+            id: "",
+            slug: featured.slug,
+            name: featured.name,
+            qualification: featured.qualification,
+            specialization: featured.specialization,
+            experience: "",
+            bio: "",
+            image_url: featured.image,
+            overall_success_rate: 0,
+            complication_rate: 0,
+            avg_recovery_time: "",
+            languages: [],
+          });
+        }
       }
       setLoading(false);
     };
@@ -138,14 +159,15 @@ const DoctorProfile = () => {
           </CardContent>
         </Card>
 
-        {/* Stats Row */}
+        {/* Stats Row — only shown when DB data is available */}
+        {(doctor.overall_success_rate > 0 || doctor.experience) && (
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
           {[
-            { icon: TrendingUp, label: "Success Rate", value: `${doctor.overall_success_rate}%`, color: "text-green-400" },
-            { icon: ShieldCheck, label: "Complication Rate", value: `${doctor.complication_rate}%`, color: "text-blue-400" },
-            { icon: Heart, label: "Avg Recovery", value: doctor.avg_recovery_time, color: "text-primary" },
-            { icon: Award, label: "Total Procedures", value: totalProcedures.toLocaleString(), color: "text-yellow-400" },
-          ].map((stat, i) => (
+            { icon: TrendingUp, label: "Success Rate", value: `${doctor.overall_success_rate}%`, color: "text-green-400", show: doctor.overall_success_rate > 0 },
+            { icon: ShieldCheck, label: "Complication Rate", value: `${doctor.complication_rate}%`, color: "text-blue-400", show: doctor.complication_rate > 0 },
+            { icon: Heart, label: "Avg Recovery", value: doctor.avg_recovery_time, color: "text-primary", show: !!doctor.avg_recovery_time },
+            { icon: Award, label: "Total Procedures", value: totalProcedures.toLocaleString(), color: "text-yellow-400", show: totalProcedures > 0 },
+          ].filter(s => s.show).map((stat, i) => (
             <Card key={i} className="border-border bg-card-gradient">
               <CardContent className="p-4 text-center">
                 <stat.icon className={`w-6 h-6 mx-auto mb-2 ${stat.color}`} />
@@ -155,6 +177,7 @@ const DoctorProfile = () => {
             </Card>
           ))}
         </div>
+        )}
 
         {/* Procedure Success Portfolio */}
         {procedures.length > 0 && (
