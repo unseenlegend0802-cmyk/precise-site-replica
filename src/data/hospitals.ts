@@ -1,5 +1,9 @@
+import { featuredDoctors } from "@/data/featuredDoctors";
 import { getDoctorImage } from "@/utils/doctorImages";
 
+// Build a name→slug map from featuredDoctors for image resolution
+const doctorNameToSlug: Record<string, string> = {};
+featuredDoctors.forEach((d) => { doctorNameToSlug[d.name] = d.slug; });
 export interface Hospital {
   name: string;
   doctor: string;
