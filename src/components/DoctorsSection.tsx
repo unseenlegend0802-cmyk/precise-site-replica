@@ -32,7 +32,7 @@ const DoctorsSection = () => {
           qualification: d.qualification || "",
           specialization: d.specialization || "",
           city: d.hospital_name || "",
-          image: d.image_url || getDoctorImage(d.slug) || "",
+          image: getDoctorImage(d.slug) || d.image_url || "",
         }));
 
         // Also include featured doctors that aren't in DB

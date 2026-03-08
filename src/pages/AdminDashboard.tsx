@@ -279,9 +279,9 @@ const AdminDashboard = () => {
                     <Card className="border-border sticky top-24 overflow-hidden">
                       <div className="relative">
                         {/* Hero image */}
-                        <div className="h-64 sm:h-80 bg-muted overflow-hidden">
+                        <div className="h-72 sm:h-96 bg-muted overflow-hidden flex items-center justify-center">
                           {getResolvedImage(selectedDoctor) ? (
-                            <img src={getResolvedImage(selectedDoctor)!} alt={selectedDoctor.name} className="w-full h-full object-cover" />
+                            <img src={getResolvedImage(selectedDoctor)!} alt={selectedDoctor.name} className="w-full h-full object-contain" />
                           ) : (
                             <div className="w-full h-full flex items-center justify-center">
                               <Avatar className="w-32 h-32">
