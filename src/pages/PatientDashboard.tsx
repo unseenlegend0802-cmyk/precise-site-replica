@@ -133,34 +133,12 @@ const PatientDashboard = () => {
             </Button>
           </motion.div>
 
-          {/* Quick Stats */}
-          <div className="grid grid-cols-2 gap-4 mb-6">
-            <Card>
-              <CardContent className="p-4 flex items-center gap-3">
-                <Calendar className="w-8 h-8 text-primary" />
-                <div>
-                  <p className="text-2xl font-bold">{upcomingCount}</p>
-                  <p className="text-xs text-muted-foreground">Upcoming</p>
-                </div>
-              </CardContent>
-            </Card>
-            <Card>
-              <CardContent className="p-4 flex items-center gap-3">
-                <Stethoscope className="w-8 h-8 text-primary" />
-                <div>
-                  <p className="text-2xl font-bold">{appointments.length}</p>
-                  <p className="text-xs text-muted-foreground">Total Visits</p>
-                </div>
-              </CardContent>
-            </Card>
-          </div>
-
           <Tabs defaultValue="profile" className="mt-2">
             <TabsList className="mb-6 flex-wrap h-auto gap-1">
               <TabsTrigger value="profile" className="gap-2"><User className="w-4 h-4" /> Profile</TabsTrigger>
-              <TabsTrigger value="appointments" className="gap-2"><Calendar className="w-4 h-4" /> Appointments</TabsTrigger>
+              <TabsTrigger value="appointments" className="gap-2"><Calendar className="w-4 h-4" /> Upcoming ({upcomingCount})</TabsTrigger>
+              <TabsTrigger value="history" className="gap-2"><Stethoscope className="w-4 h-4" /> Total Visits ({appointments.length})</TabsTrigger>
               <TabsTrigger value="reports" className="gap-2"><FileText className="w-4 h-4" /> Reports ({reports.length})</TabsTrigger>
-              <TabsTrigger value="history" className="gap-2"><Stethoscope className="w-4 h-4" /> History</TabsTrigger>
               <TabsTrigger value="notifications" className="gap-2"><Bell className="w-4 h-4" /> Notifications</TabsTrigger>
             </TabsList>
 
