@@ -1,3 +1,5 @@
+import { getDoctorImage } from "@/utils/doctorImages";
+
 export interface Hospital {
   name: string;
   doctor: string;
