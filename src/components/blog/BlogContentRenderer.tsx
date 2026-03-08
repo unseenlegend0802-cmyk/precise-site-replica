@@ -1,5 +1,8 @@
+import { Share2 } from "lucide-react";
+
 interface Props {
   content: string;
+  date?: string;
 }
 
 const BlogContentRenderer = ({ content }: Props) => {
