@@ -5,6 +5,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { AuthProvider } from "@/contexts/AuthContext";
 import { BookingProvider } from "@/contexts/BookingContext";
+import ProtectedRoute from "@/components/ProtectedRoute";
 import Index from "./pages/Index";
 import About from "./pages/About";
 import Blogs from "./pages/Blogs";
@@ -19,6 +20,7 @@ import ResetPassword from "./pages/ResetPassword";
 import BookAppointment from "./pages/BookAppointment";
 import DoctorProfile from "./pages/DoctorProfile";
 import BlogPost from "./pages/BlogPost";
+import Unauthorized from "./pages/Unauthorized";
 
 const queryClient = new QueryClient();
 
@@ -39,11 +41,23 @@ const App = () => (
               <Route path="/scan-report" element={<ScanReport />} />
               <Route path="/find-hospital" element={<FindHospital />} />
               <Route path="/auth" element={<Auth />} />
-              <Route path="/dashboard" element={<Dashboard />} />
               <Route path="/reset-password" element={<ResetPassword />} />
-              <Route path="/book-appointment" element={<BookAppointment />} />
+              <Route path="/unauthorized" element={<Unauthorized />} />
               <Route path="/doctor/:slug" element={<DoctorProfile />} />
               <Route path="/blog/:slug" element={<BlogPost />} />
+
+              {/* Protected routes */}
+              <Route path="/dashboard" element={
+                <ProtectedRoute>
+                  <Dashboard />
+                </ProtectedRoute>
+              } />
+              <Route path="/book-appointment" element={
+                <ProtectedRoute>
+                  <BookAppointment />
+                </ProtectedRoute>
+              } />
+
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
               <Route path="*" element={<NotFound />} />
             </Routes>

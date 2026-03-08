@@ -15,6 +15,8 @@ import { motion } from "framer-motion";
 import {
   User, FileText, LogOut, Loader2, Save, Calendar, Activity, AlertTriangle
 } from "lucide-react";
+import AdminDashboardPanel from "@/components/dashboard/AdminDashboardPanel";
+import DoctorDashboardPanel from "@/components/dashboard/DoctorDashboardPanel";
 
 interface Profile {
   full_name: string;
@@ -52,7 +54,7 @@ const defaultProfile: Profile = {
 };
 
 const Dashboard = () => {
-  const { user, loading: authLoading, signOut } = useAuth();
+  const { user, loading: authLoading, signOut, role, roleLoading } = useAuth();
   const navigate = useNavigate();
   const { toast } = useToast();
   const [profile, setProfile] = useState<Profile>(defaultProfile);
@@ -142,13 +144,15 @@ const Dashboard = () => {
     navigate("/");
   };
 
-  if (authLoading || loadingData) {
+  if (authLoading || loadingData || roleLoading) {
     return (
       <div className="min-h-screen bg-background flex items-center justify-center">
         <Loader2 className="w-8 h-8 animate-spin text-primary" />
       </div>
     );
   }
+
+  const roleLabel = role === "admin" ? "Admin" : role === "doctor" ? "Doctor" : "Patient";
 
   return (
     <div className="min-h-screen bg-background">
@@ -157,9 +161,12 @@ const Dashboard = () => {
         <div className="max-w-5xl mx-auto">
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="flex items-center justify-between mb-8">
             <div>
-              <h1 className="text-3xl font-bold">
-                Hello, <span className="text-gradient">{profile.full_name || "there"}</span>
-              </h1>
+              <div className="flex items-center gap-3">
+                <h1 className="text-3xl font-bold">
+                  Hello, <span className="text-gradient">{profile.full_name || "there"}</span>
+                </h1>
+                <Badge variant="outline" className="border-primary/40 text-primary text-xs">{roleLabel}</Badge>
+              </div>
               <p className="text-muted-foreground text-sm mt-1">{user?.email || user?.phone}</p>
             </div>
             <Button variant="outline" onClick={handleSignOut} className="gap-2">
@@ -167,7 +174,11 @@ const Dashboard = () => {
             </Button>
           </motion.div>
 
-          <Tabs defaultValue="profile">
+          {/* Role-specific panels */}
+          {role === "admin" && <AdminDashboardPanel />}
+          {role === "doctor" && <DoctorDashboardPanel />}
+
+          <Tabs defaultValue="profile" className="mt-6">
             <TabsList className="mb-6">
               <TabsTrigger value="profile" className="gap-2"><User className="w-4 h-4" /> Profile</TabsTrigger>
               <TabsTrigger value="reports" className="gap-2"><FileText className="w-4 h-4" /> Reports ({reports.length})</TabsTrigger>
