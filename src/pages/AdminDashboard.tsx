@@ -15,6 +15,10 @@ import {
   MapPin, GraduationCap, IndianRupee, Clock, Globe,
 } from "lucide-react";
 import {
+  Select, SelectContent, SelectItem, SelectTrigger, SelectValue,
+} from "@/components/ui/select";
+import { getDoctorImage } from "@/utils/doctorImages";
+import {
   AlertDialog, AlertDialogAction, AlertDialogCancel,
   AlertDialogContent, AlertDialogDescription, AlertDialogFooter,
   AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger,
