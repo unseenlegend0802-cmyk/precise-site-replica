@@ -20,8 +20,10 @@ const Index = () => {
   return (
     <div className="min-h-screen bg-background">
       <Header />
-      <TreatmentBar />
-      <HeroSection />
+      <div className="relative">
+        <HeroSection />
+        <TreatmentBar />
+      </div>
       <AnimatedSection>
         <DiagnosisCtaSection />
       </AnimatedSection>
