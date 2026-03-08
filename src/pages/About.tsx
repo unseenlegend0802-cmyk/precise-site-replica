@@ -93,7 +93,39 @@ const useCountUp = (target: number, duration = 2000, start = false) => {
   return count;
 };
 
-const About = () => {
+const StatCard = ({ stat, delay }: { stat: typeof stats[0]; delay: number }) => {
+  const ref = useRef(null);
+  const isInView = useInView(ref, { once: true, margin: "-80px" });
+  const count = useCountUp(stat.value, 2000, isInView);
+  const formatted = stat.value >= 1000 ? count.toLocaleString("en-IN") : count.toString();
+
+  return (
+    <AnimatedSection delay={delay}>
+      <motion.div
+        ref={ref}
+        className="text-center py-10 px-4 rounded-2xl bg-card-gradient border border-border hover:border-primary/50 transition-colors"
+        whileHover={{ scale: 1.05 }}
+      >
+        <div className="w-14 h-14 rounded-full bg-muted flex items-center justify-center mx-auto mb-5">
+          <stat.icon className="w-6 h-6 text-muted-foreground" />
+        </div>
+        <p className="text-3xl md:text-4xl font-bold text-foreground mb-2">
+          {stat.prefix}{formatted}{stat.suffix}
+        </p>
+        <p className="text-sm text-muted-foreground">{stat.label}</p>
+      </motion.div>
+    </AnimatedSection>
+  );
+};
+
+const StatsGrid = () => (
+  <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 max-w-4xl mx-auto">
+    {stats.map((s, i) => (
+      <StatCard key={i} stat={s} delay={i * 0.15} />
+    ))}
+  </div>
+);
+
   const [videoPlaying, setVideoPlaying] = useState(false);
 
   return (
