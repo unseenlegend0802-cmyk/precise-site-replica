@@ -155,13 +155,15 @@ export const hospitals: Hospital[] = [
   },
   {
     name: "Trustwell Hospital",
-    doctor: "Dr. Ankit",
-    qualification: "MBBS, MD (Radiology)",
+    doctor: "Dr. Ankit Arora",
+    qualification: "MBBS, MD (Radiology), DM (Neuroimaging and Interventional Radiology)",
     specialization: "Interventional Radiology",
-    experience: "5+ years",
+    experience: "8+ years",
     city: "Bangalore",
     address: "Sudhama Nagar, Bangalore, Karnataka",
     mapQuery: "Trustwell+Hospital+Sudhama+Nagar+Bangalore",
+    availableTime: "10 AM to 4 PM",
+    consultationFee: "₹800",
   },
   {
     name: "Manipal Hospital (Hebbal)",
