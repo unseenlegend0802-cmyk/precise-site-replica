@@ -27,6 +27,8 @@ import {
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { toast } from "@/hooks/use-toast";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import InviteDoctorDialog from "@/components/admin/InviteDoctorDialog";
+import DoctorInvitesTable from "@/components/admin/DoctorInvitesTable";
 
 interface DoctorRow {
   id: string;
@@ -52,6 +54,7 @@ const AdminDashboard = () => {
   const [search, setSearch] = useState("");
   const [filterCity, setFilterCity] = useState("All");
   const [selectedDoctor, setSelectedDoctor] = useState<DoctorRow | null>(null);
+  const [invites, setInvites] = useState<any[]>([]);
 
   useEffect(() => {
     if (!authLoading && !user) navigate("/auth", { replace: true });
@@ -64,11 +67,12 @@ const AdminDashboard = () => {
     const now = new Date();
     const startOfMonth = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}-01`;
 
-    const [allAppts, monthlyAppts, profilesRes, doctorsRes] = await Promise.all([
+    const [allAppts, monthlyAppts, profilesRes, doctorsRes, invitesRes] = await Promise.all([
       supabase.from("appointments").select("id", { count: "exact", head: true }),
       supabase.from("appointments").select("id", { count: "exact", head: true }).gte("appointment_date", startOfMonth),
       supabase.from("profiles").select("id", { count: "exact", head: true }),
       supabase.from("doctors").select("id, name, slug, specialization, qualification, image_url, hospital_name, consultation_fee, experience, bio, email, languages").order("created_at", { ascending: false }),
+      supabase.from("doctor_invites").select("*").order("created_at", { ascending: false }),
     ]);
 
     const docs = (doctorsRes.data as DoctorRow[]) || [];
@@ -79,6 +83,7 @@ const AdminDashboard = () => {
       totalDoctors: docs.length,
     });
     setDoctors(docs);
+    setInvites(invitesRes.data || []);
     if (docs.length > 0 && !selectedDoctor) setSelectedDoctor(docs[0]);
     setLoadingData(false);
   };
@@ -177,9 +182,7 @@ const AdminDashboard = () => {
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.4 }}>
             <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-6">
               <h2 className="text-xl font-bold text-foreground">Doctor Management</h2>
-              <Button onClick={() => navigate("/admin/add-doctor")} className="gap-2">
-                <Plus className="w-4 h-4" /> Add New Doctor
-              </Button>
+              <InviteDoctorDialog onInviteSent={loadData} />
             </div>
 
             {/* Search & Filter Bar */}
@@ -210,6 +213,8 @@ const AdminDashboard = () => {
                 </SelectContent>
               </Select>
             </div>
+
+            <DoctorInvitesTable invites={invites} />
 
             {doctors.length === 0 ? (
               <Card>
