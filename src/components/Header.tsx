@@ -115,7 +115,7 @@ const Header = () => {
             Book Appointment
           </Link>
           <Link
-            to={user ? "/dashboard" : "/auth"}
+            to={user ? dashboardPath : "/auth"}
             onClick={() => setMobileOpen(false)}
             className="block text-sm py-2 text-foreground"
           >
