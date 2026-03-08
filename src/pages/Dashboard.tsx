@@ -161,9 +161,12 @@ const Dashboard = () => {
         <div className="max-w-5xl mx-auto">
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="flex items-center justify-between mb-8">
             <div>
-              <h1 className="text-3xl font-bold">
-                Hello, <span className="text-gradient">{profile.full_name || "there"}</span>
-              </h1>
+              <div className="flex items-center gap-3">
+                <h1 className="text-3xl font-bold">
+                  Hello, <span className="text-gradient">{profile.full_name || "there"}</span>
+                </h1>
+                <Badge variant="outline" className="border-primary/40 text-primary text-xs">{roleLabel}</Badge>
+              </div>
               <p className="text-muted-foreground text-sm mt-1">{user?.email || user?.phone}</p>
             </div>
             <Button variant="outline" onClick={handleSignOut} className="gap-2">
