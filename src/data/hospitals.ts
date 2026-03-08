@@ -567,4 +567,15 @@ export const hospitals: Hospital[] = [
   },
 ];
 
+// Auto-populate doctorImage for all hospitals using local assets
+hospitals.forEach((h) => {
+  if (!h.doctorImage) {
+    const slug = doctorNameToSlug[h.doctor];
+    if (slug) {
+      const img = getDoctorImage(slug);
+      if (img) h.doctorImage = img;
+    }
+  }
+});
+
 export const cities = [...new Set(hospitals.map((h) => h.city))];
