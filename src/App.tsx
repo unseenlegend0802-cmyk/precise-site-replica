@@ -15,7 +15,9 @@ import TreatmentDetail from "./pages/TreatmentDetail";
 import ScanReport from "./pages/ScanReport";
 import FindHospital from "./pages/FindHospital";
 import Auth from "./pages/Auth";
-import Dashboard from "./pages/Dashboard";
+import PatientDashboard from "./pages/PatientDashboard";
+import DoctorDashboard from "./pages/DoctorDashboard";
+import AdminDashboard from "./pages/AdminDashboard";
 import ResetPassword from "./pages/ResetPassword";
 import BookAppointment from "./pages/BookAppointment";
 import DoctorProfile from "./pages/DoctorProfile";
@@ -49,7 +51,17 @@ const App = () => (
               {/* Protected routes */}
               <Route path="/dashboard" element={
                 <ProtectedRoute>
-                  <Dashboard />
+                  <PatientDashboard />
+                </ProtectedRoute>
+              } />
+              <Route path="/doctor-dashboard" element={
+                <ProtectedRoute allowedRoles={["doctor"]}>
+                  <DoctorDashboard />
+                </ProtectedRoute>
+              } />
+              <Route path="/admin-dashboard" element={
+                <ProtectedRoute allowedRoles={["admin"]}>
+                  <AdminDashboard />
                 </ProtectedRoute>
               } />
               <Route path="/book-appointment" element={
@@ -58,7 +70,6 @@ const App = () => (
                 </ProtectedRoute>
               } />
 
-              {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
               <Route path="*" element={<NotFound />} />
             </Routes>
           </BrowserRouter>
