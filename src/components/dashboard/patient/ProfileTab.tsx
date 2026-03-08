@@ -29,7 +29,7 @@ interface ProfileTabProps {
 
 const ProfileTab: React.FC<ProfileTabProps> = ({ profile, setProfile, saving, onSave }) => {
   return (
-    <div className="flex flex-col lg:flex-row gap-6 items-start">
+    <div className="flex flex-col md:flex-row gap-6 items-start">
       <Card className="flex-1 min-w-0">
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
