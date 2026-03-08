@@ -15,6 +15,8 @@ import { motion } from "framer-motion";
 import {
   User, FileText, LogOut, Loader2, Save, Calendar, Activity, AlertTriangle
 } from "lucide-react";
+import AdminDashboardPanel from "@/components/dashboard/AdminDashboardPanel";
+import DoctorDashboardPanel from "@/components/dashboard/DoctorDashboardPanel";
 
 interface Profile {
   full_name: string;
