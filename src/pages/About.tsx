@@ -2,12 +2,13 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import AnimatedSection from "@/components/AnimatedSection";
 import { motion } from "framer-motion";
-import { Facebook, Instagram, Youtube, Linkedin, Play, CheckCircle, XCircle, ArrowRight } from "lucide-react";
+import { Facebook, Instagram, Youtube, Linkedin, Play, CheckCircle, XCircle, ArrowRight, Heart, CalendarDays, IndianRupee } from "lucide-react";
 import aboutHero from "@/assets/about-hero.png";
 import type1Img from "@/assets/about/type1.png";
 import type2Img from "@/assets/about/type2.png";
 import type3Img from "@/assets/about/type3.png";
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
+import { useInView } from "framer-motion";
 
 const socialLinks = [
   { icon: Facebook, href: "https://www.facebook.com/profile.php?id=61558841344582" },
@@ -70,10 +71,60 @@ const timeline = [
 ];
 
 const stats = [
-  { value: "5000+", label: "Patients Helped" },
-  { value: "8000+", label: "Consultations Booked" },
-  { value: "₹25,000", label: "Average Patient Savings" },
+  { icon: Heart, value: 2500, prefix: "", suffix: "+", label: "Patients Helped" },
+  { icon: CalendarDays, value: 5000, prefix: "", suffix: "+", label: "Consultations Booked" },
+  { icon: IndianRupee, value: 50000, prefix: "₹", suffix: "", label: "Average Patient Savings" },
 ];
+
+const useCountUp = (target: number, duration = 2000, start = false) => {
+  const [count, setCount] = useState(0);
+  useEffect(() => {
+    if (!start) return;
+    let startTime: number | null = null;
+    const step = (timestamp: number) => {
+      if (!startTime) startTime = timestamp;
+      const progress = Math.min((timestamp - startTime) / duration, 1);
+      const eased = 1 - Math.pow(1 - progress, 3); // ease-out cubic
+      setCount(Math.floor(eased * target));
+      if (progress < 1) requestAnimationFrame(step);
+    };
+    requestAnimationFrame(step);
+  }, [target, duration, start]);
+  return count;
+};
+
+const StatCard = ({ stat, delay }: { stat: typeof stats[0]; delay: number }) => {
+  const ref = useRef(null);
+  const isInView = useInView(ref, { once: true, margin: "-80px" });
+  const count = useCountUp(stat.value, 2000, isInView);
+  const formatted = stat.value >= 1000 ? count.toLocaleString("en-IN") : count.toString();
+
+  return (
+    <AnimatedSection delay={delay}>
+      <motion.div
+        ref={ref}
+        className="text-center py-10 px-4 rounded-2xl bg-card-gradient border border-border hover:border-primary/50 transition-colors"
+        whileHover={{ scale: 1.05 }}
+      >
+        <div className="w-14 h-14 rounded-full bg-muted flex items-center justify-center mx-auto mb-5">
+          <stat.icon className="w-6 h-6 text-muted-foreground" />
+        </div>
+        <p className="text-3xl md:text-4xl font-bold text-foreground mb-2">
+          {stat.prefix}{formatted}{stat.suffix}
+        </p>
+        <p className="text-sm text-muted-foreground">{stat.label}</p>
+      </motion.div>
+    </AnimatedSection>
+  );
+};
+
+const StatsGrid = () => (
+  <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 max-w-4xl mx-auto">
+    {stats.map((s, i) => (
+      <StatCard key={i} stat={s} delay={i * 0.15} />
+    ))}
+  </div>
+);
 
 const About = () => {
   const [videoPlaying, setVideoPlaying] = useState(false);
@@ -319,19 +370,7 @@ const About = () => {
               </p>
             </div>
           </AnimatedSection>
-          <div className="grid grid-cols-3 gap-6 max-w-3xl mx-auto">
-            {stats.map((s, i) => (
-              <AnimatedSection key={i} delay={i * 0.15}>
-                <motion.div
-                  className="text-center py-8 rounded-2xl bg-card-gradient border border-border hover:border-primary/50 transition-colors"
-                  whileHover={{ scale: 1.05 }}
-                >
-                  <p className="text-3xl md:text-4xl font-bold text-primary mb-2">{s.value}</p>
-                  <p className="text-sm text-muted-foreground">{s.label}</p>
-                </motion.div>
-              </AnimatedSection>
-            ))}
-          </div>
+          <StatsGrid />
         </div>
       </section>
 
