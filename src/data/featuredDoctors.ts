@@ -11,6 +11,7 @@ import balajiImg from "@/assets/doctors/balaji.png";
 import saileshImg from "@/assets/doctors/sailesh.png";
 import bhavaniImg from "@/assets/doctors/bhavani.png";
 import abhishekBansalImg from "@/assets/doctors/Abhishekbansal.png";
+import AmolNagvekarImg from "@/assets/doctors/AmolNagvekar.png";
 
 export interface FeaturedDoctor {
   name: string;
@@ -61,5 +62,13 @@ export const featuredDoctors: FeaturedDoctor[] = [
     specialization: "Vascular & Interventional Radiology",
     city: "Delhi",
     image: abhishekBansalImg,
+  },
+  {
+    name: "Dr. Amol Nagvekar",
+    slug: "dr-Amol-Nagvekar",
+    qualification: "MBBS, DNB, FVIR",
+    specialization: "Vascular & Interventional Radiology",
+    city: "Jaipur",
+    image: AmolNagvekarImg,
   },
 ];
