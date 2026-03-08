@@ -25,7 +25,8 @@ const ctaLinks = [
 const Header = () => {
   const [mobileOpen, setMobileOpen] = useState(false);
   const location = useLocation();
-  const { user } = useAuth();
+  const { user, role } = useAuth();
+  const dashboardPath = getDashboardPath(role);
 
   return (
     <header className="sticky top-0 z-50 relative bg-background/95 shadow-md border-b border-border">
