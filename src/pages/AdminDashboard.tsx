@@ -182,9 +182,7 @@ const AdminDashboard = () => {
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.4 }}>
             <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-6">
               <h2 className="text-xl font-bold text-foreground">Doctor Management</h2>
-              <Button onClick={() => navigate("/admin/add-doctor")} className="gap-2">
-                <Plus className="w-4 h-4" /> Add New Doctor
-              </Button>
+              <InviteDoctorDialog onInviteSent={loadData} />
             </div>
 
             {/* Search & Filter Bar */}
