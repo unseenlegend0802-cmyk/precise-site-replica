@@ -157,7 +157,7 @@ export const featuredDoctors: FeaturedDoctor[] = [
   },
     {
     name: "Dr. Junaid Ahmed Jamadar",
-    slug: "dr-Junaid-ahmed-jamadar",
+    slug: "dr-junaid-ahmed-jamadar",
     qualification: "MBBS, MD, DNB, FRCR(UK), EDiR",
     specialization: "Fetal Medicine and Interventional Radiologist",
     city: "Bengaluru",
