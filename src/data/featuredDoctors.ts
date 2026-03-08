@@ -40,6 +40,9 @@ import SeetamKumarImg from "@/assets/doctors/SeetamKumar.png";
 import sibashankardalaiImg from "@/assets/doctors/sibashankardalai.png";
 import ThoufiqaliImg from "@/assets/doctors/Thoufiqali.png";
 import VivekMavaniImg from "@/assets/doctors/VivekMavani.png";
+import ankitaroraImg from "@/assets/doctors/ankitarora.png";
+import RajeshhelavarImg from "@/assets/doctors/Rajeshhelavar.png";
+import uthappaImg from "@/assets/doctors/uthappa.png";
 
 export interface FeaturedDoctor {
   name: string;
@@ -322,5 +325,29 @@ export const featuredDoctors: FeaturedDoctor[] = [
     specialization: "Interventional Radiologist",
     city: "Surat",
     image: VivekMavaniImg,
+  },
+  {
+    name: "Dr. Ankit Arora",
+    slug: "dr-ankit-arora",
+    qualification: "MBBS, MD (Radiology), DM (Neuroimaging and Interventional Radiology)",
+    specialization: "Interventional Radiologist",
+    city: "Bangaluru",
+    image: ankitaroraImg,
+  },
+  {
+    name: "Dr. MC Uthappa",
+    slug: "dr-mc-uthappa",
+    qualification: "MBBS, FRCS, FRCR, CCST, IR",
+    specialization: "Interventional Radiologist",
+    city: "Bangaluru",
+    image: uthappaImg,
+  },
+  {
+    name: "Dr. Rajesh Helavar",
+    slug: "dr-rajesh-helavar",
+    qualification: "MBBS, MD (Radiology), PDCC, FRCR",
+    specialization: "Interventional Radiologist",
+    city: "Bangaluru",
+    image: RajeshhelavarImg,
   },
 ];
