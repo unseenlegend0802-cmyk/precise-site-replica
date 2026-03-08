@@ -18,7 +18,21 @@ const Auth = () => {
   const { hasPendingBooking } = useBooking();
 
   useEffect(() => {
-    if (user && !roleLoading) {
+    if (!user || roleLoading) return;
+
+    const checkPendingInvite = async () => {
+      const { data: invite } = await supabase
+        .from("doctor_invites")
+        .select("invite_token")
+        .eq("doctor_email", user.email ?? "")
+        .eq("status", "pending")
+        .maybeSingle();
+
+      if (invite) {
+        navigate(`/doctor-register?token=${invite.invite_token}`, { replace: true });
+        return;
+      }
+
       if (hasPendingBooking) {
         navigate("/book-appointment", { replace: true });
       } else if (role === "admin") {
@@ -28,7 +42,9 @@ const Auth = () => {
       } else {
         navigate("/dashboard", { replace: true });
       }
-    }
+    };
+
+    checkPendingInvite();
   }, [user, role, roleLoading, navigate, hasPendingBooking]);
 
   return (
