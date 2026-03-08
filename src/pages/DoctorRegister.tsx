@@ -19,7 +19,7 @@ const DoctorRegister = () => {
   const [searchParams] = useSearchParams();
   const token = searchParams.get("token");
   const navigate = useNavigate();
-  const { user } = useAuth();
+  const { user, refreshRole } = useAuth();
 
   const [step, setStep] = useState<Step>("validating");
   const [invite, setInvite] = useState<any>(null);
@@ -57,6 +57,12 @@ const DoctorRegister = () => {
 
       // If user is already logged in (came from invite email), skip password step
       if (user) {
+        // Upgrade role to doctor immediately for logged-in users
+        await supabase
+          .from("user_roles")
+          .update({ role: "doctor" as any })
+          .eq("user_id", user.id);
+        await refreshRole();
         setStep("profile");
       } else {
         setStep("set_password");
@@ -82,7 +88,6 @@ const DoctorRegister = () => {
       const { error } = await supabase.auth.updateUser({ password });
       if (error) throw error;
 
-      // Assign doctor role
       const { data: { user: currentUser } } = await supabase.auth.getUser();
       if (currentUser) {
         // Update user_roles from patient to doctor
@@ -90,6 +95,7 @@ const DoctorRegister = () => {
           .from("user_roles")
           .update({ role: "doctor" as any })
           .eq("user_id", currentUser.id);
+        await refreshRole();
       }
 
       setStep("profile");
