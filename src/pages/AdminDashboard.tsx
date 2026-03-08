@@ -15,6 +15,11 @@ import {
   MapPin, GraduationCap, IndianRupee, Clock, Globe,
 } from "lucide-react";
 import {
+  Select, SelectContent, SelectItem, SelectTrigger, SelectValue,
+} from "@/components/ui/select";
+import { getDoctorImage } from "@/utils/doctorImages";
+import { featuredDoctors } from "@/data/featuredDoctors";
+import {
   AlertDialog, AlertDialogAction, AlertDialogCancel,
   AlertDialogContent, AlertDialogDescription, AlertDialogFooter,
   AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger,
@@ -45,7 +50,7 @@ const AdminDashboard = () => {
   const [stats, setStats] = useState({ monthlyBookings: 0, totalBookings: 0, totalUsers: 0, totalDoctors: 0 });
   const [doctors, setDoctors] = useState<DoctorRow[]>([]);
   const [search, setSearch] = useState("");
-  const [filterSpec, setFilterSpec] = useState("All");
+  const [filterCity, setFilterCity] = useState("All");
   const [selectedDoctor, setSelectedDoctor] = useState<DoctorRow | null>(null);
 
   useEffect(() => {
@@ -103,17 +108,23 @@ const AdminDashboard = () => {
     );
   }
 
-  // Unique specializations for filter
-  const specializations = ["All", ...Array.from(new Set(doctors.map((d) => d.specialization).filter(Boolean) as string[]))];
+  // Build city list from featuredDoctors data
+  const slugToCityMap: Record<string, string> = {};
+  featuredDoctors.forEach((f) => { slugToCityMap[f.slug] = f.city; });
+
+  const allCities = Array.from(new Set(
+    doctors.map((d) => slugToCityMap[d.slug] || null).filter(Boolean) as string[]
+  ));
+  const cities = ["All", ...allCities];
 
   const filtered = doctors.filter((d) => {
-    const matchSearch = !search ||
-      d.name.toLowerCase().includes(search.toLowerCase()) ||
-      d.specialization?.toLowerCase().includes(search.toLowerCase()) ||
-      d.hospital_name?.toLowerCase().includes(search.toLowerCase());
-    const matchSpec = filterSpec === "All" || d.specialization === filterSpec;
-    return matchSearch && matchSpec;
+    const matchSearch = !search || d.name.toLowerCase().includes(search.toLowerCase());
+    const doctorCity = slugToCityMap[d.slug] || "";
+    const matchCity = filterCity === "All" || doctorCity === filterCity;
+    return matchSearch && matchCity;
   });
+
+  const getResolvedImage = (doc: DoctorRow) => getDoctorImage(doc.slug) || doc.image_url || null;
 
   const statCards = [
     { icon: TrendingUp, label: "Monthly Bookings", value: stats.monthlyBookings, color: "text-green-400" },
@@ -176,7 +187,7 @@ const AdminDashboard = () => {
               <div className="relative flex-1 max-w-sm">
                 <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
                 <Input
-                  placeholder="Search by name, specialization, hospital..."
+                  placeholder="Search by doctor name..."
                   value={search}
                   onChange={(e) => setSearch(e.target.value)}
                   className="pl-10 pr-8"
@@ -187,21 +198,17 @@ const AdminDashboard = () => {
                   </button>
                 )}
               </div>
-              <div className="flex flex-wrap gap-2">
-                {specializations.slice(0, 6).map((spec) => (
-                  <button
-                    key={spec}
-                    onClick={() => setFilterSpec(spec)}
-                    className={`px-3 py-1.5 rounded-full text-xs font-medium border transition-colors ${
-                      filterSpec === spec
-                        ? "bg-primary text-primary-foreground border-primary"
-                        : "bg-card border-border text-foreground hover:border-primary/50"
-                    }`}
-                  >
-                    {spec}
-                  </button>
-                ))}
-              </div>
+              <Select value={filterCity} onValueChange={setFilterCity}>
+                <SelectTrigger className="w-[180px]">
+                  <MapPin className="w-4 h-4 mr-2 text-muted-foreground" />
+                  <SelectValue placeholder="Filter by city" />
+                </SelectTrigger>
+                <SelectContent>
+                  {cities.map((city) => (
+                    <SelectItem key={city} value={city}>{city}</SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
             </div>
 
             {doctors.length === 0 ? (
@@ -239,8 +246,8 @@ const AdminDashboard = () => {
                             >
                               <CardContent className="p-3 flex items-center gap-3">
                                 <div className="w-14 h-14 rounded-lg overflow-hidden bg-muted shrink-0">
-                                  {doc.image_url ? (
-                                    <img src={doc.image_url} alt={doc.name} className="w-full h-full object-cover" />
+                                  {getResolvedImage(doc) ? (
+                                    <img src={getResolvedImage(doc)!} alt={doc.name} className="w-full h-full object-cover" />
                                   ) : (
                                     <div className="w-full h-full flex items-center justify-center">
                                       <span className="text-sm font-bold text-primary/50">
@@ -273,8 +280,8 @@ const AdminDashboard = () => {
                       <div className="relative">
                         {/* Hero image */}
                         <div className="h-64 sm:h-80 bg-muted overflow-hidden">
-                          {selectedDoctor.image_url ? (
-                            <img src={selectedDoctor.image_url} alt={selectedDoctor.name} className="w-full h-full object-cover" />
+                          {getResolvedImage(selectedDoctor) ? (
+                            <img src={getResolvedImage(selectedDoctor)!} alt={selectedDoctor.name} className="w-full h-full object-cover" />
                           ) : (
                             <div className="w-full h-full flex items-center justify-center">
                               <Avatar className="w-32 h-32">
