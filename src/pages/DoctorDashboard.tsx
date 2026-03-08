@@ -17,7 +17,7 @@ import ConsultationNotesTab from "@/components/dashboard/doctor/ConsultationNote
 import AvailabilityTab from "@/components/dashboard/doctor/AvailabilityTab";
 
 const DoctorDashboard = () => {
-  const { user, loading: authLoading, signOut, roleLoading } = useAuth();
+  const { user, loading: authLoading, signOut, roleLoading, role } = useAuth();
   const navigate = useNavigate();
   const { toast } = useToast();
   const [loadingData, setLoadingData] = useState(true);
