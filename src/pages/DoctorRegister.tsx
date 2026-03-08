@@ -87,11 +87,8 @@ const DoctorRegister = () => {
 
       const { data: { user: currentUser } } = await supabase.auth.getUser();
       if (currentUser) {
-        // Update user_roles from patient to doctor
-        await supabase
-          .from("user_roles")
-          .update({ role: "doctor" as any })
-          .eq("user_id", currentUser.id);
+        // Upgrade role to doctor via secure server function
+        await supabase.rpc("accept_doctor_invite", { _invite_token: token! });
         await refreshRole();
       }
 
