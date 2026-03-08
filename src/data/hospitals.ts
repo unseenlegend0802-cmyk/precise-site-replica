@@ -1,3 +1,9 @@
+import { featuredDoctors } from "@/data/featuredDoctors";
+import { getDoctorImage } from "@/utils/doctorImages";
+
+// Build a name→slug map from featuredDoctors for image resolution
+const doctorNameToSlug: Record<string, string> = {};
+featuredDoctors.forEach((d) => { doctorNameToSlug[d.name] = d.slug; });
 export interface Hospital {
   name: string;
   doctor: string;
@@ -351,7 +357,7 @@ export const hospitals: Hospital[] = [
   {
     name: "Sahyadri Hospital (Hadapsar)",
     doctor: "Dr. Kaurabhi Zade",
-    qualification: "MBBS, MD (Radiology)",
+    qualification: "MBBS, DIP(Radio Diagnosis), DNB, EDSI, EBIR",
     specialization: "Interventional Radiology",
     experience: "10+ years",
     city: "Pune",
@@ -363,7 +369,7 @@ export const hospitals: Hospital[] = [
   {
     name: "Sahyadri Hospital (Deccan Gymkhana)",
     doctor: "Dr. Kaurabhi Zade",
-    qualification: "MBBS, MD (Radiology)",
+    qualification: "MBBS, DIP(Radio Diagnosis), DNB, EDSI, EBIR",
     specialization: "Interventional Radiology",
     experience: "10+ years",
     city: "Pune",
@@ -560,5 +566,16 @@ export const hospitals: Hospital[] = [
     mapQuery: "Manipal+Hospital+Shankarpur+Bhubaneswar",
   },
 ];
+
+// Auto-populate doctorImage for all hospitals using local assets
+hospitals.forEach((h) => {
+  if (!h.doctorImage) {
+    const slug = doctorNameToSlug[h.doctor];
+    if (slug) {
+      const img = getDoctorImage(slug);
+      if (img) h.doctorImage = img;
+    }
+  }
+});
 
 export const cities = [...new Set(hospitals.map((h) => h.city))];
