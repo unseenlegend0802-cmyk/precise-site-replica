@@ -41,7 +41,7 @@ const TreatmentBar = () => {
   return (
     <> 
       {/* Desktop navbar */}
-      <div className="hidden lg:block bg-muted/60 border-b border-border">
+      <div className="hidden lg:block bg-muted/90 backdrop-blur-md border-b border-border sticky top-16 md:top-20 z-40">
         <div className="container mx-auto px-1 relative">
           
             {/* Scroll Wrapper */}
