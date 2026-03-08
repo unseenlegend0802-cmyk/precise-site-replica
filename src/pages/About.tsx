@@ -126,6 +126,7 @@ const StatsGrid = () => (
   </div>
 );
 
+const About = () => {
   const [videoPlaying, setVideoPlaying] = useState(false);
 
   return (
