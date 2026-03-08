@@ -3,6 +3,12 @@ import { Phone, Menu, X, User, LogOut } from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
 
+const getDashboardPath = (role: string | null) => {
+  if (role === "admin") return "/admin-dashboard";
+  if (role === "doctor") return "/doctor-dashboard";
+  return "/dashboard";
+};
+
 const navLinks = [
   { label: "About", to: "/about" },
   { label: "Scan Report", to: "/scan-report" },
