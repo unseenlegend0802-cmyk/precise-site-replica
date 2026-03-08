@@ -15,6 +15,11 @@ import AmolNagvekarImg from "@/assets/doctors/AmolNagvekar.png";
 import AnildevaraImg from "@/assets/doctors/Anildevara.png";
 import ArulArokiaImg from "@/assets/doctors/ArulArokia.png";
 import BhaskarMVImg from "@/assets/doctors/BhaskarMV.png";
+import BhavyashreeImg from "@/assets/doctors/Bhavyashree.png";
+import CharudattasambhajiImg from "@/assets/doctors/Charudattasambhaji.png";
+import DeepashreeImg from "@/assets/doctors/Deepashree.png";
+import JithusubhashbabuImg from "@/assets/doctors/Jithusubhashbabu.png";
+import juniadImg from "@/assets/doctors/juniad.png";
 
 export interface FeaturedDoctor {
   name: string;
@@ -90,12 +95,60 @@ export const featuredDoctors: FeaturedDoctor[] = [
     city: "Chennai",
     image: ArulArokiaImg,
   },
-   {
+  {
     name: "Dr. Bhaskar M V",
     slug: "dr-bhaskar-m-v",
     qualification: "MBBS, MD Radio Diagnosis, DNB Radio Diagnosis, DM Neuroimaging and Interventional Radiology, FRCR",
     specialization: "Interventional Radiologist, Neuroradiologist, Radiologist",
     city: "Bangalore",
     image: BhaskarMVImg,
+  },
+  {
+    name: "Dr. Bhaskar M V",
+    slug: "dr-bhaskar-m-v",
+    qualification: "MBBS, MD Radio Diagnosis, DNB Radio Diagnosis, DM Neuroimaging and Interventional Radiology, FRCR",
+    specialization: "Interventional Radiologist, Neuroradiologist, Radiologist",
+    city: "Bangalore",
+    image: BhaskarMVImg,
+  },
+  {
+    name: "Dr. Bhavyashree Tn",
+    slug: "dr-bhavyashree-tn",
+    qualification: "MBBS, MDDNB, FRCR, PDCC",
+    specialization: "Interventional Radiologist",
+    city: "Bangalore",
+    image: BhavyashreeImg,
+  },
+  {
+    name: "Dr. Charudutt Jayant Sambhaji",
+    slug: "dr-charudutt-jayant-sambhaji",
+    qualification: "MBBS, MD",
+    specialization: "Interventional Radiology",
+    city: "Goa",
+    image: CharudattasambhajiImg,
+  },
+  {
+    name: "Dr. Deepashree",
+    slug: "dr-depashree",
+    qualification: "MBBS, MRCP, PGCHR, FRCR, CCT(UK), EBIR",
+    specialization: "Interventional Radiology",
+    city: "Chennai",
+    image: DeepashreeImg,
+  },
+  {
+    name: "Dr. Jithu subhash babu",
+    slug: "dr-jithu-subhash-babu",
+    qualification: "MBBS, MD (Radiodiagnosis), CCT(South Korea), Post Doctorial Fellowship",
+    specialization: "Interventional Radiology",
+    city: "Kozhikode",
+    image: JithusubhashbabuImg,
+  },
+    {
+    name: "Dr. Junaid Ahmed Jamadar",
+    slug: "dr-Junaid-ahmed-jamadar",
+    qualification: "MBBS, MD, DNB, FRCR(UK), EDiR",
+    specialization: "Fetal Medicine and Interventional Radiologist",
+    city: "Bengaluru",
+    image: juniadImg,
   },
 ];
