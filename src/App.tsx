@@ -25,6 +25,7 @@ import BlogPost from "./pages/BlogPost";
 import Unauthorized from "./pages/Unauthorized";
 import AddDoctor from "./pages/AddDoctor";
 import DoctorRegister from "./pages/DoctorRegister";
+import DoctorInviteRedirect from "./components/DoctorInviteRedirect";
 
 const queryClient = new QueryClient();
 
@@ -36,6 +37,7 @@ const App = () => (
           <Toaster />
           <Sonner />
           <BrowserRouter>
+            <DoctorInviteRedirect />
             <Routes>
               <Route path="/" element={<Index />} />
               <Route path="/about" element={<About />} />
