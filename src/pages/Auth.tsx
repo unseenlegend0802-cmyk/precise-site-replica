@@ -1,12 +1,16 @@
-import React, { useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/contexts/AuthContext";
 import { useBooking } from "@/contexts/BookingContext";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { useToast } from "@/hooks/use-toast";
 import { motion } from "framer-motion";
 import UserLoginTab from "@/components/auth/UserLoginTab";
+import AdminLoginTab from "@/components/auth/AdminLoginTab";
 
 const Auth = () => {
   const { user, role, roleLoading } = useAuth();
@@ -38,7 +42,20 @@ const Auth = () => {
               <CardDescription>Sign in to access your account</CardDescription>
             </CardHeader>
             <CardContent>
-              <UserLoginTab />
+              <Tabs defaultValue="user" className="w-full">
+                <TabsList className="grid w-full grid-cols-2 mb-6">
+                  <TabsTrigger value="user">User Login</TabsTrigger>
+                  <TabsTrigger value="admin">Admin Login</TabsTrigger>
+                </TabsList>
+
+                <TabsContent value="user">
+                  <UserLoginTab />
+                </TabsContent>
+
+                <TabsContent value="admin">
+                  <AdminLoginTab />
+                </TabsContent>
+              </Tabs>
             </CardContent>
           </Card>
         </motion.div>
