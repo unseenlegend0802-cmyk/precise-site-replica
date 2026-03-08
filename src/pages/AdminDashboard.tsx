@@ -107,16 +107,25 @@ const AdminDashboard = () => {
     );
   }
 
-  // Unique specializations for filter
-  const specializations = ["All", ...Array.from(new Set(doctors.map((d) => d.specialization).filter(Boolean) as string[]))];
+  // Extract unique cities from hospital_name (city often embedded) or use featuredDoctors city mapping
+  const slugToCityMap: Record<string, string> = {};
+  const { featuredDoctors: featuredList } = require("@/data/featuredDoctors");
+  // We'll compute cities from hospitals data
+  const allCities = Array.from(new Set(
+    doctors.map((d) => {
+      // Try to find city from featuredDoctors
+      const featured = (featuredList as any[])?.find((f: any) => f.slug === d.slug);
+      return featured?.city || null;
+    }).filter(Boolean) as string[]
+  ));
+  const cities = ["All", ...allCities];
 
   const filtered = doctors.filter((d) => {
-    const matchSearch = !search ||
-      d.name.toLowerCase().includes(search.toLowerCase()) ||
-      d.specialization?.toLowerCase().includes(search.toLowerCase()) ||
-      d.hospital_name?.toLowerCase().includes(search.toLowerCase());
-    const matchSpec = filterSpec === "All" || d.specialization === filterSpec;
-    return matchSearch && matchSpec;
+    const matchSearch = !search || d.name.toLowerCase().includes(search.toLowerCase());
+    const featured = (featuredList as any[])?.find((f: any) => f.slug === d.slug);
+    const doctorCity = featured?.city || "";
+    const matchCity = filterCity === "All" || doctorCity === filterCity;
+    return matchSearch && matchCity;
   });
 
   const statCards = [
