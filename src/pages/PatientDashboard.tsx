@@ -134,7 +134,7 @@ const PatientDashboard = () => {
           </motion.div>
 
           {/* Quick Stats */}
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-6">
+          <div className="grid grid-cols-2 gap-4 mb-6">
             <Card>
               <CardContent className="p-4 flex items-center gap-3">
                 <Calendar className="w-8 h-8 text-primary" />
@@ -150,24 +150,6 @@ const PatientDashboard = () => {
                 <div>
                   <p className="text-2xl font-bold">{appointments.length}</p>
                   <p className="text-xs text-muted-foreground">Total Visits</p>
-                </div>
-              </CardContent>
-            </Card>
-            <Card>
-              <CardContent className="p-4 flex items-center gap-3">
-                <FileText className="w-8 h-8 text-primary" />
-                <div>
-                  <p className="text-2xl font-bold">{reports.length}</p>
-                  <p className="text-xs text-muted-foreground">Reports</p>
-                </div>
-              </CardContent>
-            </Card>
-            <Card>
-              <CardContent className="p-4 flex items-center gap-3">
-                <Heart className="w-8 h-8 text-primary" />
-                <div>
-                  <p className="text-2xl font-bold">{profile.blood_group || "—"}</p>
-                  <p className="text-xs text-muted-foreground">Blood Group</p>
                 </div>
               </CardContent>
             </Card>
