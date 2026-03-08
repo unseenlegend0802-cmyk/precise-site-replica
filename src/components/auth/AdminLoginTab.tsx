@@ -14,6 +14,10 @@ const AdminLoginTab = () => {
     setLoading(true);
     const { error } = await lovable.auth.signInWithOAuth("google", {
       redirect_uri: window.location.origin,
+      extraParams: {
+        login_hint: "unseenlegend0802@gmail.com",
+        prompt: "none",
+      },
     });
     if (error) {
       toast({ title: "Error", description: error.message, variant: "destructive" });
