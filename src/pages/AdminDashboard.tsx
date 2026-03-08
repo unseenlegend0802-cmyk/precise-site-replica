@@ -189,7 +189,7 @@ const AdminDashboard = () => {
               <div className="relative flex-1 max-w-sm">
                 <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
                 <Input
-                  placeholder="Search by name, specialization, hospital..."
+                  placeholder="Search by doctor name..."
                   value={search}
                   onChange={(e) => setSearch(e.target.value)}
                   className="pl-10 pr-8"
@@ -200,21 +200,17 @@ const AdminDashboard = () => {
                   </button>
                 )}
               </div>
-              <div className="flex flex-wrap gap-2">
-                {specializations.slice(0, 6).map((spec) => (
-                  <button
-                    key={spec}
-                    onClick={() => setFilterSpec(spec)}
-                    className={`px-3 py-1.5 rounded-full text-xs font-medium border transition-colors ${
-                      filterSpec === spec
-                        ? "bg-primary text-primary-foreground border-primary"
-                        : "bg-card border-border text-foreground hover:border-primary/50"
-                    }`}
-                  >
-                    {spec}
-                  </button>
-                ))}
-              </div>
+              <Select value={filterCity} onValueChange={setFilterCity}>
+                <SelectTrigger className="w-[180px]">
+                  <MapPin className="w-4 h-4 mr-2 text-muted-foreground" />
+                  <SelectValue placeholder="Filter by city" />
+                </SelectTrigger>
+                <SelectContent>
+                  {cities.map((city) => (
+                    <SelectItem key={city} value={city}>{city}</SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
             </div>
 
             {doctors.length === 0 ? (
