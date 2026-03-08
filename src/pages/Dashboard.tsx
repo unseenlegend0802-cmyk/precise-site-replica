@@ -174,7 +174,11 @@ const Dashboard = () => {
             </Button>
           </motion.div>
 
-          <Tabs defaultValue="profile">
+          {/* Role-specific panels */}
+          {role === "admin" && <AdminDashboardPanel />}
+          {role === "doctor" && <DoctorDashboardPanel />}
+
+          <Tabs defaultValue="profile" className="mt-6">
             <TabsList className="mb-6">
               <TabsTrigger value="profile" className="gap-2"><User className="w-4 h-4" /> Profile</TabsTrigger>
               <TabsTrigger value="reports" className="gap-2"><FileText className="w-4 h-4" /> Reports ({reports.length})</TabsTrigger>
