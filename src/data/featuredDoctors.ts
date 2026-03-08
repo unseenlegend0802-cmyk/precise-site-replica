@@ -12,6 +12,7 @@ import saileshImg from "@/assets/doctors/sailesh.png";
 import bhavaniImg from "@/assets/doctors/bhavani.png";
 import abhishekBansalImg from "@/assets/doctors/Abhishekbansal.png";
 import AmolNagvekarImg from "@/assets/doctors/AmolNagvekar.png";
+import AnildevaraImg from "@/assets/doctors/Anildevara.png";
 
 export interface FeaturedDoctor {
   name: string;
@@ -70,5 +71,13 @@ export const featuredDoctors: FeaturedDoctor[] = [
     specialization: "Vascular & Interventional Radiology",
     city: "Jaipur",
     image: AmolNagvekarImg,
+  },
+  {
+    name: "Dr. Devara Anil Kashi Vishnuvardhan",
+    slug: "dr-anil-devara",
+    qualification: "MD, DNB, DMRE",
+    specialization: "Interventional Radiologist",
+    city: "Vizag",
+    image: AnildevaraImg,
   },
 ];
