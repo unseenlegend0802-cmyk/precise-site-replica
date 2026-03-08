@@ -90,7 +90,7 @@ Deno.serve(async (req) => {
         invite_token: invite.invite_token,
         role: "doctor",
       },
-      redirectTo: `https://id-preview--6e867e0c-fdf6-4d76-b71b-9c52471eec14.lovable.app/doctor-register?token=${invite.invite_token}`,
+      redirectTo: `https://medagg-1.lovable.app/doctor-register?token=${invite.invite_token}`,
     });
 
     if (inviteError) {
