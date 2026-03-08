@@ -137,7 +137,7 @@ export const hospitals: Hospital[] = [
   },
   {
     name: "Gleneagles Hospital",
-    doctor: "Dr. Bhavyashree Tn",
+    doctor: "Dr. Bhavyashree",
     qualification: "MBBS, MD (Radiology)",
     specialization: "Interventional Radiology",
     experience: "5+ years",
