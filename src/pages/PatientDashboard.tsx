@@ -153,24 +153,6 @@ const PatientDashboard = () => {
                 </div>
               </CardContent>
             </Card>
-            <Card>
-              <CardContent className="p-4 flex items-center gap-3">
-                <FileText className="w-8 h-8 text-primary" />
-                <div>
-                  <p className="text-2xl font-bold">{reports.length}</p>
-                  <p className="text-xs text-muted-foreground">Reports</p>
-                </div>
-              </CardContent>
-            </Card>
-            <Card>
-              <CardContent className="p-4 flex items-center gap-3">
-                <Heart className="w-8 h-8 text-primary" />
-                <div>
-                  <p className="text-2xl font-bold">{profile.blood_group || "—"}</p>
-                  <p className="text-xs text-muted-foreground">Blood Group</p>
-                </div>
-              </CardContent>
-            </Card>
           </div>
 
           <Tabs defaultValue="profile" className="mt-2">
