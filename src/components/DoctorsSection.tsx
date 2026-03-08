@@ -1,10 +1,50 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { featuredDoctors } from "@/data/featuredDoctors";
+import { supabase } from "@/integrations/supabase/client";
+import { featuredDoctors, FeaturedDoctor } from "@/data/featuredDoctors";
+import { getDoctorImage } from "@/utils/doctorImages";
+
+interface DbDoctor {
+  slug: string;
+  name: string;
+  qualification: string | null;
+  specialization: string | null;
+  image_url: string | null;
+  hospital_name: string | null;
+}
 
 const DoctorsSection = () => {
   const [showAll, setShowAll] = useState(false);
-  const visible = showAll ? featuredDoctors : featuredDoctors.slice(0, 4);
+  const [doctors, setDoctors] = useState<FeaturedDoctor[]>(featuredDoctors);
+
+  useEffect(() => {
+    const load = async () => {
+      const { data } = await supabase
+        .from("doctors")
+        .select("slug, name, qualification, specialization, image_url, hospital_name")
+        .order("created_at", { ascending: false });
+
+      if (data && data.length > 0) {
+        // Merge DB doctors with local assets for images
+        const dbDoctors: FeaturedDoctor[] = (data as DbDoctor[]).map((d) => ({
+          name: d.name,
+          slug: d.slug,
+          qualification: d.qualification || "",
+          specialization: d.specialization || "",
+          city: d.hospital_name || "",
+          image: d.image_url || getDoctorImage(d.slug) || "",
+        }));
+
+        // Also include featured doctors that aren't in DB
+        const dbSlugs = new Set(dbDoctors.map((d) => d.slug));
+        const localOnly = featuredDoctors.filter((d) => !dbSlugs.has(d.slug));
+        setDoctors([...dbDoctors, ...localOnly]);
+      }
+    };
+    load();
+  }, []);
+
+  const visible = showAll ? doctors : doctors.slice(0, 4);
 
   return (
     <section className="py-16 lg:py-24 bg-secondary">
@@ -24,11 +64,17 @@ const DoctorsSection = () => {
               className="bg-card-gradient rounded-xl border border-border overflow-hidden group hover:border-primary/50 transition-all duration-300 block"
             >
               <div className="aspect-[3/4] overflow-hidden bg-muted">
-                <img
-                  src={d.image}
-                  alt={d.name}
-                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                />
+                {d.image ? (
+                  <img
+                    src={d.image}
+                    alt={d.name}
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                  />
+                ) : (
+                  <div className="w-full h-full flex items-center justify-center text-3xl font-bold text-primary/50">
+                    {d.name.split(" ").map((n) => n[0]).join("").slice(0, 2)}
+                  </div>
+                )}
               </div>
               <div className="p-4 space-y-1">
                 <h3 className="font-semibold text-foreground">{d.name}</h3>
@@ -43,7 +89,7 @@ const DoctorsSection = () => {
           ))}
         </div>
 
-        {!showAll && featuredDoctors.length > 4 && (
+        {!showAll && doctors.length > 4 && (
           <div className="text-center mt-8">
             <button
               onClick={() => setShowAll(true)}
