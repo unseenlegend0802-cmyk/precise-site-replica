@@ -131,10 +131,10 @@ export const hospitals: Hospital[] = [
   // Bangalore
   {
     name: "Gleneagles Hospital",
-    doctor: "Dr. Uthappa",
-    qualification: "MBBS, MD (Radiology), FVIR",
+    doctor: "Dr. MC Uthappa",
+    qualification: "MBBS, FRCS, FRCR, CCST, IR",
     specialization: "Vascular & Interventional Radiology",
-    experience: "15+ years",
+    experience: "25+ years",
     city: "Bangalore",
     address: "Richmond Road, Bangalore, Karnataka",
     mapQuery: "Gleneagles+Hospital+Richmond+Road+Bangalore",
