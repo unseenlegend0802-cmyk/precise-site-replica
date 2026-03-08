@@ -89,8 +89,14 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   const hasRole = (r: AppRole) => role === r;
 
+  const refreshRole = async () => {
+    if (session?.user) {
+      await fetchRole(session.user.id);
+    }
+  };
+
   return (
-    <AuthContext.Provider value={{ session, user: session?.user ?? null, loading, role, roleLoading, signOut, hasRole }}>
+    <AuthContext.Provider value={{ session, user: session?.user ?? null, loading, role, roleLoading, signOut, hasRole, refreshRole }}>
       {children}
     </AuthContext.Provider>
   );
