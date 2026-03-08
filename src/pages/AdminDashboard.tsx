@@ -49,7 +49,7 @@ const AdminDashboard = () => {
   const [stats, setStats] = useState({ monthlyBookings: 0, totalBookings: 0, totalUsers: 0, totalDoctors: 0 });
   const [doctors, setDoctors] = useState<DoctorRow[]>([]);
   const [search, setSearch] = useState("");
-  const [filterSpec, setFilterSpec] = useState("All");
+  const [filterCity, setFilterCity] = useState("All");
   const [selectedDoctor, setSelectedDoctor] = useState<DoctorRow | null>(null);
 
   useEffect(() => {
