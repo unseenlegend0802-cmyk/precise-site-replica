@@ -1,10 +1,22 @@
+import { Share2 } from "lucide-react";
+
 interface Props {
   content: string;
+  date?: string;
 }
 
-const BlogContentRenderer = ({ content }: Props) => {
+const BlogContentRenderer = ({ content, date }: Props) => {
+  const handleShare = async () => {
+    if (navigator.share) {
+      await navigator.share({ title: document.title, url: window.location.href });
+    } else {
+      navigator.clipboard.writeText(window.location.href);
+    }
+  };
+
   return (
-    <article className="space-y-1">
+    <div>
+      <article className="space-y-1">
       {content.split("\n\n").map((block, i) => {
         if (block.startsWith("## ")) {
           return (
@@ -76,7 +88,21 @@ const BlogContentRenderer = ({ content }: Props) => {
           </p>
         );
       })}
-    </article>
+      </article>
+
+      {/* Bottom bar: Published date + Share */}
+      <div className="flex items-center justify-between mt-10 pt-6 border-t border-border">
+        <span className="text-sm text-muted-foreground">
+          Published: {date || ""}
+        </span>
+        <button
+          onClick={handleShare}
+          className="inline-flex items-center gap-2 px-6 py-2.5 rounded-lg bg-primary text-primary-foreground text-sm font-medium hover:opacity-90 transition-opacity"
+        >
+          <Share2 className="w-4 h-4" /> Share Article
+        </button>
+      </div>
+    </div>
   );
 };
 
