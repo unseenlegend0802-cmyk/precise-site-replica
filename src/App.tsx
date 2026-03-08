@@ -24,6 +24,7 @@ import DoctorProfile from "./pages/DoctorProfile";
 import BlogPost from "./pages/BlogPost";
 import Unauthorized from "./pages/Unauthorized";
 import AddDoctor from "./pages/AddDoctor";
+import DoctorRegister from "./pages/DoctorRegister";
 
 const queryClient = new QueryClient();
 
@@ -48,6 +49,7 @@ const App = () => (
               <Route path="/unauthorized" element={<Unauthorized />} />
               <Route path="/doctor/:slug" element={<DoctorProfile />} />
               <Route path="/blog/:slug" element={<BlogPost />} />
+              <Route path="/doctor-register" element={<DoctorRegister />} />
 
               {/* Protected routes */}
               <Route path="/dashboard" element={

@@ -27,6 +27,8 @@ import {
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { toast } from "@/hooks/use-toast";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import InviteDoctorDialog from "@/components/admin/InviteDoctorDialog";
+import DoctorInvitesTable from "@/components/admin/DoctorInvitesTable";
 
 interface DoctorRow {
   id: string;
