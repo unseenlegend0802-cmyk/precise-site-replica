@@ -58,7 +58,7 @@ const App = () => (
                 </ProtectedRoute>
               } />
               <Route path="/doctor-dashboard" element={
-                <ProtectedRoute allowedRoles={["doctor"]}>
+                <ProtectedRoute allowedRoles={["doctor", "admin"]}>
                   <DoctorDashboard />
                 </ProtectedRoute>
               } />
