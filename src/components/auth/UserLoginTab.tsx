@@ -7,7 +7,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
 import { useToast } from "@/hooks/use-toast";
-import { Phone, Loader2 } from "lucide-react";
+import { Mail, Loader2 } from "lucide-react";
 import { lovable } from "@/integrations/lovable/index";
 
 const UserLoginTab = () => {
@@ -16,9 +16,9 @@ const UserLoginTab = () => {
   const { hasPendingBooking } = useBooking();
   const [loading, setLoading] = useState(false);
 
-  // Phone OTP state
-  const [showPhoneForm, setShowPhoneForm] = useState(false);
-  const [phone, setPhone] = useState("");
+  // Email OTP state
+  const [showEmailForm, setShowEmailForm] = useState(false);
+  const [email, setEmail] = useState("");
   const [otp, setOtp] = useState("");
   const [otpSent, setOtpSent] = useState(false);
 
@@ -36,13 +36,13 @@ const UserLoginTab = () => {
   };
 
   const handleSendOtp = async () => {
-    if (!phone) return;
+    if (!email) return;
     setLoading(true);
     try {
-      const { error } = await supabase.auth.signInWithOtp({ phone });
+      const { error } = await supabase.auth.signInWithOtp({ email });
       if (error) throw error;
       setOtpSent(true);
-      toast({ title: "OTP Sent", description: "Enter the code sent to your phone." });
+      toast({ title: "OTP Sent", description: "Check your email for the verification code." });
     } catch (err: any) {
       toast({ title: "Error", description: err.message, variant: "destructive" });
     } finally {
@@ -54,7 +54,7 @@ const UserLoginTab = () => {
     e.preventDefault();
     setLoading(true);
     try {
-      const { error } = await supabase.auth.verifyOtp({ phone, token: otp, type: "sms" });
+      const { error } = await supabase.auth.verifyOtp({ email, token: otp, type: "email" });
       if (error) throw error;
       navigate(redirectAfterAuth);
     } catch (err: any) {
@@ -92,38 +92,41 @@ const UserLoginTab = () => {
         <Separator className="flex-1" />
       </div>
 
-      {/* Phone OTP */}
-      {!showPhoneForm ? (
+      {/* Email OTP */}
+      {!showEmailForm ? (
         <Button
           variant="outline"
           className="w-full flex items-center gap-3 h-11"
-          onClick={() => setShowPhoneForm(true)}
+          onClick={() => setShowEmailForm(true)}
           disabled={loading}
         >
-          <Phone className="w-5 h-5" />
-          Continue with Phone
+          <Mail className="w-5 h-5" />
+          Continue with Email OTP
         </Button>
       ) : !otpSent ? (
         <div className="space-y-4">
           <div className="space-y-2">
-            <Label htmlFor="user-phone">Phone Number</Label>
+            <Label htmlFor="user-email">Email Address</Label>
             <Input
-              id="user-phone"
-              type="tel"
-              placeholder="+91XXXXXXXXXX"
-              value={phone}
-              onChange={(e) => setPhone(e.target.value)}
+              id="user-email"
+              type="email"
+              placeholder="you@example.com"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
             />
           </div>
-          <Button className="w-full" onClick={handleSendOtp} disabled={loading || !phone}>
+          <Button className="w-full" onClick={handleSendOtp} disabled={loading || !email}>
             {loading && <Loader2 className="w-4 h-4 mr-2 animate-spin" />} Send OTP
           </Button>
-          <Button variant="ghost" className="w-full text-xs" onClick={() => setShowPhoneForm(false)}>
+          <Button variant="ghost" className="w-full text-xs" onClick={() => setShowEmailForm(false)}>
             Back
           </Button>
         </div>
       ) : (
         <form onSubmit={handleVerifyOtp} className="space-y-4">
+          <p className="text-sm text-muted-foreground text-center">
+            OTP sent to <span className="font-medium text-foreground">{email}</span>
+          </p>
           <div className="space-y-2">
             <Label htmlFor="user-otp">Enter OTP</Label>
             <Input
@@ -142,10 +145,6 @@ const UserLoginTab = () => {
           </Button>
         </form>
       )}
-
-      <p className="text-xs text-muted-foreground text-center mt-2">
-        Phone OTP requires SMS provider configuration.
-      </p>
     </div>
   );
 };
