@@ -108,29 +108,20 @@ const DoctorDashboard = () => {
                 {doctorRecord?.specialization || user?.email}
               </p>
             </div>
-            <Button variant="outline" onClick={async () => { await signOut(); navigate("/"); }} className="gap-2">
-              <LogOut className="w-4 h-4" /> Sign Out
-            </Button>
-          </motion.div>
-
-          <Tabs defaultValue="appointments" className="mt-2">
-            <TabsList className="mb-6 flex-wrap h-auto gap-1">
-              <TabsTrigger value="appointments" className="gap-2">
-                <Calendar className="w-4 h-4" /> Appointments ({upcomingCount})
-              </TabsTrigger>
-              <TabsTrigger value="profile" className="gap-2">
+            <div className="flex items-center gap-3">
+              <Button variant="outline" onClick={() => { const tab = document.querySelector('[data-state="active"]'); const tabsEl = document.querySelector('[role="tablist"]'); }} className="gap-2 hidden">placeholder</Button>
+              <Tabs defaultValue="appointments" className="w-full">
+                {/* Profile button moved to header */}
+              </Tabs>
+            </div>
+            <div className="flex items-center gap-3">
+              <TabsTrigger value="profile" className="gap-2 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-10 px-4 py-2 rounded-md text-sm font-medium">
                 <User className="w-4 h-4" /> Profile
               </TabsTrigger>
-              <TabsTrigger value="reports" className="gap-2">
-                <FileText className="w-4 h-4" /> Patient Reports
-              </TabsTrigger>
-              <TabsTrigger value="notes" className="gap-2">
-                <ClipboardList className="w-4 h-4" /> Consultation Notes
-              </TabsTrigger>
-              <TabsTrigger value="availability" className="gap-2">
-                <Clock className="w-4 h-4" /> Availability
-              </TabsTrigger>
-            </TabsList>
+              <Button variant="outline" onClick={async () => { await signOut(); navigate("/"); }} className="gap-2">
+                <LogOut className="w-4 h-4" /> Sign Out
+              </Button>
+            </div>
 
             <TabsContent value="appointments">
               <DoctorAppointmentsTab appointments={appointments} onRefresh={loadData} />
