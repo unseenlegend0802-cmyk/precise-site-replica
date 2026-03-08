@@ -90,7 +90,17 @@ const AppointmentsTab: React.FC<AppointmentsTabProps> = ({ appointments, onRefre
         <div className="flex items-start justify-between gap-4">
           <div className="flex-1 min-w-0">
             <p className="font-semibold text-foreground">{a.doctor_name}</p>
-            <p className="text-sm text-muted-foreground">{a.hospital_name}</p>
+            <div className="flex items-center gap-2">
+              <p className="text-sm text-muted-foreground">{a.hospital_name}</p>
+              <a
+                href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(a.hospital_name)}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-1 text-xs text-primary hover:underline"
+              >
+                <MapPin className="w-3 h-3" /> Directions
+              </a>
+            </div>
             {a.medical_issue && (
               <p className="text-xs text-muted-foreground mt-1">Issue: {a.medical_issue}</p>
             )}
