@@ -113,8 +113,8 @@ const DoctorProfile = () => {
             <div className="flex flex-col md:flex-row gap-6 p-6">
               {/* Photo */}
               <div className="w-40 h-40 md:w-48 md:h-48 rounded-xl overflow-hidden bg-muted shrink-0 mx-auto md:mx-0">
-                {doctor.image_url ? (
-                  <img src={doctor.image_url} alt={doctor.name} className="w-full h-full object-cover" />
+                {resolveDoctorImage(doctor.image_url) ? (
+                  <img src={resolveDoctorImage(doctor.image_url)!} alt={doctor.name} className="w-full h-full object-cover" />
                 ) : (
                   <div className="w-full h-full flex items-center justify-center text-4xl font-bold text-primary">
                     {doctor.name.split(" ").map(n => n[0]).join("").slice(0, 2)}
