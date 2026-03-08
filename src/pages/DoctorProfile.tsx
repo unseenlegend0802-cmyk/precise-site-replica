@@ -7,6 +7,7 @@ import TreatmentBar from "@/components/TreatmentBar";
 import Footer from "@/components/Footer";
 import ProcedurePathway from "@/components/ProcedurePathway";
 import { ArrowLeft, MapPin, Clock, Award, ShieldCheck, Heart, TrendingUp, Star, Globe } from "lucide-react";
+import { resolveDoctorImage } from "@/utils/doctorImages";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
