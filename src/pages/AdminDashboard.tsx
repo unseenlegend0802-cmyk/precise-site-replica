@@ -107,26 +107,23 @@ const AdminDashboard = () => {
     );
   }
 
-  // Extract unique cities from hospital_name (city often embedded) or use featuredDoctors city mapping
+  // Build city list from featuredDoctors data
   const slugToCityMap: Record<string, string> = {};
-  const { featuredDoctors: featuredList } = require("@/data/featuredDoctors");
-  // We'll compute cities from hospitals data
+  featuredDoctors.forEach((f) => { slugToCityMap[f.slug] = f.city; });
+
   const allCities = Array.from(new Set(
-    doctors.map((d) => {
-      // Try to find city from featuredDoctors
-      const featured = (featuredList as any[])?.find((f: any) => f.slug === d.slug);
-      return featured?.city || null;
-    }).filter(Boolean) as string[]
+    doctors.map((d) => slugToCityMap[d.slug] || null).filter(Boolean) as string[]
   ));
   const cities = ["All", ...allCities];
 
   const filtered = doctors.filter((d) => {
     const matchSearch = !search || d.name.toLowerCase().includes(search.toLowerCase());
-    const featured = (featuredList as any[])?.find((f: any) => f.slug === d.slug);
-    const doctorCity = featured?.city || "";
+    const doctorCity = slugToCityMap[d.slug] || "";
     const matchCity = filterCity === "All" || doctorCity === filterCity;
     return matchSearch && matchCity;
   });
+
+  const getResolvedImage = (doc: DoctorRow) => getDoctorImage(doc.slug) || doc.image_url || null;
 
   const statCards = [
     { icon: TrendingUp, label: "Monthly Bookings", value: stats.monthlyBookings, color: "text-green-400" },
