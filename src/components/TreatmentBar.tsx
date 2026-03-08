@@ -111,11 +111,6 @@ const TreatmentBar = () => {
                   />
                 </button>
 
-                {/* Separator */}
-                {i < treatments.length - 1 && (
-                  <div className="w-px h-4 bg-foreground/20 mx-0.5 shrink-0" />
-                )}
-
                 {/* Dropdown */}
                 <div
                   className={`absolute left-0 top-full mt-1 min-w-[240px] bg-foreground rounded-lg shadow-xl z-50 transform transition-all duration-300 ${
