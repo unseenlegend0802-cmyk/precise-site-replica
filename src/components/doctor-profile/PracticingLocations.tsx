@@ -25,7 +25,9 @@ const PracticingLocations = ({ hospitals, doctorName }: PracticingLocationsProps
               <div className="flex flex-col sm:flex-row sm:items-center gap-4">
                 {/* Hospital Info */}
                 <div className="flex-1 space-y-2">
-                  <h3 className="font-semibold text-foreground text-lg">{h.name}</h3>
+                  <Link to="/find-hospital" className="font-semibold text-foreground text-lg hover:text-primary transition-colors">
+                    <h3>{h.name}</h3>
+                  </Link>
                   <p className="text-sm text-muted-foreground flex items-center gap-1.5">
                     <MapPin className="w-4 h-4 text-primary shrink-0" />{h.address}
                   </p>
