@@ -95,27 +95,37 @@ Deno.serve(async (req) => {
     });
 
     if (inviteError) {
-      // If user already exists (e.g. resend), generate a magic link instead
+      // If user already exists, send a magic link email via the OTP endpoint (this actually sends an email)
       if (inviteError.message?.includes("already been registered") || 
           inviteError.message?.includes("already exists") ||
           inviteError.status === 422) {
-        const { error: magicError } = await adminClient.auth.admin.generateLink({
-          type: "magiclink",
-          email: doctorEmail,
-          options: {
-            redirectTo,
-            data: {
-              full_name: doctorName,
-              invite_token: invite.invite_token,
-              role: "doctor",
-            },
+        
+        // Use the OTP endpoint directly - this sends an actual email to the user
+        const otpResponse = await fetch(`${supabaseUrl}/auth/v1/otp`, {
+          method: "POST",
+          headers: {
+            "apikey": anonKey,
+            "Content-Type": "application/json",
           },
+          body: JSON.stringify({
+            email: doctorEmail,
+            options: {
+              emailRedirectTo: redirectTo,
+              data: {
+                full_name: doctorName,
+                invite_token: invite.invite_token,
+                role: "doctor",
+              },
+            },
+          }),
         });
 
-        if (magicError) {
+        if (!otpResponse.ok) {
+          const errBody = await otpResponse.text();
           await adminClient.from("doctor_invites").delete().eq("invite_token", invite.invite_token);
-          throw magicError;
+          throw new Error(`Failed to send magic link email: ${errBody}`);
         }
+        await otpResponse.text(); // consume body
 
         return new Response(
           JSON.stringify({ success: true, token: invite.invite_token, resent: true }),
