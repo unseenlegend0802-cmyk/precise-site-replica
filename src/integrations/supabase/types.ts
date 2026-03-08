@@ -17,6 +17,7 @@ export type Database = {
       appointments: {
         Row: {
           appointment_date: string
+          consultation_notes: string | null
           created_at: string
           doctor_name: string
           hospital_name: string
@@ -33,6 +34,7 @@ export type Database = {
         }
         Insert: {
           appointment_date: string
+          consultation_notes?: string | null
           created_at?: string
           doctor_name: string
           hospital_name: string
@@ -49,6 +51,7 @@ export type Database = {
         }
         Update: {
           appointment_date?: string
+          consultation_notes?: string | null
           created_at?: string
           doctor_name?: string
           hospital_name?: string
@@ -64,6 +67,50 @@ export type Database = {
           user_id?: string
         }
         Relationships: []
+      }
+      doctor_availability: {
+        Row: {
+          created_at: string
+          day_of_week: number
+          doctor_id: string
+          end_time: string
+          id: string
+          is_available: boolean
+          start_time: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          day_of_week: number
+          doctor_id: string
+          end_time: string
+          id?: string
+          is_available?: boolean
+          start_time: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          day_of_week?: number
+          doctor_id?: string
+          end_time?: string
+          id?: string
+          is_available?: boolean
+          start_time?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "doctor_availability_doctor_id_fkey"
+            columns: ["doctor_id"]
+            isOneToOne: false
+            referencedRelation: "doctors"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       doctor_procedures: {
         Row: {
