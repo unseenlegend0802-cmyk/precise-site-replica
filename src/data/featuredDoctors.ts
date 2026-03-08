@@ -124,8 +124,8 @@ export const featuredDoctors: FeaturedDoctor[] = [
     image: BhaskarMVImg,
   },
   {
-    name: "Dr. Bhavyashree Tn",
-    slug: "dr-bhavyashree-tn",
+    name: "Dr. Bhavyashree",
+    slug: "dr-bhavyashree",
     qualification: "MBBS, MDDNB, FRCR, PDCC",
     specialization: "Interventional Radiologist",
     city: "Bengaluru",
