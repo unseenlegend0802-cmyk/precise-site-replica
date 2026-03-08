@@ -280,8 +280,8 @@ const AdminDashboard = () => {
                       <div className="relative">
                         {/* Hero image */}
                         <div className="h-64 sm:h-80 bg-muted overflow-hidden">
-                          {selectedDoctor.image_url ? (
-                            <img src={selectedDoctor.image_url} alt={selectedDoctor.name} className="w-full h-full object-cover" />
+                          {getResolvedImage(selectedDoctor) ? (
+                            <img src={getResolvedImage(selectedDoctor)!} alt={selectedDoctor.name} className="w-full h-full object-cover" />
                           ) : (
                             <div className="w-full h-full flex items-center justify-center">
                               <Avatar className="w-32 h-32">
