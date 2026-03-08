@@ -214,7 +214,7 @@ const AdminDashboard = () => {
               </Select>
             </div>
 
-            <DoctorInvitesTable invites={invites} />
+            <DoctorInvitesTable invites={invites} onInviteResent={loadData} />
 
             {doctors.length === 0 ? (
               <Card>
