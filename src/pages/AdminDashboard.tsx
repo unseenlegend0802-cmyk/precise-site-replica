@@ -214,6 +214,8 @@ const AdminDashboard = () => {
               </Select>
             </div>
 
+            <DoctorInvitesTable invites={invites} />
+
             {doctors.length === 0 ? (
               <Card>
                 <CardContent className="py-12 text-center">
