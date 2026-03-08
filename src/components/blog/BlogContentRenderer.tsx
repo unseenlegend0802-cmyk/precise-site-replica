@@ -17,7 +17,6 @@ const BlogContentRenderer = ({ content, date }: Props) => {
   return (
     <div>
       <article className="space-y-1">
-    <article className="space-y-1">
       {content.split("\n\n").map((block, i) => {
         if (block.startsWith("## ")) {
           return (
