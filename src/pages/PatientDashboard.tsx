@@ -177,7 +177,7 @@ const PatientDashboard = () => {
             <TabsList className="mb-6 flex-wrap h-auto gap-1">
               <TabsTrigger value="profile" className="gap-2"><User className="w-4 h-4" /> Profile</TabsTrigger>
               <TabsTrigger value="appointments" className="gap-2"><Calendar className="w-4 h-4" /> Appointments</TabsTrigger>
-              <TabsTrigger value="reports" className="gap-2"><FileText className="w-4 h-4" /> Reports</TabsTrigger>
+              <TabsTrigger value="reports" className="gap-2"><FileText className="w-4 h-4" /> Reports ({reports.length})</TabsTrigger>
               <TabsTrigger value="history" className="gap-2"><Stethoscope className="w-4 h-4" /> History</TabsTrigger>
               <TabsTrigger value="notifications" className="gap-2"><Bell className="w-4 h-4" /> Notifications</TabsTrigger>
             </TabsList>
