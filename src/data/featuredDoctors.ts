@@ -25,6 +25,7 @@ import ManishKumaryadavImg from "@/assets/doctors/ManishKumaryadav.png";
 import minalchaudhryImg from "@/assets/doctors/minalchaudhry.png";
 import muthurajanImg from "@/assets/doctors/muthurajan.png";
 import NishantSunkarineniImg from "@/assets/doctors/NishantSunkarineni.png";
+import NikhilSunkarineniImg from "@/assets/doctors/NikhilSunkarineni.png";
 import ParthaPratimSamuiImg from "@/assets/doctors/ParthaPratimSamui.png";
 import praveenkesavImg from "@/assets/doctors/praveenkesav.png";
 import PushparajansundarrajanImg from "@/assets/doctors/Pushparajansundarrajan.png";
@@ -203,12 +204,12 @@ export const featuredDoctors: FeaturedDoctor[] = [
     image: NishantSunkarineniImg,
   },
   {
-    name: "Dr. Nishant Sunkarineni",
-    slug: "dr-nishant-sunkarineni",
-    qualification: "MBBS, MD, DM",
+    name: "Dr. Nikhil Sunkarineni",
+    slug: "dr-nikhil-sunkarineni",
+    qualification: "MBBS, MD, DM (Neurology)",
     specialization: "Interventional Cardiology",
     city: "Hyderabad",
-    image: NishantSunkarineniImg,
+    image: NikhilSunkarineniImg,
   },
   {
     name: "Dr. Partha Pratim Samui",
