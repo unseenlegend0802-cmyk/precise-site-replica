@@ -29,7 +29,7 @@ interface ProfileTabProps {
 
 const ProfileTab: React.FC<ProfileTabProps> = ({ profile, setProfile, saving, onSave }) => {
   return (
-    <div className="flex flex-col lg:flex-row gap-6 items-start">
+    <div className="flex flex-col md:flex-row gap-6 items-start">
       <Card className="flex-1 min-w-0">
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
@@ -90,11 +90,11 @@ const ProfileTab: React.FC<ProfileTabProps> = ({ profile, setProfile, saving, on
       </Card>
 
       {/* IRa Bot - 20% width on desktop, centered on mobile/tablet */}
-      <div className="flex flex-col items-center gap-3 w-full lg:w-[20%] shrink-0 lg:sticky lg:top-32">
+      <div className="flex flex-col items-center gap-3 w-full md:w-[25%] shrink-0 md:sticky md:top-32">
         <motion.img
           src={iraBot}
           alt="IRa Bot Assistant"
-          className="w-40 h-40 sm:w-48 sm:h-48 lg:w-full lg:h-auto max-w-[200px] lg:max-w-none object-contain drop-shadow-lg"
+          className="w-60 h-60 sm:w-72 sm:h-72 md:w-full md:h-auto object-contain drop-shadow-lg"
           animate={{ y: [0, -10, 0] }}
           transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
         />
