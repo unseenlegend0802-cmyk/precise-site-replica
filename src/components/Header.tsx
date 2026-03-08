@@ -19,7 +19,6 @@ const navLinks = [
 const ctaLinks = [
   { label: "Partner With Us", to: "/contact" },
   { label: "Become an Investor", to: "/contact" },
-  { label: "Book Appointment", to: "/contact" },
 ];
 
 const Header = () => {
