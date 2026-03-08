@@ -19,7 +19,7 @@ const DoctorRegister = () => {
   const [searchParams] = useSearchParams();
   const token = searchParams.get("token");
   const navigate = useNavigate();
-  const { user } = useAuth();
+  const { user, refreshRole } = useAuth();
 
   const [step, setStep] = useState<Step>("validating");
   const [invite, setInvite] = useState<any>(null);
