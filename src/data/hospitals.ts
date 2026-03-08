@@ -13,6 +13,7 @@ export interface Hospital {
 }
 
 export const hospitals: Hospital[] = [
+  // Hyderabad
   {
     name: "Medicover Hospital",
     doctor: "Dr. Saiteja Namala",
@@ -34,9 +35,20 @@ export const hospitals: Hospital[] = [
     city: "Hyderabad",
     address: "Road No 2, Banjara Hills, Hyderabad, Telangana",
     mapQuery: "Maven+Medical+Center+Banjara+Hills+Hyderabad",
-    doctorImage: "/src/assets/doctors/balaji.png",
     availableTime: "11 AM to 3 PM",
     consultationFee: "₹1,000",
+  },
+  {
+    name: "KIMS Hospital",
+    doctor: "Dr. Sailesh Kumar Garge",
+    qualification: "MBBS, DMRD, DNB",
+    specialization: "Interventional Radiology",
+    experience: "12+ years",
+    city: "Hyderabad",
+    address: "Secunderabad, Hyderabad, Telangana",
+    mapQuery: "KIMS+Hospital+Secunderabad+Hyderabad",
+    availableTime: "10 AM to 4 PM",
+    consultationFee: "₹800",
   },
   {
     name: "Nikhil Hospital (Dilsukhnagar)",
@@ -62,6 +74,7 @@ export const hospitals: Hospital[] = [
     availableTime: "11 AM to 3 PM",
     consultationFee: "₹500",
   },
+  // Vijayawada
   {
     name: "Anu Neuro & Cardiac Sciences",
     doctor: "Dr. Bhavani Shankar Manam",
@@ -71,7 +84,6 @@ export const hospitals: Hospital[] = [
     city: "Vijayawada",
     address: "Enikepadu, Vijayawada, Andhra Pradesh",
     mapQuery: "Anu+Neuro+Cardiac+Sciences+Vijayawada",
-    doctorImage: "/src/assets/doctors/bhavani.png",
     availableTime: "10 AM to 3 PM",
     consultationFee: "₹600",
   },
@@ -85,9 +97,10 @@ export const hospitals: Hospital[] = [
     address: "Poranki, Vijayawada, Andhra Pradesh",
     mapQuery: "Capital+Hospital+Poranki+Vijayawada",
   },
+  // Visakhapatnam
   {
     name: "Medicover Hospital",
-    doctor: "Dr. Sibasankar Dalai",
+    doctor: "Dr. Siba Sankar Dalai",
     qualification: "MD, FACP, FINR (Neurology)",
     specialization: "Neuro Vascular Intervention",
     experience: "14+ years",
@@ -96,6 +109,18 @@ export const hospitals: Hospital[] = [
     mapQuery: "Medicover+Hospital+Venkojipalem+Visakhapatnam",
     availableTime: "10 AM to 3 PM",
     consultationFee: "₹900",
+  },
+  {
+    name: "CARE Hospitals",
+    doctor: "Dr. Devara Anil Kashi Vishnuvardhan",
+    qualification: "MD, DNB, DMRE",
+    specialization: "Interventional Radiology",
+    experience: "10+ years",
+    city: "Visakhapatnam",
+    address: "Ramnagar, Visakhapatnam, Andhra Pradesh",
+    mapQuery: "CARE+Hospitals+Ramnagar+Visakhapatnam",
+    availableTime: "10 AM to 4 PM",
+    consultationFee: "₹700",
   },
   // Bangalore
   {
@@ -112,7 +137,7 @@ export const hospitals: Hospital[] = [
   },
   {
     name: "Gleneagles Hospital",
-    doctor: "Dr. Bhavyasree",
+    doctor: "Dr. Bhavyashree Tn",
     qualification: "MBBS, MD (Radiology)",
     specialization: "Interventional Radiology",
     experience: "5+ years",
@@ -155,6 +180,54 @@ export const hospitals: Hospital[] = [
     availableTime: "9 AM to 4 PM",
     consultationFee: "₹1,250",
   },
+  {
+    name: "NIMHANS Hospital",
+    doctor: "Dr. Bhaskar M V",
+    qualification: "MBBS, MD, DNB, DM Neuroimaging, FRCR",
+    specialization: "Interventional Radiology & Neuroradiology",
+    experience: "10+ years",
+    city: "Bangalore",
+    address: "Hosur Road, Bengaluru, Karnataka",
+    mapQuery: "NIMHANS+Hospital+Hosur+Road+Bengaluru",
+    availableTime: "10 AM to 4 PM",
+    consultationFee: "₹800",
+  },
+  {
+    name: "Aster CMI Hospital",
+    doctor: "Dr. Junaid Ahmed Jamadar",
+    qualification: "MBBS, MD, DNB, FRCR(UK), EDiR",
+    specialization: "Fetal Medicine & Interventional Radiology",
+    experience: "8+ years",
+    city: "Bangalore",
+    address: "Hebbal, Bengaluru, Karnataka",
+    mapQuery: "Aster+CMI+Hospital+Hebbal+Bengaluru",
+    availableTime: "10 AM to 4 PM",
+    consultationFee: "₹900",
+  },
+  {
+    name: "Narayana Health City",
+    doctor: "Dr. Rohit K Srinivas",
+    qualification: "MBBS, MD PGIMER",
+    specialization: "Interventional Radiology",
+    experience: "8+ years",
+    city: "Bangalore",
+    address: "Bommasandra, Bengaluru, Karnataka",
+    mapQuery: "Narayana+Health+City+Bommasandra+Bengaluru",
+    availableTime: "10 AM to 4 PM",
+    consultationFee: "₹800",
+  },
+  {
+    name: "Sakra World Hospital",
+    doctor: "Dr. Rohit Madhurkar",
+    qualification: "MBBS, MD, FIR-PDCC, SITAT (S. Korea)",
+    specialization: "Interventional Radiology",
+    experience: "8+ years",
+    city: "Bangalore",
+    address: "Marathahalli, Bengaluru, Karnataka",
+    mapQuery: "Sakra+World+Hospital+Marathahalli+Bengaluru",
+    availableTime: "10 AM to 5 PM",
+    consultationFee: "₹900",
+  },
   // Mangalore
   {
     name: "Tara Hospital",
@@ -191,26 +264,77 @@ export const hospitals: Hospital[] = [
   },
   {
     name: "RPS Hospital",
-    doctor: "Dr. Arul",
-    qualification: "MBBS, MD (Radiology)",
+    doctor: "Dr. Arul Arokia Sensan Babu",
+    qualification: "MBBS, MD, DNB, FRCR, FNVIR",
     specialization: "Interventional Radiology",
     experience: "8+ years",
     city: "Chennai",
     address: "Korattur, Chennai, Tamil Nadu",
     mapQuery: "RPS+Hospital+Korattur+Chennai",
+    availableTime: "10 AM to 3 PM",
+    consultationFee: "₹600",
+  },
+  {
+    name: "SRM Institutes for Medical Science",
+    doctor: "Dr. Pushparajan Sundarrajan",
+    qualification: "MBBS, DMRD, DNB",
+    specialization: "Interventional Radiology",
+    experience: "10+ years",
+    city: "Chennai",
+    address: "Vadapalani, Chennai, Tamil Nadu",
+    mapQuery: "SRM+Institutes+Medical+Science+Vadapalani+Chennai",
+    availableTime: "10 AM to 4 PM",
+    consultationFee: "₹600",
+  },
+  {
+    name: "Apollo Hospital (Greams Road)",
+    doctor: "Dr. S Kiran Kumar",
+    qualification: "MBBS, DNB (RD), FVIR, EBIR",
+    specialization: "Interventional Radiology",
+    experience: "12+ years",
+    city: "Chennai",
+    address: "Greams Road, Chennai, Tamil Nadu",
+    mapQuery: "Apollo+Hospital+Greams+Road+Chennai",
+    availableTime: "10 AM to 4 PM",
+    consultationFee: "₹1,000",
+  },
+  {
+    name: "SIMS Hospital",
+    doctor: "Dr. Sankesh Mehta",
+    qualification: "MBBS, MD, FENVIR",
+    specialization: "Interventional Radiology",
+    experience: "8+ years",
+    city: "Chennai",
+    address: "Vadapalani, Chennai, Tamil Nadu",
+    mapQuery: "SIMS+Hospital+Vadapalani+Chennai",
+    availableTime: "10 AM to 3 PM",
+    consultationFee: "₹700",
   },
   // Coimbatore
   {
     name: "Sri Ramakrishna Hospital",
-    doctor: "Dr. Muthurajan",
-    qualification: "MBBS, MD (Radiology)",
-    specialization: "Interventional Radiology",
+    doctor: "Dr. P MUTHURAJAN",
+    qualification: "DMRD, DNB, FNVIR",
+    specialization: "Neuro And Vascular Interventional Radiology",
     experience: "10+ years",
     city: "Coimbatore",
     address: "Coimbatore, Tamil Nadu",
     mapQuery: "Sri+Ramakrishna+Hospital+Coimbatore",
     availableTime: "10 AM to 3 PM",
     consultationFee: "₹500",
+  },
+  // Salem
+  {
+    name: "Manipal Hospital",
+    doctor: "Dr. Karthikeyan M A",
+    qualification: "MBBS, MD, DrNB(EVIR), EBIR",
+    specialization: "Interventional Radiology",
+    experience: "8+ years",
+    city: "Salem",
+    address: "Salem, Tamil Nadu",
+    mapQuery: "Manipal+Hospital+Salem+Tamil+Nadu",
+    availableTime: "10 AM to 4 PM",
+    consultationFee: "₹600",
   },
   // Madurai
   {
@@ -222,7 +346,6 @@ export const hospitals: Hospital[] = [
     city: "Madurai",
     address: "K. Pudur, Madurai, Tamil Nadu",
     mapQuery: "Bharathi+Hospital+K+Pudur+Madurai",
-    doctorImage: "/src/assets/doctors/vinayagamani.png",
   },
   // Pune
   {
@@ -247,6 +370,19 @@ export const hospitals: Hospital[] = [
     address: "Deccan Gymkhana, Pune, Maharashtra",
     mapQuery: "Sahyadri+Hospital+Deccan+Gymkhana+Pune",
     availableTime: "10 AM to 3 PM",
+    consultationFee: "₹800",
+  },
+  // Goa
+  {
+    name: "Manipal Hospital Goa",
+    doctor: "Dr. Charudutt Jayant Sambhaji",
+    qualification: "MBBS, MD",
+    specialization: "Interventional Radiology",
+    experience: "10+ years",
+    city: "Goa",
+    address: "Dona Paula, Goa",
+    mapQuery: "Manipal+Hospital+Goa+Dona+Paula",
+    availableTime: "10 AM to 4 PM",
     consultationFee: "₹800",
   },
   // Ahmedabad
@@ -287,10 +423,23 @@ export const hospitals: Hospital[] = [
     availableTime: "10 AM to 3 PM",
     consultationFee: "₹800",
   },
+  // Jaipur
+  {
+    name: "Narayana Multispeciality Hospital",
+    doctor: "Dr. Amol Nagvekar",
+    qualification: "MBBS, DNB, FVIR",
+    specialization: "Vascular & Interventional Radiology",
+    experience: "12+ years",
+    city: "Jaipur",
+    address: "Sector 28, Pratap Nagar, Jaipur, Rajasthan",
+    mapQuery: "Narayana+Multispeciality+Hospital+Jaipur",
+    availableTime: "10 AM to 4 PM",
+    consultationFee: "₹700",
+  },
   // Kolkata
   {
     name: "Manipal Hospital",
-    doctor: "Dr. Partha Pratim",
+    doctor: "Dr. Partha Pratim Samui",
     qualification: "MBBS, MD (Radiology)",
     specialization: "Interventional Radiology",
     experience: "12+ years",
@@ -302,7 +451,7 @@ export const hospitals: Hospital[] = [
   // Trivandrum
   {
     name: "GG Hospital",
-    doctor: "Dr. Praveen Keshav",
+    doctor: "Dr. Praveen Kesav",
     qualification: "MBBS, MD (Radiology)",
     specialization: "Interventional Radiology",
     experience: "8+ years",
@@ -327,7 +476,7 @@ export const hospitals: Hospital[] = [
   // Calicut
   {
     name: "Baby Memorial Hospital",
-    doctor: "Dr. Jithu Subash Babu",
+    doctor: "Dr. Jithu subhash babu",
     qualification: "MBBS, MD (Radiology)",
     specialization: "Interventional Radiology",
     experience: "6+ years",
@@ -340,7 +489,7 @@ export const hospitals: Hospital[] = [
   // Perinthalmanna
   {
     name: "KIMS Hospital",
-    doctor: "Dr. Thoufiq Ali",
+    doctor: "Dr. Thoufiq Ali M",
     qualification: "MBBS, MD (Radiology)",
     specialization: "Interventional Radiology",
     experience: "6+ years",
@@ -350,11 +499,23 @@ export const hospitals: Hospital[] = [
     availableTime: "9:30 AM to 4 PM",
     consultationFee: "₹350",
   },
-  // Delhi
+  // Delhi / NCR
+  {
+    name: "BLK-Max Super Speciality Hospital",
+    doctor: "Dr. Abhishek Bansal",
+    qualification: "MBBS, DNB, Fellowship VIR",
+    specialization: "Vascular & Interventional Radiology",
+    experience: "15+ years",
+    city: "Delhi",
+    address: "Rajinder Nagar, New Delhi",
+    mapQuery: "BLK+Max+Super+Speciality+Hospital+Delhi",
+    availableTime: "10 AM to 4 PM",
+    consultationFee: "₹1,200",
+  },
   {
     name: "Manipal Hospital (Gurgaon)",
     doctor: "Dr. Sahil Bansal",
-    qualification: "MBBS, MD (Radiology), FVIR",
+    qualification: "MBBS, MD (Radiology), FVIR, FRCR 2A",
     specialization: "Vascular & Interventional Radiology",
     experience: "10+ years",
     city: "Delhi",
@@ -366,7 +527,7 @@ export const hospitals: Hospital[] = [
   {
     name: "Manipal Hospital (Dwarka)",
     doctor: "Dr. Sahil Bansal",
-    qualification: "MBBS, MD (Radiology), FVIR",
+    qualification: "MBBS, MD (Radiology), FVIR, FRCR 2A",
     specialization: "Vascular & Interventional Radiology",
     experience: "10+ years",
     city: "Delhi",
@@ -375,10 +536,22 @@ export const hospitals: Hospital[] = [
     availableTime: "10 AM to 5 PM",
     consultationFee: "₹1,450",
   },
+  {
+    name: "Fortis Hospital (Dwarka)",
+    doctor: "Dr. Minal Chaudhry",
+    qualification: "MBBS, DNB (RadioDiagnosis)",
+    specialization: "Neuro and Vascular Interventional Radiology",
+    experience: "8+ years",
+    city: "Delhi",
+    address: "Dwarka, New Delhi",
+    mapQuery: "Fortis+Hospital+Dwarka+New+Delhi",
+    availableTime: "10 AM to 4 PM",
+    consultationFee: "₹1,000",
+  },
   // Bhubaneswar
   {
     name: "Manipal Hospital",
-    doctor: "Dr. T. Seetam Kumar",
+    doctor: "Dr. T Seetam Kumar",
     qualification: "MBBS, MD (Radiology)",
     specialization: "Interventional Radiology",
     experience: "8+ years",
