@@ -7,7 +7,8 @@ import aboutHero from "@/assets/about-hero.png";
 import type1Img from "@/assets/about/type1.png";
 import type2Img from "@/assets/about/type2.png";
 import type3Img from "@/assets/about/type3.png";
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
+import { useInView } from "framer-motion";
 
 const socialLinks = [
   { icon: Facebook, href: "https://www.facebook.com/profile.php?id=61558841344582" },
