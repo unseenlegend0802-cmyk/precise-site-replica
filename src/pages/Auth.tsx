@@ -13,12 +13,12 @@ import UserLoginTab from "@/components/auth/UserLoginTab";
 import AdminLoginTab from "@/components/auth/AdminLoginTab";
 
 const Auth = () => {
-  const { user, role } = useAuth();
+  const { user, role, roleLoading } = useAuth();
   const navigate = useNavigate();
   const { hasPendingBooking } = useBooking();
 
   useEffect(() => {
-    if (user) {
+    if (user && !roleLoading) {
       if (hasPendingBooking) {
         navigate("/book-appointment", { replace: true });
       } else if (role === "admin") {
@@ -29,7 +29,7 @@ const Auth = () => {
         navigate("/dashboard", { replace: true });
       }
     }
-  }, [user, role, navigate, hasPendingBooking]);
+  }, [user, role, roleLoading, navigate, hasPendingBooking]);
 
   return (
     <div className="min-h-screen bg-background">
