@@ -58,16 +58,6 @@ const DoctorHeaderCard = ({ doctor, hasHospitals }: DoctorHeaderCardProps) => {
               <p className="text-sm text-muted-foreground leading-relaxed line-clamp-3 md:line-clamp-none">{doctor.bio}</p>
             )}
 
-            {/* CTA */}
-            {hasHospitals && (
-              <div className="pt-2">
-                <Button asChild size="lg" className="rounded-full px-8">
-                  <a href="#book-section">
-                    <CalendarCheck className="w-4 h-4 mr-2" /> Book Appointment
-                  </a>
-                </Button>
-              </div>
-            )}
           </div>
         </div>
       </CardContent>
