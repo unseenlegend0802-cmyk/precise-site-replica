@@ -74,7 +74,7 @@ const Header = () => {
             </Link>
           ))}
           <Link
-            to={user ? "/dashboard" : "/auth"}
+            to={user ? dashboardPath : "/auth"}
             className="flex items-center gap-1.5 text-xs px-3 py-2 rounded-md border border-muted-foreground/30 text-foreground hover:border-primary transition-colors font-medium"
           >
             <User className="w-3.5 h-3.5" />
