@@ -2,7 +2,7 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import AnimatedSection from "@/components/AnimatedSection";
 import { motion } from "framer-motion";
-import { Facebook, Instagram, Youtube, Linkedin, Play, CheckCircle, XCircle, ArrowRight } from "lucide-react";
+import { Facebook, Instagram, Youtube, Linkedin, Play, CheckCircle, XCircle, ArrowRight, Heart, CalendarDays, IndianRupee } from "lucide-react";
 import aboutHero from "@/assets/about-hero.png";
 import type1Img from "@/assets/about/type1.png";
 import type2Img from "@/assets/about/type2.png";
