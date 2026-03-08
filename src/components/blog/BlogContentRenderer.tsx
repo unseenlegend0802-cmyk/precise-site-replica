@@ -5,8 +5,18 @@ interface Props {
   date?: string;
 }
 
-const BlogContentRenderer = ({ content }: Props) => {
+const BlogContentRenderer = ({ content, date }: Props) => {
+  const handleShare = async () => {
+    if (navigator.share) {
+      await navigator.share({ title: document.title, url: window.location.href });
+    } else {
+      navigator.clipboard.writeText(window.location.href);
+    }
+  };
+
   return (
+    <div>
+      <article className="space-y-1">
     <article className="space-y-1">
       {content.split("\n\n").map((block, i) => {
         if (block.startsWith("## ")) {
