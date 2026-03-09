@@ -144,6 +144,7 @@ const BookAppointment = () => {
         patient_gender: formData.gender || null,
         patient_phone: formData.phone || null,
         medical_issue: formData.medicalIssue || null,
+        status: "pending",
       });
       if (error) {
         if (error.code === "23505") {
