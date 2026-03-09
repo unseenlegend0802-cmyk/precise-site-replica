@@ -87,8 +87,9 @@ const DoctorDashboard = () => {
   }
 
   const today = new Date(new Date().toDateString());
+  const pendingCount = appointments.filter((a) => a.status === "pending").length;
   const upcomingCount = appointments.filter(
-    (a) => a.status !== "cancelled" && new Date(a.appointment_date) >= today
+    (a) => ["confirmed", "rescheduled"].includes(a.status) && new Date(a.appointment_date) >= today
   ).length;
   const totalPatients = new Set(appointments.map((a) => a.user_id)).size;
 
@@ -126,8 +127,13 @@ const DoctorDashboard = () => {
 
           <Tabs value={activeTab} onValueChange={setActiveTab} className="mt-2">
             <TabsList className="mb-6 flex-wrap h-auto gap-1">
-              <TabsTrigger value="appointments" className="gap-2">
+              <TabsTrigger value="appointments" className="gap-2 relative">
                 <Calendar className="w-4 h-4" /> Appointments ({upcomingCount})
+                {pendingCount > 0 && (
+                  <span className="absolute -top-1 -right-1 w-5 h-5 rounded-full bg-destructive text-destructive-foreground text-[10px] flex items-center justify-center font-bold">
+                    {pendingCount}
+                  </span>
+                )}
               </TabsTrigger>
               <TabsTrigger value="reports" className="gap-2">
                 <FileText className="w-4 h-4" /> Patient Reports
