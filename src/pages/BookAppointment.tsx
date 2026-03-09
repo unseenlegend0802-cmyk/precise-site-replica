@@ -40,8 +40,10 @@ const BookAppointment = () => {
   const [bookedSlots, setBookedSlots] = useState<string[]>([]);
   const [loadingSlots, setLoadingSlots] = useState(false);
 
-  // Generate slots from doctor's availableTime
-  const allSlots = selectedHospital ? generateSlots(selectedHospital.availableTime) : [];
+  const [dbSlots, setDbSlots] = useState<string[] | null>(null);
+
+  // Use DB availability if found, otherwise fall back to static availableTime
+  const allSlots = dbSlots !== null ? dbSlots : (selectedHospital ? generateSlots(selectedHospital.availableTime) : []);
   const availableSlots = allSlots.filter((s) => !bookedSlots.includes(s));
 
   useEffect(() => {
