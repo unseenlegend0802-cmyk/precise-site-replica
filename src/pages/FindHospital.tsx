@@ -1,8 +1,8 @@
-import { useState } from "react";
+import { useState, useEffect, useMemo } from "react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import AnimatedSection from "@/components/AnimatedSection";
-import { hospitals, cities } from "@/data/hospitals";
+import { hospitals as staticHospitals, cities as staticCities } from "@/data/hospitals";
 import { Search } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import HospitalCard from "@/components/HospitalCard";
@@ -11,15 +11,72 @@ import { useNavigate, useLocation } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
 import { useBooking } from "@/contexts/BookingContext";
 import { Hospital } from "@/data/hospitals";
+import { supabase } from "@/integrations/supabase/client";
+import { getDoctorImage } from "@/utils/doctorImages";
 
 const FindHospital = () => {
   const [selectedCity, setSelectedCity] = useState<string>("All");
   const [search, setSearch] = useState("");
-  const [selectedHospital, setSelectedHospital] = useState(hospitals[0]);
+  const [dbHospitals, setDbHospitals] = useState<Hospital[]>([]);
   const navigate = useNavigate();
   const location = useLocation();
   const { user } = useAuth();
   const { setSelectedHospital: setBookingHospital, patientName, medicalIssue } = useBooking();
+
+  // Fetch DB doctors and convert to Hospital card entries
+  useEffect(() => {
+    const load = async () => {
+      const { data } = await supabase
+        .from("doctors")
+        .select("slug, name, qualification, specialization, experience, hospital_name, consultation_fee, image_url")
+        .order("created_at", { ascending: false });
+
+      if (data && data.length > 0) {
+        // Avoid duplicates: build set of static doctor names (normalized)
+        const staticDoctorNames = new Set(
+          staticHospitals.map((h) =>
+            h.doctor.toLowerCase().replace(/^dr\.?\s*/i, "").trim()
+          )
+        );
+
+        const newEntries: Hospital[] = data
+          .filter((d) => {
+            const cleanName = d.name.toLowerCase().replace(/^dr\.?\s*/i, "").trim();
+            return !staticDoctorNames.has(cleanName);
+          })
+          .map((d) => {
+            const doctorImage = getDoctorImage(d.slug) || d.image_url || undefined;
+            const city = d.hospital_name || "India";
+            return {
+              name: d.hospital_name || "MedAgg Partner Hospital",
+              doctor: d.name.startsWith("Dr.") ? d.name : `Dr. ${d.name}`,
+              qualification: d.qualification || "",
+              specialization: d.specialization || "Interventional Radiology",
+              experience: d.experience || "",
+              city,
+              address: d.hospital_name || "Contact for address",
+              mapQuery: encodeURIComponent(d.hospital_name || d.name),
+              doctorImage,
+              consultationFee: d.consultation_fee || undefined,
+            };
+          });
+
+        setDbHospitals(newEntries);
+      }
+    };
+    load();
+  }, []);
+
+  // Merge static + DB hospitals
+  const hospitals = useMemo(() => [...staticHospitals, ...dbHospitals], [dbHospitals]);
+
+  // Derive cities from merged list
+  const cities = useMemo(() => {
+    const allCities = new Set(hospitals.map((h) => h.city));
+    return Array.from(allCities).sort();
+  }, [hospitals]);
+
+  const [selectedHospital, setSelectedHospital] = useState(staticHospitals[0]);
 
   // Auto-filter from scan report data passed via location state
   const scanData = location.state?.scanData;
