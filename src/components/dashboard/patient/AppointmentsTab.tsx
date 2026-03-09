@@ -131,8 +131,8 @@ const AppointmentsTab: React.FC<AppointmentsTabProps> = ({ appointments, onRefre
             </p>
           </div>
           <div className="flex flex-col items-end gap-2">
-            <Badge variant={statusColor(a.status) as any}>{a.status}</Badge>
-            {showActions && a.status === "confirmed" && (
+            <Badge variant={statusColor(a.status) as any}>{statusLabel(a.status)}</Badge>
+            {showActions && ["confirmed", "rescheduled", "pending"].includes(a.status) && (
               <div className="flex gap-2">
                 <Button variant="outline" size="sm" asChild className="gap-1 text-xs">
                   <Link to="/find-hospital">
