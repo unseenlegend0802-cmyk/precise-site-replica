@@ -53,6 +53,7 @@ const App = () => (
               <Route path="/doctor/:slug" element={<DoctorProfile />} />
               <Route path="/blog/:slug" element={<BlogPost />} />
               <Route path="/doctor-register" element={<DoctorRegister />} />
+              <Route path="/doctor-login" element={<DoctorLogin />} />
 
               {/* Protected routes */}
               <Route path="/dashboard" element={
