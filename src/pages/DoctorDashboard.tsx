@@ -87,8 +87,9 @@ const DoctorDashboard = () => {
   }
 
   const today = new Date(new Date().toDateString());
+  const pendingCount = appointments.filter((a) => a.status === "pending").length;
   const upcomingCount = appointments.filter(
-    (a) => a.status !== "cancelled" && new Date(a.appointment_date) >= today
+    (a) => ["confirmed", "rescheduled"].includes(a.status) && new Date(a.appointment_date) >= today
   ).length;
   const totalPatients = new Set(appointments.map((a) => a.user_id)).size;
 
