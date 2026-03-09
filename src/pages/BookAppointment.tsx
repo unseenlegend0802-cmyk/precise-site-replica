@@ -175,8 +175,8 @@ const BookAppointment = () => {
                   <div className="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center mx-auto">
                     <CheckCircle2 className="w-8 h-8 text-primary" />
                   </div>
-                  <h2 className="text-2xl font-bold text-foreground">Appointment Confirmed!</h2>
-                  <p className="text-muted-foreground">Your appointment has been booked successfully.</p>
+                  <h2 className="text-2xl font-bold text-foreground">Appointment Request Sent!</h2>
+                  <p className="text-muted-foreground">Your appointment request has been sent to the doctor for confirmation. You'll be notified once it's accepted.</p>
 
                   <div className="bg-secondary rounded-lg p-6 text-left space-y-3">
                     <div className="flex items-center gap-2">

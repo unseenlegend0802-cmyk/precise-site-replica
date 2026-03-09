@@ -36,10 +36,23 @@ interface AppointmentsTabProps {
 
 const statusColor = (status: string) => {
   switch (status) {
+    case "pending": return "outline";
     case "confirmed": return "default";
+    case "rescheduled": return "outline";
+    case "rejected": return "destructive";
     case "cancelled": return "destructive";
     case "completed": return "secondary";
     default: return "outline";
+  }
+};
+
+const statusLabel = (status: string) => {
+  switch (status) {
+    case "pending": return "Awaiting Confirmation";
+    case "confirmed": return "Accepted";
+    case "rescheduled": return "Rescheduled";
+    case "rejected": return "Rejected";
+    default: return status;
   }
 };
 
