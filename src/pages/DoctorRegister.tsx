@@ -108,7 +108,7 @@ const DoctorRegister = () => {
     };
 
     validate();
-  }, [token, user, refreshRole]);
+  }, [token, user]);
 
   const handleSetPassword = async () => {
     if (password.length < 6) {
