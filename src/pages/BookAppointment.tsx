@@ -40,8 +40,10 @@ const BookAppointment = () => {
   const [bookedSlots, setBookedSlots] = useState<string[]>([]);
   const [loadingSlots, setLoadingSlots] = useState(false);
 
-  // Generate slots from doctor's availableTime
-  const allSlots = selectedHospital ? generateSlots(selectedHospital.availableTime) : [];
+  const [dbSlots, setDbSlots] = useState<string[] | null>(null);
+
+  // Use DB availability if found, otherwise fall back to static availableTime
+  const allSlots = dbSlots !== null ? dbSlots : (selectedHospital ? generateSlots(selectedHospital.availableTime) : []);
   const availableSlots = allSlots.filter((s) => !bookedSlots.includes(s));
 
   useEffect(() => {
@@ -56,28 +58,69 @@ const BookAppointment = () => {
     }
   }, [loading, hasPendingBooking, navigate]);
 
-  // Fetch booked slots when date changes
+  // Fetch DB availability + booked slots when date changes
   useEffect(() => {
     if (!date || !selectedHospital) return;
-    const fetchBookedSlots = async () => {
+    const fetchSlotsAndBookings = async () => {
       setLoadingSlots(true);
       setTimeSlot("");
+      const dateStr = format(date, "yyyy-MM-dd");
+      const dayOfWeek = date.getDay(); // 0=Sun, 6=Sat
+
       try {
-        const dateStr = format(date, "yyyy-MM-dd");
-        const { data } = await supabase
+        // Find doctor record by name to get doctor_id
+        const doctorNameClean = selectedHospital.doctor.replace(/^Dr\.?\s*/i, "").trim();
+        const { data: doctorRow } = await supabase
+          .from("doctors")
+          .select("id")
+          .or(`name.eq.${doctorNameClean},name.eq.Dr. ${doctorNameClean},name.eq.${selectedHospital.doctor}`)
+          .limit(1)
+          .maybeSingle();
+
+        // Fetch availability for this day from doctor_availability table
+        let generatedFromDb: string[] | null = null;
+        if (doctorRow?.id) {
+          const { data: avail } = await supabase
+            .from("doctor_availability")
+            .select("start_time, end_time, is_available")
+            .eq("doctor_id", doctorRow.id)
+            .eq("day_of_week", dayOfWeek)
+            .maybeSingle();
+
+          if (avail && avail.is_available && avail.start_time && avail.end_time) {
+            // Convert HH:MM:SS to "H:MM AM/PM to H:MM AM/PM" and generate slots
+            const toAmPm = (t: string) => {
+              const [hStr, mStr] = t.split(":");
+              let h = parseInt(hStr, 10);
+              const m = mStr || "00";
+              const period = h >= 12 ? "PM" : "AM";
+              const displayH = h === 0 ? 12 : h > 12 ? h - 12 : h;
+              return `${displayH}:${m} ${period}`;
+            };
+            const timeStr = `${toAmPm(avail.start_time)} to ${toAmPm(avail.end_time)}`;
+            generatedFromDb = generateSlots(timeStr);
+          } else if (avail && !avail.is_available) {
+            generatedFromDb = []; // Doctor marked this day unavailable
+          }
+        }
+        setDbSlots(generatedFromDb);
+
+        // Fetch already booked slots
+        const { data: booked } = await supabase
           .from("appointments")
           .select("time_slot")
           .eq("doctor_name", selectedHospital.doctor)
           .eq("hospital_name", selectedHospital.name)
           .eq("appointment_date", dateStr);
-        setBookedSlots((data || []).map((r: any) => r.time_slot));
+        setBookedSlots((booked || []).map((r: any) => r.time_slot));
       } catch {
+        setDbSlots(null);
         setBookedSlots([]);
       } finally {
         setLoadingSlots(false);
       }
     };
-    fetchBookedSlots();
+    fetchSlotsAndBookings();
   }, [date, selectedHospital]);
 
   if (loading || !user || !selectedHospital) return null;
