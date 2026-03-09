@@ -25,6 +25,7 @@ import BlogPost from "./pages/BlogPost";
 import Unauthorized from "./pages/Unauthorized";
 import AddDoctor from "./pages/AddDoctor";
 import DoctorRegister from "./pages/DoctorRegister";
+import DoctorLogin from "./pages/DoctorLogin";
 import DoctorInviteRedirect from "./components/DoctorInviteRedirect";
 
 const queryClient = new QueryClient();
