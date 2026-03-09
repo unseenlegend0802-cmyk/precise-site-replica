@@ -39,10 +39,43 @@ const DoctorRegister = () => {
     languages: "",
   });
 
+  const acceptInviteAndEnsureDoctorRole = async (inviteToken: string) => {
+    const { data: accepted, error: acceptError } = await supabase.rpc("accept_doctor_invite", {
+      _invite_token: inviteToken,
+    });
+
+    if (acceptError || !accepted) {
+      throw new Error("Could not activate doctor access. Please reopen the invite link and try again.");
+    }
+
+    await refreshRole();
+
+    const {
+      data: { user: currentUser },
+    } = await supabase.auth.getUser();
+
+    if (!currentUser) {
+      throw new Error("Session missing. Please sign in again.");
+    }
+
+    const { data: roleRow, error: roleError } = await supabase
+      .from("user_roles")
+      .select("role")
+      .eq("user_id", currentUser.id)
+      .maybeSingle();
+
+    if (roleError || roleRow?.role !== "doctor") {
+      throw new Error("Doctor role assignment failed. Please try again.");
+    }
+  };
+
   // Validate token on mount
   useEffect(() => {
     const validate = async () => {
-      if (!token) { setStep("invalid"); return; }
+      if (!token) {
+        setStep("invalid");
+        return;
+      }
 
       const { data, error } = await supabase
         .from("doctor_invites")
@@ -50,23 +83,32 @@ const DoctorRegister = () => {
         .eq("invite_token", token)
         .maybeSingle();
 
-      if (error || !data) { setStep("invalid"); return; }
-      if (data.status === "accepted") { setStep("already_accepted"); return; }
+      if (error || !data) {
+        setStep("invalid");
+        return;
+      }
 
       setInvite(data);
 
-      // If user is already logged in (came from invite email), skip password step
       if (user) {
-        // Upgrade role to doctor via secure server function
-        await supabase.rpc("accept_doctor_invite", { _invite_token: token });
-        await refreshRole();
-        setStep("profile");
+        try {
+          await acceptInviteAndEnsureDoctorRole(token);
+          setStep("profile");
+          return;
+        } catch (err: any) {
+          toast({ title: "Role update failed", description: err.message, variant: "destructive" });
+        }
+      }
+
+      if (data.status === "accepted") {
+        setStep("already_accepted");
       } else {
         setStep("set_password");
       }
     };
+
     validate();
-  }, [token, user]);
+  }, [token, user, refreshRole]);
 
   const handleSetPassword = async () => {
     if (password.length < 6) {
@@ -85,13 +127,15 @@ const DoctorRegister = () => {
       const { error } = await supabase.auth.updateUser({ password });
       if (error) throw error;
 
-      const { data: { user: currentUser } } = await supabase.auth.getUser();
-      if (currentUser) {
-        // Upgrade role to doctor via secure server function
-        await supabase.rpc("accept_doctor_invite", { _invite_token: token! });
-        await refreshRole();
+      const {
+        data: { user: currentUser },
+      } = await supabase.auth.getUser();
+
+      if (!currentUser) {
+        throw new Error("Session missing. Please sign in again.");
       }
 
+      await acceptInviteAndEnsureDoctorRole(token!);
       setStep("profile");
     } catch (err: any) {
       toast({ title: "Error", description: err.message, variant: "destructive" });
