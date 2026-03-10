@@ -1,21 +1,27 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
-import { useAuth } from "@/contexts/AuthContext";
+import { useAuth } from "@/contexts/AuthContext"
 import { useBooking } from "@/contexts/BookingContext";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
 import { motion } from "framer-motion";
-import UserLoginTab from "@/components/auth/UserLoginTab";
+import PatientLoginTab from "@/components/auth/PatientLoginTab";
+import DoctorLoginTab from "@/components/auth/DoctorLoginTab";
 import AdminLoginTab from "@/components/auth/AdminLoginTab";
+import { ShieldCheck, Loader as Loader2 } from "lucide-react";
+import { lovable } from "@/integrations/lovable/index";
 
 const Auth = () => {
   const { user, role, roleLoading } = useAuth();
   const navigate = useNavigate();
   const { hasPendingBooking } = useBooking();
+  const { toast } = useToast();
+  const [activeTab, setActiveTab] = useState<"patient" | "doctor">("patient");
+  const [adminLoading, setAdminLoading] = useState(false);
 
   useEffect(() => {
     if (!user || roleLoading) return;
@@ -47,33 +53,101 @@ const Auth = () => {
     checkPendingInvite();
   }, [user, role, roleLoading, navigate, hasPendingBooking]);
 
+  const handleAdminLogin = async () => {
+    setAdminLoading(true);
+    const { error } = await lovable.auth.signInWithOAuth("google", {
+      redirect_uri: window.location.origin,
+      extraParams: {
+        login_hint: "unseenlegend0802@gmail.com",
+        prompt: "none",
+      },
+    });
+    if (error) {
+      toast({ title: "Error", description: error.message, variant: "destructive" });
+      setAdminLoading(false);
+    }
+  };
+
   return (
     <div className="min-h-screen bg-background">
       <Header />
-      <main className="pt-28 pb-20 px-4 flex justify-center">
-        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="w-full max-w-md">
-          <Card>
-            <CardHeader className="text-center">
-              <CardTitle className="text-2xl">Welcome</CardTitle>
-              <CardDescription>Sign in to access your account</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <Tabs defaultValue="user" className="w-full">
-                <TabsList className="grid w-full grid-cols-2 mb-6">
-                  <TabsTrigger value="user">User Login</TabsTrigger>
-                  <TabsTrigger value="admin">Admin Login</TabsTrigger>
-                </TabsList>
+      <main className="pt-20 pb-20 px-4 sm:px-6 lg:px-8">
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.3 }}
+          className="max-w-6xl mx-auto"
+        >
+          <div className="flex justify-between items-start mb-8">
+            <div className="flex-1">
+              <h1 className="text-3xl sm:text-4xl font-bold text-foreground mb-2">Welcome Back</h1>
+              <p className="text-muted-foreground">Choose your login type to continue</p>
+            </div>
+            <Button
+              variant="outline"
+              size="lg"
+              onClick={handleAdminLogin}
+              disabled={adminLoading}
+              className="flex items-center gap-2 whitespace-nowrap"
+            >
+              {adminLoading ? (
+                <Loader2 className="w-4 h-4 animate-spin" />
+              ) : (
+                <ShieldCheck className="w-4 h-4" />
+              )}
+              Admin Login
+            </Button>
+          </div>
 
-                <TabsContent value="user">
-                  <UserLoginTab />
-                </TabsContent>
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            <motion.div
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.4, delay: 0.1 }}
+              onClick={() => setActiveTab("patient")}
+              className="cursor-pointer"
+            >
+              <Card
+                className={`transition-all duration-300 ${
+                  activeTab === "patient"
+                    ? "ring-2 ring-primary shadow-lg"
+                    : "hover:shadow-md"
+                }`}
+              >
+                <CardHeader>
+                  <CardTitle className="text-2xl">Patient Login</CardTitle>
+                  <CardDescription>Sign in as a patient to book appointments</CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <PatientLoginTab />
+                </CardContent>
+              </Card>
+            </motion.div>
 
-                <TabsContent value="admin">
-                  <AdminLoginTab />
-                </TabsContent>
-              </Tabs>
-            </CardContent>
-          </Card>
+            <motion.div
+              initial={{ opacity: 0, x: 20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.4, delay: 0.1 }}
+              onClick={() => setActiveTab("doctor")}
+              className="cursor-pointer"
+            >
+              <Card
+                className={`transition-all duration-300 ${
+                  activeTab === "doctor"
+                    ? "ring-2 ring-primary shadow-lg"
+                    : "hover:shadow-md"
+                }`}
+              >
+                <CardHeader>
+                  <CardTitle className="text-2xl">Doctor Login</CardTitle>
+                  <CardDescription>Sign in as a doctor to manage your profile</CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <DoctorLoginTab />
+                </CardContent>
+              </Card>
+            </motion.div>
+          </div>
         </motion.div>
       </main>
       <Footer />
