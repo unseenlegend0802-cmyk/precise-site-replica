@@ -20,7 +20,7 @@ const Auth = () => {
   const navigate = useNavigate();
   const { hasPendingBooking } = useBooking();
   const { toast } = useToast();
-  const [activeTab, setActiveTab] = useState<"patient" | "doctor">("patient");
+  const [activeTab, setActiveTab] = useState<"admin" | "doctor">("patient");
   const [adminLoading, setAdminLoading] = useState(false);
 
   useEffect(() => {
