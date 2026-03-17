@@ -20,11 +20,18 @@ const Auth = () => {
   const navigate = useNavigate();
   const { hasPendingBooking } = useBooking();
   const { toast } = useToast();
-  const [activeTab, setActiveTab] = useState<"admin" | "admin">("admin");
+  const [activeTab, setActiveTab] = useState<"patient" | "doctor" | "admin">("admin");
   const [adminLoading, setAdminLoading] = useState(false);
 
   useEffect(() => {
-    if (!user || roleLoading) return;
+    if (!user) return;
+    if (roleLoading) return;
+    if (!role) return; // ⭐ IMPORTANT
+
+    // ✅ DEBUG LOGS (add here)
+    console.log("User Email:", user?.email);
+    console.log("User Role:", role);
+    console.log("Role Loading:", roleLoading);
 
     const checkPendingInvite = async () => {
       const { data: invite } = await supabase
@@ -46,20 +53,23 @@ const Auth = () => {
       } else if (role === "doctor") {
         navigate("/doctor-dashboard", { replace: true });
       } else {
-        navigate("/dashboard", { replace: true });
+        navigate("/patient-dashboard", { replace: true });
+      } else {
+        navigate("/", { replace: true });
       }
     };
 
     checkPendingInvite();
   }, [user, role, roleLoading, navigate, hasPendingBooking]);
 
+  const ADMIN_EMAIL = "unseenlegend0802@gmail.com";
   const handleAdminLogin = async () => {
     setAdminLoading(true);
     const { error } = await lovable.auth.signInWithOAuth("google", {
       redirect_uri: window.location.origin,
       extraParams: {
-        login_hint: "unseenlegend0802@gmail.com",
-        prompt: "none",
+        login_hint: ADMIN_EMAIL,
+        prompt: "select_account",
       },
     });
     if (error) {
