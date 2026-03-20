@@ -24,7 +24,7 @@ const LocationsMarquee = () => {
 
           {/* Scrolling cities */}
           <div className="overflow-hidden">
-            <div className="flex flex-wrap gap-3 justify-center">
+            <div className="flex animate-marquee whitespace-nowrap">
               {cities.map((city) => (
                 <span
                   key={city}
