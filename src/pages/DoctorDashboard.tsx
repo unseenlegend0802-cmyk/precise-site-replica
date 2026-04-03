@@ -62,13 +62,16 @@ const DoctorDashboard = () => {
     }
     setDoctorRecord(doctor);
 
-    // Fetch appointments for this doctor
+    // Fetch appointments for this doctor (match with and without "Dr." prefix)
     const matchName = doctor?.name || doctorName;
     if (matchName) {
+      const nameVariants = [matchName];
+      if (!matchName.startsWith("Dr. ")) nameVariants.push(`Dr. ${matchName}`);
+      if (matchName.startsWith("Dr. ")) nameVariants.push(matchName.replace(/^Dr\.\s*/, ""));
       const { data } = await supabase
         .from("appointments")
         .select("*")
-        .eq("doctor_name", matchName)
+        .in("doctor_name", nameVariants)
         .order("appointment_date", { ascending: false });
       if (data) setAppointments(data);
     }
