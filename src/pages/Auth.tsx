@@ -51,8 +51,8 @@ const Auth = () => {
         navigate("/admin-dashboard", { replace: true });
       } else if (role === "doctor") {
         navigate("/doctor-dashboard", { replace: true });
-      } else if (role == "patient") {
-        navigate("/patient-dashboard", { replace: true });
+      } else if (role === "patient") {
+        navigate("/dashboard", { replace: true });
       } 
     };
 
