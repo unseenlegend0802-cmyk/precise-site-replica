@@ -38,7 +38,7 @@ const HospitalCard = ({ hospital: h, isSelected, onClick, onBook, className = ""
             <div className="flex items-center gap-1.5 shrink-0">
               {(h as any).distance !== undefined && (
                 <Badge variant="outline" className="gap-1 text-primary border-primary/30">
-                  <Navigation className="w-3 h-3" />
+                  <Navigation2 className="w-3 h-3" />
                   {formatDistance((h as any).distance)}
                 </Badge>
               )}
