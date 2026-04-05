@@ -117,7 +117,7 @@ const DoctorsSection = () => {
           ))}
         </div>
 
-        {!showAll && doctors.length > 4 && (
+        {!showAll && sorted.length > 4 && (
           <div className="text-center mt-8">
             <button
               onClick={() => setShowAll(true)}
