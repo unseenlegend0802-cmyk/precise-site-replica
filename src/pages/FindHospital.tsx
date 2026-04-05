@@ -3,7 +3,7 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import AnimatedSection from "@/components/AnimatedSection";
 import { hospitals as staticHospitals, cities as staticCities } from "@/data/hospitals";
-import { Search } from "lucide-react";
+import { Search, MapPinned, Loader2 } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import HospitalCard from "@/components/HospitalCard";
 import { AnimatePresence, motion } from "framer-motion";
@@ -13,6 +13,9 @@ import { useBooking } from "@/contexts/BookingContext";
 import { Hospital } from "@/data/hospitals";
 import { supabase } from "@/integrations/supabase/client";
 import { getDoctorImage } from "@/utils/doctorImages";
+import { useUserLocation } from "@/hooks/useUserLocation";
+import { sortByDistance, HospitalWithDistance } from "@/utils/hospitalDistance";
+import { Switch } from "@/components/ui/switch";
 
 const FindHospital = () => {
   const [selectedCity, setSelectedCity] = useState<string>("All");
