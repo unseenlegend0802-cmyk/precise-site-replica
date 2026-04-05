@@ -3,7 +3,7 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import AnimatedSection from "@/components/AnimatedSection";
 import { hospitals as staticHospitals, cities as staticCities } from "@/data/hospitals";
-import { Search } from "lucide-react";
+import { Search, MapPinned, Loader2 } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import HospitalCard from "@/components/HospitalCard";
 import { AnimatePresence, motion } from "framer-motion";
@@ -13,11 +13,16 @@ import { useBooking } from "@/contexts/BookingContext";
 import { Hospital } from "@/data/hospitals";
 import { supabase } from "@/integrations/supabase/client";
 import { getDoctorImage } from "@/utils/doctorImages";
+import { useUserLocation } from "@/hooks/useUserLocation";
+import { sortByDistance, HospitalWithDistance } from "@/utils/hospitalDistance";
+import { Switch } from "@/components/ui/switch";
 
 const FindHospital = () => {
   const [selectedCity, setSelectedCity] = useState<string>("All");
   const [search, setSearch] = useState("");
   const [dbHospitals, setDbHospitals] = useState<Hospital[]>([]);
+  const [sortByDist, setSortByDist] = useState(true);
+  const { coordinates: userLocation, loading: locationLoading } = useUserLocation();
   const navigate = useNavigate();
   const location = useLocation();
   const { user } = useAuth();
@@ -82,16 +87,22 @@ const FindHospital = () => {
   const scanData = location.state?.scanData;
   const detectedConditions: string[] = scanData?.detectedConditions || [];
 
-  const filtered = hospitals.filter((h) => {
-    const matchCity = selectedCity === "All" || h.city === selectedCity;
-    const matchSearch =
-      !search ||
-      h.name.toLowerCase().includes(search.toLowerCase()) ||
-      h.doctor.toLowerCase().includes(search.toLowerCase()) ||
-      h.specialization.toLowerCase().includes(search.toLowerCase());
+  const filtered: HospitalWithDistance[] = useMemo(() => {
+    const base = hospitals.filter((h) => {
+      const matchCity = selectedCity === "All" || h.city === selectedCity;
+      const matchSearch =
+        !search ||
+        h.name.toLowerCase().includes(search.toLowerCase()) ||
+        h.doctor.toLowerCase().includes(search.toLowerCase()) ||
+        h.specialization.toLowerCase().includes(search.toLowerCase());
+      return matchCity && matchSearch;
+    });
 
-    return matchCity && matchSearch;
-  });
+    if (sortByDist && userLocation) {
+      return sortByDistance(base, userLocation);
+    }
+    return base;
+  }, [hospitals, selectedCity, search, sortByDist, userLocation]);
 
   const handleBookAppointment = (hospital: Hospital) => {
     setBookingHospital(hospital);
@@ -145,21 +156,31 @@ const FindHospital = () => {
                 className="pl-10"
               />
             </div>
-            <div className="flex flex-wrap gap-2">
-              {["All", ...cities].map((city) => (
-                <button
-                  key={city}
-                  onClick={() => setSelectedCity(city)}
-                  className={`px-4 py-1.5 rounded-full text-sm font-medium border transition-colors ${
-                    selectedCity === city
-                      ? "bg-primary text-primary-foreground border-primary"
-                      : "bg-card border-border text-foreground hover:border-primary/50"
-                  }`}
-                >
-                  {city}
-                </button>
-              ))}
+            <div className="flex items-center gap-2 shrink-0">
+              <MapPinned className="w-4 h-4 text-primary" />
+              <span className="text-sm text-muted-foreground">Nearest first</span>
+              <Switch
+                checked={sortByDist}
+                onCheckedChange={setSortByDist}
+                disabled={!userLocation && !locationLoading}
+              />
+              {locationLoading && <Loader2 className="w-4 h-4 animate-spin text-muted-foreground" />}
             </div>
+          </div>
+          <div className="flex flex-wrap gap-2 mt-3">
+            {["All", ...cities].map((city) => (
+              <button
+                key={city}
+                onClick={() => setSelectedCity(city)}
+                className={`px-4 py-1.5 rounded-full text-sm font-medium border transition-colors ${
+                  selectedCity === city
+                    ? "bg-primary text-primary-foreground border-primary"
+                    : "bg-card border-border text-foreground hover:border-primary/50"
+                }`}
+              >
+                {city}
+              </button>
+            ))}
           </div>
         </div>
       </section>

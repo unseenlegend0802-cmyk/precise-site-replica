@@ -1,12 +1,13 @@
 import { Hospital } from "@/data/hospitals";
-import { MapPin, Stethoscope, GraduationCap, Clock, CalendarCheck, IndianRupee } from "lucide-react";
+import { MapPin, Stethoscope, GraduationCap, Clock, CalendarCheck, IndianRupee, Navigation2 } from "lucide-react";
+import { formatDistance } from "@/utils/hospitalDistance";
 import { Badge } from "@/components/ui/badge";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 
 interface HospitalCardProps {
-  hospital: Hospital;
+  hospital: Hospital & { distance?: number };
   isSelected?: boolean;
   onClick?: () => void;
   onBook?: (hospital: Hospital) => void;
@@ -34,7 +35,15 @@ const HospitalCard = ({ hospital: h, isSelected, onClick, onBook, className = ""
         <div className="flex-1 space-y-2">
           <div className="flex items-start justify-between gap-2">
             <h3 className="font-bold text-foreground text-lg">{h.name}</h3>
-            <Badge variant="secondary" className="shrink-0">{h.city}</Badge>
+            <div className="flex items-center gap-1.5 shrink-0">
+              {(h as any).distance !== undefined && (
+                <Badge variant="outline" className="gap-1 text-primary border-primary/30">
+                  <Navigation2 className="w-3 h-3" />
+                  {formatDistance((h as any).distance)}
+                </Badge>
+              )}
+              <Badge variant="secondary">{h.city}</Badge>
+            </div>
           </div>
 
           <Link

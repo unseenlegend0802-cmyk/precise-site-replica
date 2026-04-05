@@ -1,8 +1,13 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { Link } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { featuredDoctors, FeaturedDoctor } from "@/data/featuredDoctors";
 import { getDoctorImage } from "@/utils/doctorImages";
+import { useUserLocation } from "@/hooks/useUserLocation";
+import { getCityCoordinates, haversineDistance } from "@/utils/cityCoordinates";
+import { formatDistance } from "@/utils/hospitalDistance";
+import { Navigation2 } from "lucide-react";
+import { Badge } from "@/components/ui/badge";
 
 interface DbDoctor {
   slug: string;
@@ -15,7 +20,8 @@ interface DbDoctor {
 
 const DoctorsSection = () => {
   const [showAll, setShowAll] = useState(false);
-  const [doctors, setDoctors] = useState<FeaturedDoctor[]>(featuredDoctors);
+  const [doctors, setDoctors] = useState<(FeaturedDoctor & { distance?: number })[]>(featuredDoctors);
+  const { coordinates: userLocation } = useUserLocation();
 
   useEffect(() => {
     const load = async () => {
@@ -25,7 +31,6 @@ const DoctorsSection = () => {
         .order("created_at", { ascending: false });
 
       if (data && data.length > 0) {
-        // Merge DB doctors with local assets for images
         const dbDoctors: FeaturedDoctor[] = (data as DbDoctor[]).map((d) => ({
           name: d.name,
           slug: d.slug,
@@ -35,7 +40,6 @@ const DoctorsSection = () => {
           image: getDoctorImage(d.slug) || d.image_url || "",
         }));
 
-        // Also include featured doctors that aren't in DB
         const dbSlugs = new Set(dbDoctors.map((d) => d.slug));
         const localOnly = featuredDoctors.filter((d) => !dbSlugs.has(d.slug));
         setDoctors([...dbDoctors, ...localOnly]);
@@ -44,7 +48,23 @@ const DoctorsSection = () => {
     load();
   }, []);
 
-  const visible = showAll ? doctors : doctors.slice(0, 4);
+  const sorted = useMemo(() => {
+    if (!userLocation) return doctors;
+    return [...doctors]
+      .map((d) => {
+        const coords = getCityCoordinates(d.city);
+        const distance = coords ? haversineDistance(userLocation, coords) : undefined;
+        return { ...d, distance };
+      })
+      .sort((a, b) => {
+        if (a.distance === undefined && b.distance === undefined) return 0;
+        if (a.distance === undefined) return 1;
+        if (b.distance === undefined) return -1;
+        return a.distance - b.distance;
+      });
+  }, [doctors, userLocation]);
+
+  const visible = showAll ? sorted : sorted.slice(0, 4);
 
   return (
     <section className="py-16 lg:py-24 bg-secondary">
@@ -80,7 +100,15 @@ const DoctorsSection = () => {
                 <h3 className="font-semibold text-foreground">{d.name}</h3>
                 <p className="text-xs text-muted-foreground">{d.qualification}</p>
                 <p className="text-xs text-primary">{d.specialization}</p>
-                <p className="text-xs text-muted-foreground">{d.city}</p>
+                <div className="flex items-center gap-1.5">
+                  <p className="text-xs text-muted-foreground">{d.city}</p>
+                  {d.distance !== undefined && (
+                    <Badge variant="outline" className="text-[10px] gap-0.5 py-0 px-1.5 text-primary border-primary/30">
+                      <Navigation2 className="w-2.5 h-2.5" />
+                      {formatDistance(d.distance)}
+                    </Badge>
+                  )}
+                </div>
                 <span className="inline-block mt-2 text-xs bg-primary text-primary-foreground px-4 py-1.5 rounded-md font-medium hover:opacity-90">
                   View Profile →
                 </span>
@@ -89,7 +117,7 @@ const DoctorsSection = () => {
           ))}
         </div>
 
-        {!showAll && doctors.length > 4 && (
+        {!showAll && sorted.length > 4 && (
           <div className="text-center mt-8">
             <button
               onClick={() => setShowAll(true)}
