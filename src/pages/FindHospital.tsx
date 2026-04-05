@@ -156,21 +156,31 @@ const FindHospital = () => {
                 className="pl-10"
               />
             </div>
-            <div className="flex flex-wrap gap-2">
-              {["All", ...cities].map((city) => (
-                <button
-                  key={city}
-                  onClick={() => setSelectedCity(city)}
-                  className={`px-4 py-1.5 rounded-full text-sm font-medium border transition-colors ${
-                    selectedCity === city
-                      ? "bg-primary text-primary-foreground border-primary"
-                      : "bg-card border-border text-foreground hover:border-primary/50"
-                  }`}
-                >
-                  {city}
-                </button>
-              ))}
+            <div className="flex items-center gap-2 shrink-0">
+              <MapPinned className="w-4 h-4 text-primary" />
+              <span className="text-sm text-muted-foreground">Nearest first</span>
+              <Switch
+                checked={sortByDist}
+                onCheckedChange={setSortByDist}
+                disabled={!userLocation && !locationLoading}
+              />
+              {locationLoading && <Loader2 className="w-4 h-4 animate-spin text-muted-foreground" />}
             </div>
+          </div>
+          <div className="flex flex-wrap gap-2 mt-3">
+            {["All", ...cities].map((city) => (
+              <button
+                key={city}
+                onClick={() => setSelectedCity(city)}
+                className={`px-4 py-1.5 rounded-full text-sm font-medium border transition-colors ${
+                  selectedCity === city
+                    ? "bg-primary text-primary-foreground border-primary"
+                    : "bg-card border-border text-foreground hover:border-primary/50"
+                }`}
+              >
+                {city}
+              </button>
+            ))}
           </div>
         </div>
       </section>
