@@ -188,7 +188,7 @@ const DoctorAppointmentsTab: React.FC<DoctorAppointmentsTabProps> = ({ appointme
                 </div>
               )}
 
-              {/* Upcoming accepted: Complete / Cancel / Reschedule */}
+              {/* Upcoming accepted: only Complete button */}
               {section === "upcoming" && ["confirmed", "rescheduled"].includes(a.status) && (
                 <div className="flex flex-wrap gap-2">
                   <Button
@@ -200,23 +200,6 @@ const DoctorAppointmentsTab: React.FC<DoctorAppointmentsTabProps> = ({ appointme
                   >
                     {updating === a.id ? <Loader2 className="w-3 h-3 animate-spin" /> : <Check className="w-3 h-3" />}
                     Complete
-                  </Button>
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    className="gap-1 text-xs"
-                    onClick={() => { setRescheduleAppt(a); setNewDate(undefined); setNewSlot(""); }}
-                  >
-                    <RefreshCw className="w-3 h-3" /> Reschedule
-                  </Button>
-                  <Button
-                    variant="destructive"
-                    size="sm"
-                    className="gap-1 text-xs"
-                    disabled={updating === a.id}
-                    onClick={() => updateStatus(a.id, "cancelled")}
-                  >
-                    <X className="w-3 h-3" /> Cancel
                   </Button>
                 </div>
               )}
