@@ -100,7 +100,15 @@ const DoctorsSection = () => {
                 <h3 className="font-semibold text-foreground">{d.name}</h3>
                 <p className="text-xs text-muted-foreground">{d.qualification}</p>
                 <p className="text-xs text-primary">{d.specialization}</p>
-                <p className="text-xs text-muted-foreground">{d.city}</p>
+                <div className="flex items-center gap-1.5">
+                  <p className="text-xs text-muted-foreground">{d.city}</p>
+                  {d.distance !== undefined && (
+                    <Badge variant="outline" className="text-[10px] gap-0.5 py-0 px-1.5 text-primary border-primary/30">
+                      <Navigation2 className="w-2.5 h-2.5" />
+                      {formatDistance(d.distance)}
+                    </Badge>
+                  )}
+                </div>
                 <span className="inline-block mt-2 text-xs bg-primary text-primary-foreground px-4 py-1.5 rounded-md font-medium hover:opacity-90">
                   View Profile →
                 </span>
