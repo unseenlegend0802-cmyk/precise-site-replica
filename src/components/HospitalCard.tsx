@@ -1,5 +1,6 @@
 import { Hospital } from "@/data/hospitals";
-import { MapPin, Stethoscope, GraduationCap, Clock, CalendarCheck, IndianRupee } from "lucide-react";
+import { MapPin, Stethoscope, GraduationCap, Clock, CalendarCheck, IndianRupee, Navigation2 } from "lucide-react";
+import { formatDistance } from "@/utils/hospitalDistance";
 import { Badge } from "@/components/ui/badge";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
