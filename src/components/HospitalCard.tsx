@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 
 interface HospitalCardProps {
-  hospital: Hospital;
+  hospital: Hospital & { distance?: number };
   isSelected?: boolean;
   onClick?: () => void;
   onBook?: (hospital: Hospital) => void;
