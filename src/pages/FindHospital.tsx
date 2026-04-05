@@ -21,6 +21,8 @@ const FindHospital = () => {
   const [selectedCity, setSelectedCity] = useState<string>("All");
   const [search, setSearch] = useState("");
   const [dbHospitals, setDbHospitals] = useState<Hospital[]>([]);
+  const [sortByDist, setSortByDist] = useState(true);
+  const { coordinates: userLocation, loading: locationLoading } = useUserLocation();
   const navigate = useNavigate();
   const location = useLocation();
   const { user } = useAuth();
