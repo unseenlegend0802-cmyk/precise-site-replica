@@ -1,8 +1,13 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { Link } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { featuredDoctors, FeaturedDoctor } from "@/data/featuredDoctors";
 import { getDoctorImage } from "@/utils/doctorImages";
+import { useUserLocation } from "@/hooks/useUserLocation";
+import { getCityCoordinates, haversineDistance } from "@/utils/cityCoordinates";
+import { formatDistance } from "@/utils/hospitalDistance";
+import { Navigation2 } from "lucide-react";
+import { Badge } from "@/components/ui/badge";
 
 interface DbDoctor {
   slug: string;
