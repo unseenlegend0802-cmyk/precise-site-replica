@@ -87,16 +87,22 @@ const FindHospital = () => {
   const scanData = location.state?.scanData;
   const detectedConditions: string[] = scanData?.detectedConditions || [];
 
-  const filtered = hospitals.filter((h) => {
-    const matchCity = selectedCity === "All" || h.city === selectedCity;
-    const matchSearch =
-      !search ||
-      h.name.toLowerCase().includes(search.toLowerCase()) ||
-      h.doctor.toLowerCase().includes(search.toLowerCase()) ||
-      h.specialization.toLowerCase().includes(search.toLowerCase());
+  const filtered: HospitalWithDistance[] = useMemo(() => {
+    const base = hospitals.filter((h) => {
+      const matchCity = selectedCity === "All" || h.city === selectedCity;
+      const matchSearch =
+        !search ||
+        h.name.toLowerCase().includes(search.toLowerCase()) ||
+        h.doctor.toLowerCase().includes(search.toLowerCase()) ||
+        h.specialization.toLowerCase().includes(search.toLowerCase());
+      return matchCity && matchSearch;
+    });
 
-    return matchCity && matchSearch;
-  });
+    if (sortByDist && userLocation) {
+      return sortByDistance(base, userLocation);
+    }
+    return base;
+  }, [hospitals, selectedCity, search, sortByDist, userLocation]);
 
   const handleBookAppointment = (hospital: Hospital) => {
     setBookingHospital(hospital);
