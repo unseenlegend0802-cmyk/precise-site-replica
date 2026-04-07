@@ -286,6 +286,7 @@ export type Database = {
           gender: string | null
           id: string
           medical_history: string | null
+          patient_stage: string
           preferred_language: string | null
           updated_at: string
           user_id: string
@@ -302,6 +303,7 @@ export type Database = {
           gender?: string | null
           id?: string
           medical_history?: string | null
+          patient_stage?: string
           preferred_language?: string | null
           updated_at?: string
           user_id: string
@@ -318,6 +320,7 @@ export type Database = {
           gender?: string | null
           id?: string
           medical_history?: string | null
+          patient_stage?: string
           preferred_language?: string | null
           updated_at?: string
           user_id?: string
