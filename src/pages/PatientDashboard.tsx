@@ -139,9 +139,12 @@ const PatientDashboard = () => {
           <Tabs defaultValue="profile" className="mt-2">
             <TabsList className="mb-6 flex-wrap h-auto gap-1">
               <TabsTrigger value="profile" className="gap-2"><User className="w-4 h-4" /> Profile</TabsTrigger>
-              <TabsTrigger value="appointments" className="gap-2"><Calendar className="w-4 h-4" /> Upcoming ({upcomingCount})</TabsTrigger>
-              <TabsTrigger value="history" className="gap-2"><Stethoscope className="w-4 h-4" /> Total Visits ({appointments.length})</TabsTrigger>
+              <TabsTrigger value="appointments" className="gap-2"><Calendar className="w-4 h-4" /> Appointments ({upcomingCount})</TabsTrigger>
               <TabsTrigger value="reports" className="gap-2"><FileText className="w-4 h-4" /> Reports ({reports.length})</TabsTrigger>
+              <TabsTrigger value="treatments" className="gap-2"><Heart className="w-4 h-4" /> Treatments</TabsTrigger>
+              <TabsTrigger value="followups" className="gap-2"><Clock className="w-4 h-4" /> Follow-ups</TabsTrigger>
+              <TabsTrigger value="history" className="gap-2"><Stethoscope className="w-4 h-4" /> Visits ({appointments.length})</TabsTrigger>
+              <TabsTrigger value="timeline" className="gap-2"><Activity className="w-4 h-4" /> Timeline</TabsTrigger>
               <TabsTrigger value="notifications" className="gap-2"><Bell className="w-4 h-4" /> Notifications</TabsTrigger>
             </TabsList>
 
@@ -157,8 +160,20 @@ const PatientDashboard = () => {
               <ReportsTab reports={reports} />
             </TabsContent>
 
+            <TabsContent value="treatments">
+              <TreatmentsTab appointments={appointments} />
+            </TabsContent>
+
+            <TabsContent value="followups">
+              <FollowUpsTab appointments={appointments} />
+            </TabsContent>
+
             <TabsContent value="history">
               <ConsultationHistoryTab appointments={appointments} />
+            </TabsContent>
+
+            <TabsContent value="timeline">
+              <MedicalTimelineTab appointments={appointments} reports={reports} />
             </TabsContent>
 
             <TabsContent value="notifications">
