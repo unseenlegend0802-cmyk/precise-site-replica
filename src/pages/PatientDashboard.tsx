@@ -10,12 +10,15 @@ import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useToast } from "@/hooks/use-toast";
 import { motion } from "framer-motion";
-import { User, FileText, LogOut, Loader2, Calendar, Heart, Bell, Stethoscope } from "lucide-react";
+import { User, FileText, LogOut, Loader2, Calendar, Heart, Bell, Stethoscope, Clock, Activity } from "lucide-react";
 import ProfileTab from "@/components/dashboard/patient/ProfileTab";
 import AppointmentsTab from "@/components/dashboard/patient/AppointmentsTab";
 import ReportsTab from "@/components/dashboard/patient/ReportsTab";
 import ConsultationHistoryTab from "@/components/dashboard/patient/ConsultationHistoryTab";
 import NotificationsTab from "@/components/dashboard/patient/NotificationsTab";
+import TreatmentsTab from "@/components/dashboard/patient/TreatmentsTab";
+import FollowUpsTab from "@/components/dashboard/patient/FollowUpsTab";
+import MedicalTimelineTab from "@/components/dashboard/patient/MedicalTimelineTab";
 
 interface Profile {
   full_name: string;
